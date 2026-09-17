@@ -13,7 +13,7 @@
 ## ✨ Features
 
 - 📼 **Parametric Datamosh Engine**: Simulates authentic H.264 I-frame drops, P-frame motion vector smearing, RGB chromatic aberration channel splits, macroblock corruption, CRT/VCR scanlines, and sensor noise.
-- 🎨 **Google Material 3 Light Mode Web UI**: Real-time glitch parameter controls, live canvas rendering, preset switcher, webcam stream moshing, and instant BMP frame export.
+- 🎨 **Datamosh Studio Web UI**: Real-time glitch parameter controls, live canvas rendering, preset switcher, webcam stream moshing, and instant BMP frame export (design influenced by Material 3 tokens).
 - ⚡ **Zero Third-Party Runtime Dependencies**: 100% Python Standard Library implementation (`struct`, `io`, `http.server`, `urllib`, `random`, `math`, `dataclasses`).
 - 🤖 **FastMCP Server Protocol**: Full Model Context Protocol (MCP) JSON-RPC 2.0 stdio server for Claude Desktop, Cursor, Cline, and autonomous AI agents.
 - 💻 **Cross-Platform CLI**: Complete multi-OS command-line interface with `--no-color` support, reproducible seeds, and batch processing.
@@ -50,7 +50,7 @@ datamosh-studio presets
 # Corrupt binary stream with bitflips while preserving 64-byte headers
 datamosh-studio corrupt payload.bin --rate 0.005 -o corrupted.bin
 
-# Launch Google Material 3 Studio Web UI
+# Launch Datamosh Studio Web UI (Material 3 influenced)
 datamosh-studio serve --port 8098
 
 # Start FastMCP stdio server for LLM agents
@@ -138,7 +138,7 @@ flowchart TD
     subgraph Interfaces["🖥️ Interfaces"]
         CLI["💻 CLI Entrypoint\n(datamosh-studio / python -m)"]
         MCP["🤖 FastMCP Stdio Server\n(Claude / Cursor / Cline)"]
-        UI["🎨 Google Material 3 Studio\n(Live 60FPS Canvas & 12-Frame Sequence Loop)"]
+        UI["🎨 Datamosh Studio\n(Live 60FPS Canvas & 12-Frame Sequence Loop)"]
     end
 
     Codec --> Engine

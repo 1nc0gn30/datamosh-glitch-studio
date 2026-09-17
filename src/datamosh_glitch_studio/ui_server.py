@@ -1,5 +1,5 @@
 """
-Google Material 3 Datamosh Studio UI & REST API Server.
+Datamosh Studio UI & REST API Server (design influenced by Material 3 tokens).
 Zero third-party runtime dependencies.
 """
 
@@ -28,7 +28,7 @@ EMBEDDED_STUDIO_HTML = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Datamosh Studio | Visual Artifact Synthesizer</title>
+  <title>Datamosh Studio | Visual Artifact Synthesizer</title>
   <style>
     :root {
       --g-blue: #1a73e8;
@@ -60,8 +60,8 @@ EMBEDDED_STUDIO_HTML = """<!DOCTYPE html>
 <body>
   <header>
     <div class="logo">
-      <span>📼</span> Google Datamosh Studio
-      <span class="badge">I-Frame Synthesizer</span>
+      <span>📼</span> Datamosh Studio
+      <span class="badge">I-Frame Synthesizer • Material 3 Influenced</span>
     </div>
   </header>
   <div class="container">

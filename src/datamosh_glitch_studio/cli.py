@@ -67,7 +67,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_corr.add_argument("--header-skip", type=int, default=64, help="Header bytes to protect (default: 64)")
 
     # serve
-    p_serve = sub.add_parser("serve", parents=[base], help="Start Google Material 3 Datamosh Studio Web UI")
+    p_serve = sub.add_parser("serve", parents=[base], help="Start Datamosh Studio Web UI (Material 3 influenced)")
     p_serve.add_argument("--host", default="0.0.0.0", help="Host address (default: 0.0.0.0)")
     p_serve.add_argument("--port", type=int, default=8098, help="Port (default: 8098)")
 
@@ -147,7 +147,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     elif args.command == "serve":
         server = run_ui_server(args.host, args.port)
-        print(f"{c.GREEN}📼 Google Datamosh Studio UI running at:{c.RESET} http://{args.host}:{args.port}")
+        print(f"{c.GREEN}📼 Datamosh Studio UI running at:{c.RESET} http://{args.host}:{args.port}")
         try:
             server.serve_forever()
         except KeyboardInterrupt:

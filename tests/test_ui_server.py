@@ -69,7 +69,7 @@ def test_ui_index_html(live_server):
         assert resp.status == 200
         content = resp.read().decode("utf-8")
         assert "<!DOCTYPE html>" in content
-        assert "Google Datamosh Studio" in content
+        assert "Datamosh Studio" in content
 
 
 def test_api_sequence(live_server):
