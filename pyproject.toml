@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datamosh-glitch-studio"
+version = "0.1.0"
+description = "Parametric Datamosh, I-Frame Drop & Visual Glitch Synthesis Studio with Material 3 UI & FastMCP Server"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "1nc0gn30" }
+]
+keywords = [
+    "datamosh",
+    "glitch",
+    "iframe-drop",
+    "video-synthesis",
+    "mcp",
+    "fastmcp",
+    "material-3",
+    "image-processing",
+    "zero-dependencies"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Multimedia :: Video"
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0"
+]
+
+[project.scripts]
+datamosh-studio = "datamosh_glitch_studio.cli:main"
+datamosh = "datamosh_glitch_studio.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/1nc0gn30/datamosh-glitch-studio"
+Repository = "https://github.com/1nc0gn30/datamosh-glitch-studio"
+Issues = "https://github.com/1nc0gn30/datamosh-glitch-studio/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

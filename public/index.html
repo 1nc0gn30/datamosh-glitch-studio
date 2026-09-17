@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Datamosh Studio | Visual Artifact & I-Frame Glitch Synthesizer</title>
+  <style>
+    :root {
+      --g-blue: #1a73e8;
+      --g-blue-dark: #1557b0;
+      --g-blue-light: #e8f0fe;
+      --g-green: #1e8e3e;
+      --g-red: #d93025;
+      --surface: #ffffff;
+      --surface-variant: #f8f9fa;
+      --border: #dadce0;
+      --border-subtle: #e8eaed;
+      --text: #202124;
+      --text-secondary: #5f6368;
+      --shadow-sm: 0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      --shadow-md: 0 4px 8px 3px rgba(60,64,67,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-full: 9999px;
+    }
+    [data-theme="dark"] {
+      --surface: #1e1f20;
+      --surface-variant: #131314;
+      --border: #3c4043;
+      --border-subtle: #2d3134;
+      --text: #e3e3e3;
+      --text-secondary: #9aa0a6;
+      --g-blue-light: #1c3b5e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Google Sans", "Segoe UI", Roboto, sans-serif;
+      background: var(--surface-variant);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .brand-icon {
+      background: var(--g-blue);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .badge {
+      background: var(--g-blue-light);
+      color: var(--g-blue);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .btn-icon {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+    aside {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .chip {
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--surface-variant);
+      color: var(--text);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip.active {
+      background: var(--g-blue);
+      color: white;
+      border-color: var(--g-blue);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--g-blue);
+    }
+    button.btn-primary {
+      background: var(--g-blue);
+      color: white;
+      border: none;
+      padding: 0.65rem 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+    button.btn-primary:hover {
+      background: var(--g-blue-dark);
+    }
+    button.btn-secondary {
+      background: var(--surface-variant);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    main {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      overflow-y: auto;
+    }
+    .viewport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      max-width: 680px;
+      width: 100%;
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      image-rendering: pixelated;
+      background: #000;
+    }
+    .status-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-icon">📼</div>
+      <span>Google Datamosh Studio</span>
+      <span class="badge">Material 3 I-Frame Synthesizer</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="toggleTheme()">🌓 Theme</button>
+      <button class="btn-icon" onclick="toggleWebcam()">📹 Webcam Input</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside>
+      <div>
+        <div class="section-title">Glitch Presets</div>
+        <div class="preset-chips">
+          <div class="chip active" onclick="selectPreset('h264_iframe_drop')">H.264 I-Frame Drop</div>
+          <div class="chip" onclick="selectPreset('cyberpunk_vcr')">Cyberpunk VCR</div>
+          <div class="chip" onclick="selectPreset('rgb_split_overdrive')">RGB Split Overdrive</div>
+          <div class="chip" onclick="selectPreset('analog_tape_decay')">Analog Tape Decay</div>
+          <div class="chip" onclick="selectPreset('quantum_matrix_tear')">Quantum Matrix Tear</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Compression & Displacements</div>
+        <div class="form-group">
+          <div class="slider-row">
+            <label>Slice Height</label>
+            <span id="val-slice">12px</span>
+          </div>
+          <input type="range" id="param-slice" min="2" max="64" value="12" oninput="updateParam('slice', this.value)">
+        </div>
+
+        <div class="form-group" style="margin-top:0.75rem;">
+          <div class="slider-row">
+            <label>Horizontal Shift</label>
+            <span id="val-shift">24px</span>
+          </div>
+          <input type="range" id="param-shift" min="0" max="80" value="24" oninput="updateParam('shift', this.value)">
+        </div>
+
+        <div class="form-group" style="margin-top:0.75rem;">
+          <div class="slider-row">
+            <label>RGB Split Offset</label>
+            <span id="val-rgb">8px</span>
+          </div>
+          <input type="range" id="param-rgb" min="0" max="40" value="8" oninput="updateParam('rgb', this.value)">
+        </div>
+
+        <div class="form-group" style="margin-top:0.75rem;">
+          <div class="slider-row">
+            <label>Scanline Intensity</label>
+            <span id="val-scan">35%</span>
+          </div>
+          <input type="range" id="param-scan" min="0" max="100" value="35" oninput="updateParam('scan', this.value)">
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
+        <button class="btn-primary" onclick="synthesizeGlitch()">⚡ Synthesize Frame</button>
+        <button class="btn-secondary" onclick="downloadFrame()">💾 Download Glitched BMP</button>
+      </div>
+    </aside>
+
+    <main>
+      <div class="viewport-card">
+        <canvas id="glitch-canvas" width="480" height="320"></canvas>
+        <div class="status-bar">
+          <span id="status-text">Status: Ready</span>
+          <span id="metrics-text">Dimensions: 480x320 | 24-bit RGB</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('glitch-canvas');
+    const ctx = canvas.getContext('2d');
+    let currentPreset = 'h264_iframe_drop';
+    let currentBmpB64 = '';
+
+    function toggleTheme() {
+      const current = document.body.getAttribute('data-theme');
+      document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    function selectPreset(presetId) {
+      currentPreset = presetId;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      synthesizeGlitch();
+    }
+
+    function updateParam(name, val) {
+      document.getElementById('val-' + name).innerText = name === 'scan' ? val + '%' : val + 'px';
+      synthesizeGlitch();
+    }
+
+    async function synthesizeGlitch() {
+      document.getElementById('status-text').innerText = 'Synthesizing I-frame glitch...';
+      try {
+        const resp = await fetch('/api/mosh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            preset: currentPreset,
+            width: 480,
+            height: 320
+          })
+        });
+        const data = await resp.json();
+        currentBmpB64 = data.image_base64;
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0);
+          document.getElementById('status-text').innerText = `Synthesized with ${data.preset}`;
+        };
+        img.src = 'data:image/bmp;base64,' + data.image_base64;
+      } catch (err) {
+        document.getElementById('status-text').innerText = 'Error: ' + err.message;
+      }
+    }
+
+    function downloadFrame() {
+      if (!currentBmpB64) return;
+      const a = document.createElement('a');
+      a.href = 'data:image/bmp;base64,' + currentBmpB64;
+      a.download = `datamosh_${currentPreset}.bmp`;
+      a.click();
+    }
+
+    async function toggleWebcam() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 320 } });
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+        video.onloadeddata = () => {
+          setInterval(() => {
+            ctx.drawImage(video, 0, 0, 480, 320);
+          }, 100);
+        };
+      } catch (e) {
+        alert('Webcam access failed or denied: ' + e.message);
+      }
+    }
+
+    // Initial render
+    synthesizeGlitch();
+  </script>
+</body>
+</html>
