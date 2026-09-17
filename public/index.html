@@ -4,37 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Datamosh Studio | Visual Artifact & I-Frame Glitch Synthesizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --g-blue: #1a73e8;
       --g-blue-dark: #1557b0;
       --g-blue-light: #e8f0fe;
       --g-green: #1e8e3e;
+      --g-green-light: #e6f4ea;
       --g-red: #d93025;
+      --g-red-light: #fce8e6;
       --surface: #ffffff;
       --surface-variant: #f8f9fa;
+      --surface-card: #ffffff;
       --border: #dadce0;
       --border-subtle: #e8eaed;
       --text: #202124;
       --text-secondary: #5f6368;
-      --shadow-sm: 0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      --code-bg: #f1f3f4;
+      --shadow-sm: 0 1px 2px rgba(60,64,67,0.15), 0 1px 3px 1px rgba(60,64,67,0.1);
       --shadow-md: 0 4px 8px 3px rgba(60,64,67,0.15);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-full: 9999px;
+      --font-sans: 'Google Sans', 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Roboto Mono', monospace;
     }
     [data-theme="dark"] {
       --surface: #1e1f20;
       --surface-variant: #131314;
+      --surface-card: #28292a;
       --border: #3c4043;
       --border-subtle: #2d3134;
       --text: #e3e3e3;
       --text-secondary: #9aa0a6;
+      --code-bg: #18191a;
       --g-blue-light: #1c3b5e;
+      --g-green-light: #133820;
+      --g-red-light: #3c1e1e;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Google Sans", "Segoe UI", Roboto, sans-serif;
+      font-family: var(--font-sans);
       background: var(--surface-variant);
       color: var(--text);
       display: flex;
@@ -45,11 +58,11 @@
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1.5rem;
+      padding: 0.65rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      z-index: 10;
     }
     .brand {
       display: flex;
@@ -59,11 +72,11 @@
       font-weight: 600;
     }
     .brand-icon {
-      background: var(--g-blue);
-      color: white;
+      background: var(--g-blue-light);
+      color: var(--g-blue);
       width: 32px;
       height: 32px;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -80,16 +93,24 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
     .btn-icon {
-      background: none;
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.4rem 0.75rem;
-      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-full);
       cursor: pointer;
       font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+    .btn-icon:hover {
+      background: var(--surface-variant);
     }
     .container {
       display: grid;
@@ -107,12 +128,12 @@
       gap: 1.25rem;
     }
     .section-title {
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.05em;
       color: var(--text-secondary);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     .preset-chips {
       display: flex;
@@ -145,6 +166,15 @@
       justify-content: space-between;
       font-size: 0.85rem;
     }
+    .slider-row label {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .slider-row span {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
     input[type="range"] {
       width: 100%;
       accent-color: var(--g-blue);
@@ -158,6 +188,10 @@
       font-weight: 600;
       cursor: pointer;
       font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       transition: background 0.15s;
     }
     button.btn-primary:hover {
@@ -165,39 +199,48 @@
     }
     button.btn-secondary {
       background: var(--surface-variant);
-      border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      padding: 0.55rem 1rem;
       border-radius: var(--radius-sm);
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.15s;
+    }
+    button.btn-secondary:hover {
+      border-color: var(--g-blue);
     }
     main {
-      padding: 2rem;
+      padding: 1.5rem;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
-      overflow-y: auto;
+      gap: 1rem;
     }
     .viewport-card {
-      background: var(--surface);
+      background: var(--surface-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 1.25rem;
+      padding: 1rem;
       box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
       max-width: 680px;
       width: 100%;
     }
     canvas {
-      max-width: 100%;
+      width: 100%;
       height: auto;
+      max-width: 640px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       image-rendering: pixelated;
@@ -210,7 +253,14 @@
       font-size: 0.8rem;
       color: var(--text-secondary);
       border-top: 1px solid var(--border-subtle);
-      padding-top: 0.75rem;
+      padding-top: 0.5rem;
+    }
+    .playback-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      justify-content: center;
     }
   </style>
 </head>
@@ -219,11 +269,12 @@
     <div class="brand">
       <div class="brand-icon">📼</div>
       <span>Google Datamosh Studio</span>
-      <span class="badge">Material 3 I-Frame Synthesizer</span>
+      <span class="badge">Visual Artifact Synthesizer</span>
     </div>
     <div class="header-actions">
       <button class="btn-icon" onclick="toggleTheme()">🌓 Theme</button>
-      <button class="btn-icon" onclick="toggleWebcam()">📹 Webcam Input</button>
+      <button class="btn-icon" onclick="togglePlayback()" id="btn-play">▶️ Play Loop</button>
+      <button class="btn-icon" onclick="renderGlitchSequence()">🎬 Render 12-Frame Loop</button>
     </div>
   </header>
 
@@ -237,6 +288,15 @@
           <div class="chip" onclick="selectPreset('rgb_split_overdrive')">RGB Split Overdrive</div>
           <div class="chip" onclick="selectPreset('analog_tape_decay')">Analog Tape Decay</div>
           <div class="chip" onclick="selectPreset('quantum_matrix_tear')">Quantum Matrix Tear</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Test Pattern Source</div>
+        <div class="preset-chips">
+          <div class="chip active" id="src-bars" onclick="setSource('bars')">SMPTE Color Bars</div>
+          <div class="chip" id="src-grid" onclick="setSource('grid')">Cyber Grid</div>
+          <div class="chip" id="src-grad" onclick="setSource('grad')">Neon Sunrise</div>
         </div>
       </div>
 
@@ -273,6 +333,14 @@
           </div>
           <input type="range" id="param-scan" min="0" max="100" value="35" oninput="updateParam('scan', this.value)">
         </div>
+
+        <div class="form-group" style="margin-top:0.75rem;">
+          <div class="slider-row">
+            <label>Loop Speed (FPS)</label>
+            <span id="val-fps">12 FPS</span>
+          </div>
+          <input type="range" id="param-fps" min="4" max="30" value="12" oninput="updateFps(this.value)">
+        </div>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:0.5rem;">
@@ -284,6 +352,11 @@
     <main>
       <div class="viewport-card">
         <canvas id="glitch-canvas" width="480" height="320"></canvas>
+        <div class="playback-controls">
+          <button class="btn-icon" onclick="togglePlayback()" id="btn-play-mini">▶️ Play Loop</button>
+          <button class="btn-icon" onclick="synthesizeGlitch()">🎲 New Seed</button>
+          <span id="frame-counter" style="font-size:0.8rem; font-family:var(--font-mono); color:var(--text-secondary);">Frame: 1/1</span>
+        </div>
         <div class="status-bar">
           <span id="status-text">Status: Ready</span>
           <span id="metrics-text">Dimensions: 480x320 | 24-bit RGB</span>
@@ -296,7 +369,13 @@
     const canvas = document.getElementById('glitch-canvas');
     const ctx = canvas.getContext('2d');
     let currentPreset = 'h264_iframe_drop';
+    let currentSource = 'bars';
     let currentBmpB64 = '';
+    let sequenceFrames = [];
+    let currentSeqIndex = 0;
+    let isPlaying = false;
+    let loopInterval = null;
+    let currentFps = 12;
 
     function toggleTheme() {
       const current = document.body.getAttribute('data-theme');
@@ -305,8 +384,20 @@
 
     function selectPreset(presetId) {
       currentPreset = presetId;
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.preset-chips .chip').forEach(c => {
+        if (c.onclick && c.onclick.toString().includes('selectPreset')) {
+          c.classList.remove('active');
+        }
+      });
       event.target.classList.add('active');
+      synthesizeGlitch();
+    }
+
+    function setSource(src) {
+      currentSource = src;
+      ['bars', 'grid', 'grad'].forEach(s => {
+        document.getElementById('src-' + s).classList.toggle('active', s === src);
+      });
       synthesizeGlitch();
     }
 
@@ -315,16 +406,27 @@
       synthesizeGlitch();
     }
 
+    function updateFps(val) {
+      currentFps = parseInt(val);
+      document.getElementById('val-fps').innerText = val + ' FPS';
+      if (isPlaying) {
+        clearInterval(loopInterval);
+        loopInterval = setInterval(nextFrame, 1000 / currentFps);
+      }
+    }
+
     async function synthesizeGlitch() {
       document.getElementById('status-text').innerText = 'Synthesizing I-frame glitch...';
       try {
+        const seed = Math.floor(Math.random() * 100000);
         const resp = await fetch('/api/mosh', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             preset: currentPreset,
             width: 480,
-            height: 320
+            height: 320,
+            seed: seed
           })
         });
         const data = await resp.json();
@@ -333,11 +435,74 @@
         img.onload = () => {
           ctx.drawImage(img, 0, 0);
           document.getElementById('status-text').innerText = `Synthesized with ${data.preset}`;
+          document.getElementById('frame-counter').innerText = 'Frame: 1/1 (Static)';
         };
         img.src = 'data:image/bmp;base64,' + data.image_base64;
       } catch (err) {
         document.getElementById('status-text').innerText = 'Error: ' + err.message;
       }
+    }
+
+    async function renderGlitchSequence() {
+      document.getElementById('status-text').innerText = 'Rendering 12-frame loop...';
+      try {
+        const resp = await fetch('/api/sequence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            preset: currentPreset,
+            width: 480,
+            height: 320,
+            frames_count: 12
+          })
+        });
+        const data = await resp.json();
+        sequenceFrames = data.frames;
+        currentSeqIndex = 0;
+        document.getElementById('status-text').innerText = `Rendered 12 frames (${data.preset})`;
+        startPlayback();
+      } catch (e) {
+        alert('Sequence error: ' + e.message);
+      }
+    }
+
+    function nextFrame() {
+      if (!sequenceFrames.length) return;
+      currentSeqIndex = (currentSeqIndex + 1) % sequenceFrames.length;
+      const b64 = sequenceFrames[currentSeqIndex];
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = 'data:image/bmp;base64,' + b64;
+      document.getElementById('frame-counter').innerText = `Frame: ${currentSeqIndex + 1}/${sequenceFrames.length}`;
+    }
+
+    function togglePlayback() {
+      if (isPlaying) {
+        stopPlayback();
+      } else {
+        if (!sequenceFrames.length) {
+          renderGlitchSequence();
+        } else {
+          startPlayback();
+        }
+      }
+    }
+
+    function startPlayback() {
+      isPlaying = true;
+      document.getElementById('btn-play').innerText = '⏸ Pause Loop';
+      document.getElementById('btn-play-mini').innerText = '⏸ Pause';
+      clearInterval(loopInterval);
+      loopInterval = setInterval(nextFrame, 1000 / currentFps);
+    }
+
+    function stopPlayback() {
+      isPlaying = false;
+      document.getElementById('btn-play').innerText = '▶️ Play Loop';
+      document.getElementById('btn-play-mini').innerText = '▶️ Play';
+      clearInterval(loopInterval);
     }
 
     function downloadFrame() {
@@ -346,22 +511,6 @@
       a.href = 'data:image/bmp;base64,' + currentBmpB64;
       a.download = `datamosh_${currentPreset}.bmp`;
       a.click();
-    }
-
-    async function toggleWebcam() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 320 } });
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.play();
-        video.onloadeddata = () => {
-          setInterval(() => {
-            ctx.drawImage(video, 0, 0, 480, 320);
-          }, 100);
-        };
-      } catch (e) {
-        alert('Webcam access failed or denied: ' + e.message);
-      }
     }
 
     // Initial render

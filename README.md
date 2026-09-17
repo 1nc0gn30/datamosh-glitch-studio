@@ -98,6 +98,83 @@ Add `datamosh-glitch-studio` to your Claude Desktop or Cursor configuration:
 
 ---
 
+## 📐 Mathematical Foundations & Compression Mechanics
+
+### 1. Motion Vector Displacements & I-Frame Drops
+In modern hybrid video codecs (MPEG-4, H.264, VP9), keyframes (I-frames) reset the full frame pixel state, while delta frames (P-frames) store only motion vectors $(\Delta x, \Delta y)$ and discrete cosine transform (DCT) error residuals:
+
+$$F_t(x, y) = F_{t-1}(x + \Delta x_t(x, y), y + \Delta y_t(x, y)) + \text{Residual}_t(x, y)$$
+
+When the I-frame is dropped from the GOP (Group of Pictures), the decoder applies the motion vectors of the new scene to the pixel buffers of the preceding scene, resulting in the iconic datamosh "pixel smear" artifact.
+
+### 2. Chromatic Aberration & Channel Split
+Simulates optical lens dispersion and magnetic tape tracking head desynchronization by spatially translating color channels independently:
+
+$$\begin{cases}
+R'(x, y) = R(x + \delta_x, y + \delta_y) \\
+G'(x, y) = G(x, y) \\
+B'(x, y) = B(x - \delta_x, y - \delta_y)
+\end{cases}$$
+
+### 3. CRT Scanline Attenuation Function
+Simulates television cathode ray tube line scanning via harmonic brightness modulation:
+
+$$I'(x, y) = I(x, y) \cdot \left(1 - \alpha \cdot \left|\sin\left(\frac{\pi y}{\lambda}\right)\right|\right)$$
+
+where $\alpha \in [0, 1]$ controls scanline opacity and $\lambda$ is the scanline period in pixels.
+
+---
+
+## 🏛️ Architecture
+
+```mermaid
+flowchart TD
+    subgraph Core["📼 Datamosh Glitch Core"]
+        Codec["🖼️ Pure Python BMP/PPM Codec\n(24/32-bit Binary Parser)"]
+        Engine["⚙️ Parametric Datamosh Engine\n(Slice Shift, RGB Split, Noise, Macroblocks)"]
+        Seq["🎬 Video Sequence Processor\n(P-Frame Motion Accumulation Loop)"]
+    end
+
+    subgraph Interfaces["🖥️ Interfaces"]
+        CLI["💻 CLI Entrypoint\n(datamosh-studio / python -m)"]
+        MCP["🤖 FastMCP Stdio Server\n(Claude / Cursor / Cline)"]
+        UI["🎨 Google Material 3 Studio\n(Live 60FPS Canvas & 12-Frame Sequence Loop)"]
+    end
+
+    Codec --> Engine
+    Engine --> Seq
+    Seq --> Interfaces
+    Engine --> Interfaces
+```
+
+---
+
+## 🐍 Python SDK API Reference
+
+```python
+from datamosh_glitch_studio.frame_io import ImageFrame
+from datamosh_glitch_studio.glitch_core import DatamoshEngine
+from datamosh_glitch_studio.presets import get_preset
+
+# 1. Create a synthetic test pattern or load a BMP
+frame = ImageFrame.create(480, 320, color=(20, 30, 45))
+
+# 2. Initialize Datamosh Engine
+engine = DatamoshEngine()
+preset = get_preset("cyberpunk_vcr")
+
+# 3. Apply glitch synthesis
+glitched_frame = engine.process_frame(frame, preset=preset, seed=1337)
+bmp_bytes = glitched_frame.to_bmp()
+
+# 4. Generate multi-frame motion vector smear loop
+frames = [ImageFrame.create(320, 240) for _ in range(8)]
+glitched_loop = engine.process_video_sequence(frames, preset=preset)
+print(f"Generated {len(glitched_loop)} sequential motion frames.")
+```
+
+---
+
 ## 🧪 Running Tests
 
 ```bash
@@ -109,3 +186,4 @@ pytest -v
 ## 📜 License
 
 MIT License © 2026 1nc0gn30
+

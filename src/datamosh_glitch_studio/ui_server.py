@@ -237,6 +237,38 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
             })
             return
 
+        elif path == "/api/sequence":
+            preset_name = body.get("preset", "h264_iframe_drop")
+            preset = get_preset(preset_name)
+            w = int(body.get("width", 320))
+            h = int(body.get("height", 240))
+            count = min(30, max(2, int(body.get("frames_count", 8))))
+            base_seed = int(body.get("seed", 42))
+
+            # Generate base frames (moving color bars or geometric shapes)
+            base_frames = []
+            colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+            for i in range(count):
+                f = ImageFrame.create(w, h)
+                shift = (i * 24) % w
+                bw = max(1, w // len(colors))
+                for y in range(h):
+                    for x in range(w):
+                        col_idx = ((x + shift) // bw) % len(colors)
+                        f.set_pixel(x, y, colors[col_idx])
+                base_frames.append(f)
+
+            glitched_seq = engine.process_video_sequence(base_frames, preset=preset, seed=base_seed)
+            b64_list = [base64.b64encode(gf.to_bmp()).decode("ascii") for gf in glitched_seq]
+
+            self._send_json({
+                "status": "success",
+                "preset": preset.name,
+                "frames_count": len(b64_list),
+                "frames": b64_list
+            })
+            return
+
         elif path == "/api/corrupt":
             data_b64 = body.get("data_base64", "")
             rate = float(body.get("rate", 0.002))

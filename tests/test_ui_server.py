@@ -70,3 +70,24 @@ def test_ui_index_html(live_server):
         content = resp.read().decode("utf-8")
         assert "<!DOCTYPE html>" in content
         assert "Google Datamosh Studio" in content
+
+
+def test_api_sequence(live_server):
+    payload = json.dumps({
+        "preset": "cyberpunk_vcr",
+        "width": 64,
+        "height": 48,
+        "frames_count": 3
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"{live_server}/api/sequence",
+        data=payload,
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert data["status"] == "success"
+        assert data["frames_count"] == 3
+        assert len(data["frames"]) == 3
+
