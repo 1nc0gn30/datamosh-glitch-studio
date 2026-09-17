@@ -231,6 +231,31 @@ class DatamoshEngine:
 
         return out
 
+    @staticmethod
+    def apply_byte_shuffle_glitch(
+        frame: ImageFrame,
+        chunk_size: int = 64,
+        shuffle_count: int = 12,
+        rng: Optional[random.Random] = None,
+    ) -> ImageFrame:
+        """Randomly swap chunks of raw pixel data to simulate framebuffer memory corruption."""
+        r = rng or random.Random()
+        out = frame.copy()
+        total_bytes = len(out.data)
+        if total_bytes < chunk_size * 2:
+            return out
+
+        max_offset = total_bytes - chunk_size
+        for _ in range(shuffle_count):
+            pos_a = r.randint(0, max_offset)
+            pos_b = r.randint(0, max_offset)
+            chunk_a = out.data[pos_a : pos_a + chunk_size]
+            chunk_b = out.data[pos_b : pos_b + chunk_size]
+            out.data[pos_a : pos_a + chunk_size] = chunk_b
+            out.data[pos_b : pos_b + chunk_size] = chunk_a
+
+        return out
+
     def process_frame(
         self,
         frame: ImageFrame,
