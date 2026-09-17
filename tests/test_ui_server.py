@@ -91,3 +91,43 @@ def test_api_sequence(live_server):
         assert data["frames_count"] == 3
         assert len(data["frames"]) == 3
 
+
+def test_api_motion_estimate(live_server):
+    payload = json.dumps({
+        "width": 64,
+        "height": 48,
+        "block_size": 16,
+        "shift_dx": 2,
+        "shift_dy": 1
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"{live_server}/api/motion-estimate",
+        data=payload,
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert data["status"] == "success"
+        assert data["total_blocks"] > 0
+        assert "svg_vector_map" in data
+
+
+def test_api_liquid_melt(live_server):
+    payload = json.dumps({
+        "width": 64,
+        "height": 48,
+        "steps": 3
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"{live_server}/api/liquid-melt",
+        data=payload,
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert data["status"] == "success"
+        assert data["frames_count"] == 4
+
+

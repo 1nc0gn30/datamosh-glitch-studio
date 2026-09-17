@@ -15,8 +15,13 @@ import sys
 import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from datamosh_glitch_studio.frame_io import ImageFrame
+from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
+from datamosh_glitch_studio.motion_vector_engine import (
+    MotionVectorEngine,
+    render_motion_vectors_ascii,
+    render_motion_vectors_svg,
+)
 from datamosh_glitch_studio.presets import PRESETS, GlitchPreset, get_preset, list_presets
 
 SERVER_NAME = "datamosh-glitch-studio"
@@ -127,6 +132,60 @@ class MCPServer:
                         }
                     },
                     "required": ["data_base64"]
+                }
+            },
+            {
+                "name": "datamosh_motion_estimate",
+                "description": "Perform macroblock optical flow motion estimation, calculate displacement vectors, and render SVG/ASCII vector maps.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "integer",
+                            "default": 160
+                        },
+                        "height": {
+                            "type": "integer",
+                            "default": 120
+                        },
+                        "block_size": {
+                            "type": "integer",
+                            "default": 16
+                        },
+                        "shift_dx": {
+                            "type": "integer",
+                            "default": 4
+                        },
+                        "shift_dy": {
+                            "type": "integer",
+                            "default": 2
+                        }
+                    }
+                }
+            },
+            {
+                "name": "datamosh_liquid_melt",
+                "description": "Synthesize liquid melting datamosh effect by compounding macroblock motion vectors across multiple frames.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "steps": {
+                            "type": "integer",
+                            "default": 6
+                        },
+                        "width": {
+                            "type": "integer",
+                            "default": 160
+                        },
+                        "height": {
+                            "type": "integer",
+                            "default": 120
+                        },
+                        "acceleration": {
+                            "type": "number",
+                            "default": 1.2
+                        }
+                    }
                 }
             },
             {
@@ -262,6 +321,70 @@ class MCPServer:
                             "original_length": len(raw),
                             "corrupted_length": len(corrupted),
                             "corrupted_base64": base64.b64encode(corrupted).decode("ascii")
+                        }, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "datamosh_motion_estimate":
+            w = int(arguments.get("width", 160))
+            h = int(arguments.get("height", 120))
+            bs = int(arguments.get("block_size", 16))
+            shift_dx = int(arguments.get("shift_dx", 4))
+            shift_dy = int(arguments.get("shift_dy", 2))
+
+            ref = self._generate_test_card(w, h)
+            # Create target with synthetic displacement
+            tgt = ImageFrame.create(w, h)
+            for y in range(h):
+                for x in range(w):
+                    src_x = (x - shift_dx) % w
+                    src_y = (y - shift_dy) % h
+                    tgt.set_pixel(x, y, ref.get_pixel(src_x, src_y))
+
+            mv_engine = MotionVectorEngine(block_size=bs)
+            mv_field = mv_engine.estimate_motion(ref, tgt)
+            svg_map = render_motion_vectors_svg(mv_field)
+            ascii_map = render_motion_vectors_ascii(mv_field)
+
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "width": w,
+                            "height": h,
+                            "block_size": bs,
+                            "total_blocks": len(mv_field.vectors),
+                            "average_magnitude": round(mv_field.average_magnitude, 3),
+                            "ascii_flow_grid": ascii_map,
+                            "svg_vector_map": svg_map,
+                        }, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "datamosh_liquid_melt":
+            w = int(arguments.get("width", 160))
+            h = int(arguments.get("height", 120))
+            steps = int(arguments.get("steps", 6))
+            acc = float(arguments.get("acceleration", 1.2))
+
+            ref = self._generate_test_card(w, h)
+            mv_engine = MotionVectorEngine(block_size=16)
+            frames = mv_engine.datamosh_liquid_melt(ref, steps=steps, acceleration=acc)
+            html_bundle = export_frame_sequence_html(frames, fps=12)
+
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "status": "success",
+                            "frames_count": len(frames),
+                            "width": w,
+                            "height": h,
+                            "html_animation_bytes": len(html_bundle),
                         }, indent=2)
                     }
                 ]

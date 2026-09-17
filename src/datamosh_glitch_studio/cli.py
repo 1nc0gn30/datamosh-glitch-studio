@@ -11,10 +11,15 @@ import os
 import sys
 from typing import Any, List, Optional
 
-from datamosh_glitch_studio.compat import atomic_write_bytes, safe_read_bytes
-from datamosh_glitch_studio.frame_io import ImageFrame
+from datamosh_glitch_studio.compat import atomic_write_bytes, atomic_write_text, safe_read_bytes
+from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
 from datamosh_glitch_studio.mcp_server import run_mcp_server
+from datamosh_glitch_studio.motion_vector_engine import (
+    MotionVectorEngine,
+    render_motion_vectors_ascii,
+    render_motion_vectors_svg,
+)
 from datamosh_glitch_studio.presets import PRESETS, get_preset, list_presets
 from datamosh_glitch_studio.ui_server import run_ui_server
 
@@ -65,6 +70,22 @@ def build_parser() -> argparse.ArgumentParser:
     p_corr.add_argument("-o", "--output", required=True, help="Output corrupted file path")
     p_corr.add_argument("--rate", type=float, default=0.002, help="Corruption rate (default: 0.002)")
     p_corr.add_argument("--header-skip", type=int, default=64, help="Header bytes to protect (default: 64)")
+
+    # motion
+    p_mot = sub.add_parser("motion", aliases=["vectors"], parents=[base], help="Estimate macroblock motion vectors and render optical flow")
+    p_mot.add_argument("--width", type=int, default=160, help="Width for test pattern")
+    p_mot.add_argument("--height", type=int, default=120, help="Height for test pattern")
+    p_mot.add_argument("--block-size", type=int, default=16, help="Macroblock dimension in pixels (default: 16)")
+    p_mot.add_argument("--shift-dx", type=int, default=4, help="Synthetic horizontal displacement")
+    p_mot.add_argument("--shift-dy", type=int, default=2, help="Synthetic vertical displacement")
+    p_mot.add_argument("--svg", help="Optional output SVG path for vector map")
+    p_mot.add_argument("--json", action="store_true", help="Output motion vector field as JSON")
+
+    # melt
+    p_melt = sub.add_parser("melt", parents=[base], help="Synthesize liquid melting datamosh frame sequence")
+    p_melt.add_argument("--steps", type=int, default=8, help="Number of melt sequence steps (default: 8)")
+    p_melt.add_argument("--acc", type=float, default=1.2, help="Motion acceleration multiplier")
+    p_melt.add_argument("-o", "--output", default="melt.html", help="Output HTML player path (default: melt.html)")
 
     # serve
     p_serve = sub.add_parser("serve", parents=[base], help="Start Datamosh Studio Web UI (Material 3 influenced)")
@@ -143,6 +164,60 @@ def main(argv: Optional[List[str]] = None) -> int:
         corrupted = corrupt_byte_stream(raw, rate=args.rate, header_skip=args.header_skip)
         atomic_write_bytes(args.output, corrupted)
         print(f"{c.GREEN}✓ Corrupted binary payload written:{c.RESET} {args.output} ({len(corrupted)} bytes)")
+        return 0
+
+    elif args.command in ("motion", "vectors"):
+        import json
+        w, h = args.width, args.height
+        bs = args.block_size
+        ref = ImageFrame.create(w, h)
+        colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+        bw = w // len(colors)
+        for y in range(h):
+            for x in range(w):
+                ref.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+        tgt = ImageFrame.create(w, h)
+        for y in range(h):
+            for x in range(w):
+                src_x = (x - args.shift_dx) % w
+                src_y = (y - args.shift_dy) % h
+                tgt.set_pixel(x, y, ref.get_pixel(src_x, src_y))
+
+        mv_engine = MotionVectorEngine(block_size=bs)
+        mv_field = mv_engine.estimate_motion(ref, tgt)
+
+        if args.svg:
+            svg_str = render_motion_vectors_svg(mv_field)
+            atomic_write_text(args.svg, svg_str)
+            print(f"{c.GREEN}✓ Saved SVG motion vector map:{c.RESET} {args.svg}")
+
+        if args.json:
+            print(json.dumps(mv_field.to_dict(), indent=2))
+        else:
+            print(f"\n{c.BOLD}📼 Macroblock Motion Vector Estimation ({w}x{h}, Block: {bs}px){c.RESET}")
+            print(f"  Total Macroblocks   : {c.CYAN}{len(mv_field.vectors)}{c.RESET}")
+            print(f"  Average Magnitude   : {c.CYAN}{mv_field.average_magnitude:.2f}px{c.RESET}")
+            print(f"  Synthetic Shift     : ({args.shift_dx}, {args.shift_dy})")
+            print(f"\n{c.BOLD}Optical Flow Direction Grid:{c.RESET}\n")
+            print(render_motion_vectors_ascii(mv_field))
+            print()
+        return 0
+
+    elif args.command == "melt":
+        w, h = 320, 240
+        ref = ImageFrame.create(w, h)
+        colors = [(255, 0, 128), (0, 255, 255), (255, 255, 0), (0, 255, 0)]
+        bw = w // len(colors)
+        for y in range(h):
+            for x in range(w):
+                ref.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+        mv_engine = MotionVectorEngine(block_size=16)
+        frames = mv_engine.datamosh_liquid_melt(ref, steps=args.steps, acceleration=args.acc)
+        html_code = export_frame_sequence_html(frames, fps=12)
+        atomic_write_text(args.output, html_code)
+        print(f"{c.GREEN}✓ Liquid melt datamosh sequence rendered:{c.RESET} {args.output} ({len(frames)} frames, {len(html_code)} bytes)")
         return 0
 
     elif args.command == "serve":

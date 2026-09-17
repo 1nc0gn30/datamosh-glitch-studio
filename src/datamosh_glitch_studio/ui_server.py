@@ -19,6 +19,11 @@ from typing import Any, Dict, Optional, Tuple
 from datamosh_glitch_studio.compat import safe_join
 from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
+from datamosh_glitch_studio.motion_vector_engine import (
+    MotionVectorEngine,
+    render_motion_vectors_ascii,
+    render_motion_vectors_svg,
+)
 from datamosh_glitch_studio.presets import PRESETS, get_preset, list_presets
 
 SERVER_START_TIME = time.time()
@@ -279,6 +284,67 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
             self._send_json({
                 "status": "success",
                 "corrupted_base64": base64.b64encode(corrupted).decode("ascii")
+            })
+            return
+
+        elif path == "/api/motion-estimate":
+            w = int(body.get("width", 160))
+            h = int(body.get("height", 120))
+            bs = int(body.get("block_size", 16))
+            shift_dx = int(body.get("shift_dx", 4))
+            shift_dy = int(body.get("shift_dy", 2))
+
+            ref = ImageFrame.create(w, h)
+            colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+            bw = w // len(colors)
+            for y in range(h):
+                for x in range(w):
+                    ref.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+            tgt = ImageFrame.create(w, h)
+            for y in range(h):
+                for x in range(w):
+                    src_x = (x - shift_dx) % w
+                    src_y = (y - shift_dy) % h
+                    tgt.set_pixel(x, y, ref.get_pixel(src_x, src_y))
+
+            mv_engine = MotionVectorEngine(block_size=bs)
+            mv_field = mv_engine.estimate_motion(ref, tgt)
+
+            self._send_json({
+                "status": "success",
+                "width": w,
+                "height": h,
+                "block_size": bs,
+                "total_blocks": len(mv_field.vectors),
+                "average_magnitude": round(mv_field.average_magnitude, 3),
+                "ascii_flow_grid": render_motion_vectors_ascii(mv_field),
+                "svg_vector_map": render_motion_vectors_svg(mv_field),
+            })
+            return
+
+        elif path == "/api/liquid-melt":
+            w = int(body.get("width", 160))
+            h = int(body.get("height", 120))
+            steps = min(20, max(2, int(body.get("steps", 6))))
+            acc = float(body.get("acceleration", 1.2))
+
+            ref = ImageFrame.create(w, h)
+            colors = [(255, 0, 128), (0, 255, 255), (255, 255, 0), (0, 255, 0)]
+            bw = w // len(colors)
+            for y in range(h):
+                for x in range(w):
+                    ref.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+            mv_engine = MotionVectorEngine(block_size=16)
+            frames = mv_engine.datamosh_liquid_melt(ref, steps=steps, acceleration=acc)
+            b64_list = [base64.b64encode(f.to_bmp()).decode("ascii") for f in frames]
+
+            self._send_json({
+                "status": "success",
+                "steps": steps,
+                "frames_count": len(b64_list),
+                "frames": b64_list,
             })
             return
 
