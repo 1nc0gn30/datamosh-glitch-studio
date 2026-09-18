@@ -21,7 +21,12 @@ keywords = [
     "fastmcp",
     "material-3",
     "image-processing",
-    "zero-dependencies"
+    "zero-dependencies",
+    "bitplane-slicing",
+    "sierpinski-glitch",
+    "xor-textures",
+    "bayer-dithering",
+    "creative-coding",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

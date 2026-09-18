@@ -5,6 +5,10 @@ Zero external runtime dependencies.
 
 from __future__ import annotations
 
+from datamosh_glitch_studio.bitplane_glitch import (
+    BitplaneExtractor,
+    BitplaneGlitchEngine,
+)
 from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
 from datamosh_glitch_studio.mcp_server import MCPServer, run_mcp_server
@@ -28,6 +32,8 @@ __author__ = "1nc0gn30"
 __all__ = [
     "ImageFrame",
     "DatamoshEngine",
+    "BitplaneExtractor",
+    "BitplaneGlitchEngine",
     "GlitchPreset",
     "get_preset",
     "list_presets",

@@ -44,6 +44,15 @@ datamosh-studio mosh -p h264_iframe_drop -o glitched.bmp
 # Apply Cyberpunk VCR glitch to custom BMP image with reproducible seed
 datamosh-studio mosh input.bmp -p cyberpunk_vcr --seed 1337 -o vcr_glitch.bmp
 
+# Isolate Bitplanes 7, 6, 5 (MSBs) for high-order posterization glitch
+datamosh-studio bitplane --keep-bits 7,6,5 -o bitplane_glitched.bmp
+
+# Generate 8-panel SVG mosaic decomposing all bitplanes with activity ratios
+datamosh-studio bitplane --mosaic bitplane_mosaic.svg
+
+# Synthesize spatial Sierpiński boolean XOR fractal glitch texture
+datamosh-studio xor --formula xor --scale 1.5 --blend 0.6 -o xor_glitched.bmp
+
 # List available glitch presets
 datamosh-studio presets
 
@@ -91,6 +100,11 @@ Add `datamosh-glitch-studio` to your Claude Desktop or Cursor configuration:
 
 ### Registered MCP Tools:
 - `datamosh_apply`: Apply glitch effects to Base64 image or procedural test pattern.
+- `datamosh_bitplane_slice`: Isolate, mask, or invert bitplanes (0 LSB to 7 MSB) for digital posterization and solarization.
+- `datamosh_sierpinski_xor`: Synthesize fractal spatial boolean glitch textures (XOR, AND, OR) across coordinate space.
+- `datamosh_bitplane_mosaic`: Generate an 8-panel SVG mosaic displaying all bitplanes with active pixel statistics.
+- `datamosh_motion_estimate`: Estimate macroblock optical displacement vectors and render ASCII/SVG vector maps.
+- `datamosh_liquid_melt`: Synthesize multi-step liquid melting datamosh frame sequence with acceleration.
 - `datamosh_generate_sequence`: Generate multi-frame animation demonstrating continuous I-frame motion smear.
 - `datamosh_presets`: Query all presets and algorithmic parameters.
 - `datamosh_corrupt_bytes`: Directly corrupt binary payloads with bitflips and noise.

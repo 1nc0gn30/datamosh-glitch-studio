@@ -11,6 +11,10 @@ import os
 import sys
 from typing import Any, List, Optional
 
+from datamosh_glitch_studio.bitplane_glitch import (
+    BitplaneExtractor,
+    BitplaneGlitchEngine,
+)
 from datamosh_glitch_studio.compat import atomic_write_bytes, atomic_write_text, safe_read_bytes
 from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
@@ -97,6 +101,27 @@ def build_parser() -> argparse.ArgumentParser:
 
     # diagnostics / doctor
     p_doc = sub.add_parser("doctor", aliases=["diagnostics", "platform"], parents=[base], help="Run system diagnostics")
+
+    # bitplane / slice
+    p_bp = sub.add_parser("bitplane", aliases=["slice"], parents=[base], help="Bitplane channel slicing, inversion, and mosaic generator")
+    p_bp.add_argument("input", nargs="?", help="Input BMP/PPM image path (optional)")
+    p_bp.add_argument("-o", "--output", default="bitplane_glitched.bmp", help="Output path (default: bitplane_glitched.bmp)")
+    p_bp.add_argument("--keep-bits", default="7,6,5", help="Comma-separated bit indices to keep (e.g. 7,6,5)")
+    p_bp.add_argument("--invert-bits", default="", help="Comma-separated bit indices to invert (e.g. 7,0)")
+    p_bp.add_argument("--channel", default="all", choices=["all", "r", "g", "b", "luminance"], help="Color channel")
+    p_bp.add_argument("--mosaic", help="Optional output SVG path for 8-bitplane mosaic")
+    p_bp.add_argument("--width", type=int, default=320, help="Width for test pattern")
+    p_bp.add_argument("--height", type=int, default=240, help="Height for test pattern")
+
+    # xor / sierpinski
+    p_xor = sub.add_parser("xor", aliases=["sierpinski"], parents=[base], help="Synthesize spatial boolean fractal glitch textures")
+    p_xor.add_argument("input", nargs="?", help="Input BMP/PPM image path (optional)")
+    p_xor.add_argument("-o", "--output", default="xor_glitched.bmp", help="Output path (default: xor_glitched.bmp)")
+    p_xor.add_argument("--scale", type=float, default=1.0, help="Spatial frequency scale factor")
+    p_xor.add_argument("--blend", type=float, default=0.5, help="Blend mix ratio (0.0 - 1.0)")
+    p_xor.add_argument("--formula", default="xor", choices=["xor", "and", "or", "xor_and"], help="Boolean formula")
+    p_xor.add_argument("--width", type=int, default=320, help="Width for test pattern")
+    p_xor.add_argument("--height", type=int, default=240, help="Height for test pattern")
 
     # test
     p_test = sub.add_parser("test", parents=[base], help="Run internal self-verification test runner")
@@ -218,6 +243,53 @@ def main(argv: Optional[List[str]] = None) -> int:
         html_code = export_frame_sequence_html(frames, fps=12)
         atomic_write_text(args.output, html_code)
         print(f"{c.GREEN}✓ Liquid melt datamosh sequence rendered:{c.RESET} {args.output} ({len(frames)} frames, {len(html_code)} bytes)")
+        return 0
+
+    elif args.command in ("bitplane", "slice"):
+        if args.input and os.path.isfile(args.input):
+            raw = safe_read_bytes(args.input)
+            frame = ImageFrame.from_bmp(raw) if raw.startswith(b"BM") else ImageFrame.from_ppm(raw)
+        else:
+            w, h = args.width, args.height
+            frame = ImageFrame.create(w, h)
+            colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+            bw = w // len(colors)
+            for y in range(h):
+                for x in range(w):
+                    frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+        if args.mosaic:
+            svg_code = BitplaneGlitchEngine.render_bitplane_mosaic_svg(frame, channel=args.channel)
+            atomic_write_text(args.mosaic, svg_code)
+            print(f"{c.GREEN}✓ Saved 8-bitplane mosaic SVG to:{c.RESET} {args.mosaic}")
+
+        keep = [int(b.strip()) for b in args.keep_bits.split(",") if b.strip().isdigit()]
+        invert = [int(b.strip()) for b in args.invert_bits.split(",") if b.strip().isdigit()]
+
+        sliced = BitplaneGlitchEngine.slice_bitplanes(frame, keep_bits=keep, channel=args.channel)
+        if invert:
+            sliced = BitplaneGlitchEngine.invert_bitplanes(sliced, invert_bits=invert, channel=args.channel)
+
+        atomic_write_bytes(args.output, sliced.to_bmp())
+        print(f"{c.GREEN}✓ Bitplane glitched image written to:{c.RESET} {args.output} ({sliced.width}x{sliced.height}px, preserved bits: {keep})")
+        return 0
+
+    elif args.command in ("xor", "sierpinski"):
+        if args.input and os.path.isfile(args.input):
+            raw = safe_read_bytes(args.input)
+            frame = ImageFrame.from_bmp(raw) if raw.startswith(b"BM") else ImageFrame.from_ppm(raw)
+        else:
+            w, h = args.width, args.height
+            frame = ImageFrame.create(w, h)
+            colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+            bw = w // len(colors)
+            for y in range(h):
+                for x in range(w):
+                    frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+        glitched = BitplaneGlitchEngine.xor_sierpinski_glitch(frame, scale=args.scale, blend=args.blend, formula=args.formula)
+        atomic_write_bytes(args.output, glitched.to_bmp())
+        print(f"{c.GREEN}✓ Spatial {args.formula.upper()} glitch written to:{c.RESET} {args.output} (scale={args.scale}, blend={args.blend})")
         return 0
 
     elif args.command == "serve":

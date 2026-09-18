@@ -15,6 +15,10 @@ import sys
 import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+from datamosh_glitch_studio.bitplane_glitch import (
+    BitplaneExtractor,
+    BitplaneGlitchEngine,
+)
 from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
 from datamosh_glitch_studio.motion_vector_engine import (
@@ -184,6 +188,103 @@ class MCPServer:
                         "acceleration": {
                             "type": "number",
                             "default": 1.2
+                        }
+                    }
+                }
+            },
+            {
+                "name": "datamosh_bitplane_slice",
+                "description": "Decompose 8-bit color channels and selectively isolate or invert bitplanes (0 LSB to 7 MSB) for posterization and solarization glitch effects.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "keep_bits": {
+                            "type": "array",
+                            "items": {"type": "integer"},
+                            "default": [7, 6, 5],
+                            "description": "Bitplane indices to preserve (0..7)."
+                        },
+                        "invert_bits": {
+                            "type": "array",
+                            "items": {"type": "integer"},
+                            "default": [],
+                            "description": "Bitplane indices to invert/flip."
+                        },
+                        "channel": {
+                            "type": "string",
+                            "enum": ["all", "r", "g", "b"],
+                            "default": "all",
+                            "description": "Color channel to slice."
+                        },
+                        "image_base64": {
+                            "type": "string",
+                            "description": "Optional Base64-encoded image. If omitted, procedural color card is used."
+                        },
+                        "width": {
+                            "type": "integer",
+                            "default": 320
+                        },
+                        "height": {
+                            "type": "integer",
+                            "default": 240
+                        }
+                    }
+                }
+            },
+            {
+                "name": "datamosh_sierpinski_xor",
+                "description": "Synthesize fractal spatial boolean glitch textures (XOR, AND, OR) modulated over pixel coordinates.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "formula": {
+                            "type": "string",
+                            "enum": ["xor", "and", "or", "xor_and"],
+                            "default": "xor"
+                        },
+                        "scale": {
+                            "type": "number",
+                            "default": 1.0
+                        },
+                        "blend": {
+                            "type": "number",
+                            "default": 0.5
+                        },
+                        "image_base64": {
+                            "type": "string"
+                        },
+                        "width": {
+                            "type": "integer",
+                            "default": 320
+                        },
+                        "height": {
+                            "type": "integer",
+                            "default": 240
+                        }
+                    }
+                }
+            },
+            {
+                "name": "datamosh_bitplane_mosaic",
+                "description": "Generate an 8-panel SVG mosaic displaying all bitplanes from Bit 0 (LSB) to Bit 7 (MSB) with activity statistics.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "channel": {
+                            "type": "string",
+                            "enum": ["luminance", "r", "g", "b", "all"],
+                            "default": "luminance"
+                        },
+                        "image_base64": {
+                            "type": "string"
+                        },
+                        "width": {
+                            "type": "integer",
+                            "default": 320
+                        },
+                        "height": {
+                            "type": "integer",
+                            "default": 240
                         }
                     }
                 }
@@ -385,6 +486,108 @@ class MCPServer:
                             "width": w,
                             "height": h,
                             "html_animation_bytes": len(html_bundle),
+                        }, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "datamosh_bitplane_slice":
+            keep_bits = arguments.get("keep_bits", [7, 6, 5])
+            invert_bits = arguments.get("invert_bits", [])
+            channel = arguments.get("channel", "all")
+            img_b64 = arguments.get("image_base64")
+
+            if img_b64:
+                raw_img = base64.b64decode(img_b64)
+                frame = ImageFrame.from_bmp(raw_img) if raw_img.startswith(b"BM") else ImageFrame.from_ppm(raw_img)
+            else:
+                w = int(arguments.get("width", 320))
+                h = int(arguments.get("height", 240))
+                frame = self._generate_test_card(w, h)
+
+            sliced = BitplaneGlitchEngine.slice_bitplanes(frame, keep_bits=keep_bits, channel=channel)
+            if invert_bits:
+                sliced = BitplaneGlitchEngine.invert_bitplanes(sliced, invert_bits=invert_bits, channel=channel)
+
+            bmp_bytes = sliced.to_bmp()
+            res_b64 = base64.b64encode(bmp_bytes).decode("ascii")
+
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "status": "success",
+                            "keep_bits": keep_bits,
+                            "invert_bits": invert_bits,
+                            "channel": channel,
+                            "width": sliced.width,
+                            "height": sliced.height,
+                            "image_base64": res_b64,
+                        }, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "datamosh_sierpinski_xor":
+            scale = float(arguments.get("scale", 1.0))
+            blend = float(arguments.get("blend", 0.5))
+            formula = str(arguments.get("formula", "xor"))
+            img_b64 = arguments.get("image_base64")
+
+            if img_b64:
+                raw_img = base64.b64decode(img_b64)
+                frame = ImageFrame.from_bmp(raw_img) if raw_img.startswith(b"BM") else ImageFrame.from_ppm(raw_img)
+            else:
+                w = int(arguments.get("width", 320))
+                h = int(arguments.get("height", 240))
+                frame = self._generate_test_card(w, h)
+
+            glitched = BitplaneGlitchEngine.xor_sierpinski_glitch(frame, scale=scale, blend=blend, formula=formula)
+            bmp_bytes = glitched.to_bmp()
+            res_b64 = base64.b64encode(bmp_bytes).decode("ascii")
+
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "status": "success",
+                            "formula": formula,
+                            "scale": scale,
+                            "blend": blend,
+                            "width": glitched.width,
+                            "height": glitched.height,
+                            "image_base64": res_b64,
+                        }, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "datamosh_bitplane_mosaic":
+            channel = str(arguments.get("channel", "luminance"))
+            img_b64 = arguments.get("image_base64")
+
+            if img_b64:
+                raw_img = base64.b64decode(img_b64)
+                frame = ImageFrame.from_bmp(raw_img) if raw_img.startswith(b"BM") else ImageFrame.from_ppm(raw_img)
+            else:
+                w = int(arguments.get("width", 320))
+                h = int(arguments.get("height", 240))
+                frame = self._generate_test_card(w, h)
+
+            svg_mosaic = BitplaneGlitchEngine.render_bitplane_mosaic_svg(frame, channel=channel)
+
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "status": "success",
+                            "channel": channel,
+                            "width": frame.width,
+                            "height": frame.height,
+                            "svg_mosaic": svg_mosaic,
                         }, indent=2)
                     }
                 ]

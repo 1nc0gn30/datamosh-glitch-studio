@@ -180,6 +180,18 @@ class ImageFrame:
         pixel_data = bio.read(w * h * 3)
         return cls.from_bytes(w, h, pixel_data)
 
+    def to_data_uri(self, format: str = "bmp") -> str:
+        """Encode image to base64 data URI string."""
+        import base64
+        if format.lower() == "ppm":
+            raw = self.to_ppm()
+            mime = "image/x-portable-pixmap"
+        else:
+            raw = self.to_bmp()
+            mime = "image/bmp"
+        b64 = base64.b64encode(raw).decode("ascii")
+        return f"data:{mime};base64,{b64}"
+
 
 def export_frame_sequence_html(
     frames: List[ImageFrame],

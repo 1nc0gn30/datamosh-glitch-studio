@@ -16,6 +16,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
+from datamosh_glitch_studio.bitplane_glitch import (
+    BitplaneExtractor,
+    BitplaneGlitchEngine,
+)
 from datamosh_glitch_studio.compat import safe_join
 from datamosh_glitch_studio.frame_io import ImageFrame, export_frame_sequence_html
 from datamosh_glitch_studio.glitch_core import DatamoshEngine, corrupt_byte_stream
@@ -165,6 +169,25 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
                 "python": sys.version,
                 "presets_count": len(PRESETS),
                 "status": "HEALTHY"
+            })
+            return
+
+        elif path == "/api/bitplane-mosaic":
+            qs = urllib.parse.parse_qs(parsed.query)
+            channel = qs.get("channel", ["luminance"])[0]
+            w = int(qs.get("width", ["320"])[0])
+            h = int(qs.get("height", ["240"])[0])
+            frame = ImageFrame.create(w, h)
+            colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+            bw = w // len(colors)
+            for y in range(h):
+                for x in range(w):
+                    frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+            svg_code = BitplaneGlitchEngine.render_bitplane_mosaic_svg(frame, channel=channel)
+            self._send_json({
+                "status": "success",
+                "channel": channel,
+                "svg_mosaic": svg_code,
             })
             return
 
@@ -345,6 +368,73 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
                 "steps": steps,
                 "frames_count": len(b64_list),
                 "frames": b64_list,
+            })
+            return
+
+        elif path == "/api/bitplane-slice":
+            keep_bits = body.get("keep_bits", [7, 6, 5])
+            invert_bits = body.get("invert_bits", [])
+            channel = body.get("channel", "all")
+            w = int(body.get("width", 320))
+            h = int(body.get("height", 240))
+            img_b64 = body.get("image_base64")
+
+            if img_b64:
+                raw_img = base64.b64decode(img_b64)
+                frame = ImageFrame.from_bmp(raw_img) if raw_img.startswith(b"BM") else ImageFrame.from_ppm(raw_img)
+            else:
+                frame = ImageFrame.create(w, h)
+                colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+                bw = w // len(colors)
+                for y in range(h):
+                    for x in range(w):
+                        frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+            sliced = BitplaneGlitchEngine.slice_bitplanes(frame, keep_bits=keep_bits, channel=channel)
+            if invert_bits:
+                sliced = BitplaneGlitchEngine.invert_bitplanes(sliced, invert_bits=invert_bits, channel=channel)
+
+            bmp_bytes = sliced.to_bmp()
+            self._send_json({
+                "status": "success",
+                "width": sliced.width,
+                "height": sliced.height,
+                "keep_bits": keep_bits,
+                "invert_bits": invert_bits,
+                "channel": channel,
+                "image_base64": base64.b64encode(bmp_bytes).decode("ascii")
+            })
+            return
+
+        elif path == "/api/sierpinski-xor":
+            scale = float(body.get("scale", 1.0))
+            blend = float(body.get("blend", 0.5))
+            formula = str(body.get("formula", "xor"))
+            w = int(body.get("width", 320))
+            h = int(body.get("height", 240))
+            img_b64 = body.get("image_base64")
+
+            if img_b64:
+                raw_img = base64.b64decode(img_b64)
+                frame = ImageFrame.from_bmp(raw_img) if raw_img.startswith(b"BM") else ImageFrame.from_ppm(raw_img)
+            else:
+                frame = ImageFrame.create(w, h)
+                colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
+                bw = w // len(colors)
+                for y in range(h):
+                    for x in range(w):
+                        frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
+
+            glitched = BitplaneGlitchEngine.xor_sierpinski_glitch(frame, scale=scale, blend=blend, formula=formula)
+            bmp_bytes = glitched.to_bmp()
+            self._send_json({
+                "status": "success",
+                "formula": formula,
+                "scale": scale,
+                "blend": blend,
+                "width": glitched.width,
+                "height": glitched.height,
+                "image_base64": base64.b64encode(bmp_bytes).decode("ascii")
             })
             return
 
