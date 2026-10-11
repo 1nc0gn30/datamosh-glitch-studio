@@ -1,12 +1,21 @@
 # 📼 Datamosh Glitch Studio
 
-[![CI](https://github.com/1nc0gn30/datamosh-glitch-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/1nc0gn30/datamosh-glitch-studio/actions)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0%20runtime-success.svg)](https://github.com/1nc0gn30/datamosh-glitch-studio)
-[![MCP Server](https://img.shields.io/badge/MCP-FastMCP%202024--11--05-blueviolet.svg)](https://modelcontextprotocol.io/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/datamosh-glitch-studio/deploy-status)](https://datamosh-glitch-studio.netlify.app/)
+[![Live App](https://img.shields.io/badge/Live_App-datamosh--glitch--studio.netlify.app-00C7B7?style=flat-square&logo=netlify)](https://datamosh-glitch-studio.netlify.app/)
+[![Dual Rails](https://img.shields.io/badge/Dual_Checkout-Stripe_%2B_Solana-635BFF?style=flat-square)](https://buy.stripe.com/7sI7sA8hM2X8eFG8ww)
+[![Pro Price](https://img.shields.io/badge/Founding_Lifetime-$19_USD-D4AF37?style=flat-square)](https://buy.stripe.com/7sI7sA8hM2X8eFG8ww)
+[![Headless Verification](https://img.shields.io/badge/Playwright-0_Errors_|_0px_Overflow-brightgreen?style=flat-square)](https://datamosh-glitch-studio.netlify.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Parametric Datamosh, I-Frame Drop & Visual Glitch Synthesis Studio with Material 3 Web UI, Multi-OS CLI, FastMCP stdio server, and zero external runtime dependencies.**
+> **Parametric Datamosh, I-Frame Drop & Visual Glitch Synthesis Studio with Material 3 Web UI, Multi-OS CLI, FastMCP stdio server, and zero external runtime dependencies. 100% In-Browser Computation with Zero Cloud Telemetry.**
+
+### 🌐 Live Production Application
+👉 **[Launch Datamosh Glitch Studio](https://datamosh-glitch-studio.netlify.app/)**
+
+### 💳 Pro Activation & Sovereign Dual Payment Rails
+- **Stripe / Credit Card ($19 Lifetime)**: [buy.stripe.com/7sI7sA8hM2X8eFG8ww](https://buy.stripe.com/7sI7sA8hM2X8eFG8ww)
+- **Solana DePay ($19 Lifetime)**: [depay.com/pay/428790dd-7ad1-407c-8ecf-c048c77a4cb8](https://depay.com/pay/428790dd-7ad1-407c-8ecf-c048c77a4cb8)
+- **Instant Client-Side Activation**: Permanent `localStorage` unlocking with zero backend dependencies.
 
 ---
 
@@ -26,7 +35,7 @@
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/1nc0gn30/datamosh-glitch-studio.git
+git clone https://github.com/NullAITech/datamosh-glitch-studio.git
 cd datamosh-glitch-studio
 
 # Install in editable mode
@@ -197,7 +206,10 @@ pytest -v
 
 ---
 
-## 📜 License
+## 📜 Attribution & License
 
-MIT License © 2026 1nc0gn30
+Engineered by **Neal Frazier Tech** ([@1nc0gn30](https://github.com/1nc0gn30)) • [NullAI Platform](https://nullai.tech)  
+Repository: [github.com/1nc0gn30/datamosh-glitch-studio](https://github.com/1nc0gn30/datamosh-glitch-studio)  
+Licensed under the [MIT License](LICENSE).
+
 
