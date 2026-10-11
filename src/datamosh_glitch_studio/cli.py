@@ -93,7 +93,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     # serve
     p_serve = sub.add_parser("serve", parents=[base], help="Start Datamosh Studio Web UI (Material 3 influenced)")
-    p_serve.add_argument("--host", default="0.0.0.0", help="Host address (default: 0.0.0.0)")
+    p_serve.add_argument("--host", default="127.0.0.1", help="Host address (default: 127.0.0.1; use 0.0.0.0 only on trusted networks)")
     p_serve.add_argument("--port", type=int, default=8081, help="Port (default: 8081)")
 
     # mcp

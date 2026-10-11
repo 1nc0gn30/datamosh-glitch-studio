@@ -124,11 +124,29 @@ EMBEDDED_STUDIO_HTML = """<!DOCTYPE html>
 </html>"""
 
 
+def _is_local_origin(origin) -> bool:
+    """True for no Origin (CLI/curl/same-origin GET) or a localhost origin."""
+    if not origin:
+        return True
+    from urllib.parse import urlparse
+    try:
+        u = urlparse(origin)
+    except Exception:
+        return False
+    return u.scheme in ("http", "https") and (u.hostname or "") in ("localhost", "127.0.0.1", "::1")
+
+
+def _cors_origin(handler) -> str:
+    """Echo the Origin only when it is local; never '*'."""
+    origin = handler.headers.get("Origin", "")
+    return origin if origin and _is_local_origin(origin) else "http://127.0.0.1"
+
+
 class DatamoshHTTPHandler(BaseHTTPRequestHandler):
     """HTTP Request Handler for Studio Web UI and REST API."""
 
     def _set_cors_headers(self) -> None:
-        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Origin", _cors_origin(self))
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
@@ -216,6 +234,12 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_POST(self) -> None:
+
+        if not _is_local_origin(self.headers.get("Origin")):
+
+            self.send_error(403, "Cross-origin request blocked")
+
+            return
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
 
@@ -444,7 +468,7 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
         pass
 
 
-def run_ui_server(host: str = "0.0.0.0", port: int = 8081) -> ThreadingHTTPServer:
+def run_ui_server(host: str = "127.0.0.1", port: int = 8081) -> ThreadingHTTPServer:
     """Launch UI HTTP Server."""
     server = ThreadingHTTPServer((host, port), DatamoshHTTPHandler)
     return server
