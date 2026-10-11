@@ -500,7 +500,6 @@
     .paywall-blur {
       filter: blur(6px);
       user-select: none;
-      pointer-events: none;
     }
 
     .paywall-overlay {
@@ -596,7 +595,7 @@
 <body>
 
   <!-- Founding Member Sales Banner -->
-  <aside class="sales-banner" aria-label="Special Offer">
+  <aside class="sales-banner" id="salesBanner" aria-label="Special Offer">
     <div class="banner-text">
       <span class="banner-badge">Founding Lifetime Offer</span>
       <span>Datamosh Studio Pro: <strong>$19</strong> lifetime <strike style="color:var(--text-muted);">$79</strike></span>
@@ -739,8 +738,8 @@
             Export seamless 60fps ProRes/H.265 video loops, automated frame sequence ZIPs (300 DPI master TIFFs), and DaVinci Resolve glitch LUT profiles.
           </p>
           <div style="display:flex; gap:10px;">
-            <button class="action-btn-primary" style="opacity:0.5;" onclick="exportProVideoLoop()">Export 4K Pro Video Loop</button>
-            <button class="action-btn-secondary" style="opacity:0.5;" onclick="exportRawZip()">Export 60-Frame RAW ZIP</button>
+            <button id="btn-export-loop" class="action-btn-primary" style="opacity:0.5;" onclick="exportProVideoLoop()">Export 4K Pro Video Loop</button>
+            <button id="btn-export-zip" class="action-btn-secondary" style="opacity:0.5;" onclick="exportRawZip()">Export 60-Frame RAW ZIP</button>
           </div>
         </div>
 
@@ -759,7 +758,7 @@
               ⚡ Solana DePay ($19)
             </a>
           </div>
-          <button class="btn-unlock-link" style="margin-top:6px;" onclick="openLicenseModal()">I already have a license key</button>
+          <button id="btn-paywall-key" class="btn-unlock-link" style="margin-top:6px;" onclick="openLicenseModal()">I already have a license key</button>
         </div>
       </div>
 
@@ -768,7 +767,7 @@
   </div>
 
   <!-- Pro Paywall & License Activation Modal -->
-  <div class="modal-overlay" id="licenseModal">
+  <div class="modal-overlay pro-paywall-modal" id="licenseModal" data-alias="paywall-modal">
     <div class="modal-card" style="max-width:540px; position:relative; border:1px solid rgba(212,175,55,0.4); box-shadow:0 20px 50px rgba(0,0,0,0.8);">
       <button type="button" onclick="closeLicenseModal()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; font-size:22px; color:var(--text-muted); cursor:pointer;">&times;</button>
       <div style="display:inline-block; background:var(--gold); color:#000; font-weight:800; font-size:11px; padding:3px 8px; border-radius:4px; letter-spacing:0.5px; width:fit-content;">PRO FOUNDING ACCESS</div>
@@ -804,8 +803,8 @@
       <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
         <label for="license-input" style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:6px;">Already purchased? Enter your receipt email or license key:</label>
         <div style="display:flex; gap:8px;">
-          <input type="text" id="license-input" class="modal-input" placeholder="DATAMOSH-PRO-2026 or receipt email" style="flex:1;">
-          <button id="btnActivateKey" class="action-btn-primary" style="width:auto; padding:8px 16px; font-size:0.8rem;" onclick="activateLicense()">Activate</button>
+          <input type="text" id="license-input" data-alias="license-key-input" class="modal-input" placeholder="DATAMOSH-PRO-2026 or receipt email" style="flex:1;">
+          <button id="btnActivateKey" data-alias="activate-key-btn" class="action-btn-primary" style="width:auto; padding:8px 16px; font-size:0.8rem;" onclick="activateLicense()">Activate</button>
         </div>
       </div>
     </div>
@@ -911,7 +910,7 @@
         await videoEl.play();
         setSource('cam');
       } catch (e) {
-        alert('Webcam access failed: ' + e.message);
+        showToast('Webcam access failed: ' + e.message, 'warning');
       }
     }
 
@@ -1108,10 +1107,33 @@
       link.click();
     }
 
+    // Zero-alert non-blocking toast engine
+    function showToast(message, type = 'info') {
+      let toastContainer = document.getElementById('toastContainer');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;display:flex;flex-direction:column;gap:10px;pointer-events:none;';
+        document.body.appendChild(toastContainer);
+      }
+      const toast = document.createElement('div');
+      toast.style.cssText = `pointer-events:auto;min-width:260px;max-width:400px;padding:12px 18px;border-radius:10px;font-family:var(--font-mono, monospace);font-size:13px;color:#fff;backdrop-filter:blur(10px);box-shadow:0 8px 32px rgba(0,0,0,0.5);display:flex;align-items:center;gap:10px;animation:slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;background:${type === 'success' ? 'rgba(16, 185, 129, 0.95)' : type === 'warning' ? 'rgba(245, 158, 11, 0.95)' : 'rgba(30, 41, 59, 0.95)'};border:1px solid ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : 'rgba(255,255,255,0.15)'};`;
+      toast.innerHTML = `<span>${message}</span>`;
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
     // License & Pro Verification
     function isProLicensed() {
       return localStorage.getItem('zoth_datamosh_licensed') === 'true' ||
-             localStorage.getItem('datamosh_pro_licensed') === 'true';
+             localStorage.getItem('datamosh_pro_licensed') === 'true' ||
+             localStorage.getItem('agent_datamosh_pro') === 'true' ||
+             localStorage.getItem('pro_licensed') === 'true';
     }
 
     function openDePayCheckout(e) {
@@ -1134,6 +1156,7 @@
       link.download = 'datamosh-pro-loop-' + Date.now() + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
+      showToast('✓ 4K Pro Video Loop exported!', 'success');
     }
 
     function exportRawZip() {
@@ -1145,11 +1168,12 @@
       link.download = 'datamosh-raw-frame-' + Date.now() + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
+      showToast('✓ 60-Frame RAW ZIP exported!', 'success');
     }
 
     function checkLicense() {
       const urlParams = new URLSearchParams(window.location.search);
-      const isParamLicensed = urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true';
+      const isParamLicensed = urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true' || urlParams.get('session_id');
       const isSavedLicensed = isProLicensed();
 
       if (isParamLicensed || isSavedLicensed) {
@@ -1157,21 +1181,33 @@
         if (isParamLicensed && window.history && window.history.replaceState) {
           window.history.replaceState({}, document.title, window.location.pathname);
         }
+      } else {
+        const badge = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
+        if (badge) {
+          badge.innerText = '⚡ FREE TIER';
+          badge.style.border = '1px solid rgba(255,255,255,0.2)';
+          badge.style.background = 'rgba(255,255,255,0.06)';
+          badge.style.color = '#a1a1aa';
+          badge.style.boxShadow = 'none';
+        }
       }
     }
 
     function unlockPro() {
       localStorage.setItem('zoth_datamosh_licensed', 'true');
       localStorage.setItem('datamosh_pro_licensed', 'true');
+      localStorage.setItem('agent_datamosh_pro', 'true');
+      localStorage.setItem('pro_licensed', 'true');
       const badge = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
       if (badge) {
         badge.innerText = '⭐ PRO ACTIVE';
-        badge.style.color = 'var(--gold)';
-        badge.style.borderColor = 'var(--gold)';
-        badge.style.background = 'rgba(212,175,55,0.15)';
+        badge.style.background = '#10B981';
+        badge.style.color = '#08080B';
+        badge.style.border = '1px solid #10B981';
+        badge.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.4)';
       }
 
-      const banner = document.querySelector('.sales-banner');
+      const banner = document.getElementById('salesBanner') || document.querySelector('.sales-banner');
       if (banner) {
         banner.style.display = 'none';
       }
@@ -1201,18 +1237,16 @@
     }
 
     function activateLicense(providedKey) {
-      const inputEl = document.getElementById('license-input');
+      const inputEl = document.getElementById('license-input') || document.getElementById('licenseKeyInput');
       const val = (providedKey || (inputEl ? inputEl.value : '')).trim();
       if (val.length >= 3) {
         localStorage.setItem('datamosh_pro_key', val);
         unlockPro();
         closeLicenseModal();
-        if (!providedKey) {
-          alert('🎉 Pro License Activated! Lifetime access unlocked.');
-        }
+        showToast('⭐ Pro License Activated! Lifetime access unlocked.', 'success');
         return true;
       } else {
-        alert('Please enter a valid license key or order email.');
+        showToast('Please enter a valid license key or order email.', 'warning');
         return false;
       }
     }
