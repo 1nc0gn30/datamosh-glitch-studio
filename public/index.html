@@ -13,7 +13,10 @@
   <meta property="og:description" content="Parametric digital artifact & video datamosh synthesis engine. Synthesize H.264 I-frame drops, chromatic aberration, and VCR tracking errors directly in your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://datamosh-glitch-studio.netlify.app/">
-  <meta property="og:image" content="https://datamosh-glitch-studio.netlify.app/og-image.png">
+  <meta property="og:image" content="https://datamosh-glitch-studio.netlify.app/assets/banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Datamosh Glitch Studio Banner - Parametric Video Artifacts">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +24,7 @@
   <meta name="twitter:creator" content="@1nc0gn30">
   <meta name="twitter:title" content="Datamosh Glitch Studio | Visual Artifact & I-Frame Glitch Synthesizer">
   <meta name="twitter:description" content="Parametric digital artifact & video datamosh synthesis engine running 100% client-side.">
-  <meta name="twitter:image" content="https://datamosh-glitch-studio.netlify.app/og-image.png">
+  <meta name="twitter:image" content="https://datamosh-glitch-studio.netlify.app/assets/banner.png">
 
   <!-- Schema.org JSON-LD Graph -->
   <script type="application/ld+json">
@@ -81,6 +84,7 @@
   </script>
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -612,17 +616,17 @@
   <!-- Header -->
   <header>
     <div class="brand">
-      <span class="brand-icon" role="img" aria-label="Cassette Tape">📼</span>
+      <img src="/assets/icon.png" alt="Datamosh Glitch Studio Logo" style="width:36px; height:36px; border-radius:8px; border:1px solid var(--border); box-shadow:0 0 12px var(--gold-glow); object-fit:contain;">
       <div>
         <h1>Datamosh Glitch Studio</h1>
         <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-          <span class="version-tag">v1.2.0 Sovereign</span>
+          <span class="version-tag">v2.5 SOVEREIGN</span>
           <span style="font-size:0.72rem; color:var(--text-muted);">Parametric Video Artifacts</span>
         </div>
       </div>
     </div>
     <div class="header-pills">
-      <span class="status-pill" id="pro-badge">FREE TIER ACTIVE</span>
+      <span class="status-pill" id="licenseBadge" data-role="license-badge">⚡ FREE TIER</span>
       <button class="mini-btn" onclick="openLicenseModal()" aria-label="Manage Pro License">🔑 Unlock Pro</button>
     </div>
   </header>
@@ -764,7 +768,7 @@
   </div>
 
   <!-- Pro Paywall & License Activation Modal -->
-  <div class="modal-overlay" id="license-modal">
+  <div class="modal-overlay" id="licenseModal">
     <div class="modal-card" style="max-width:540px; position:relative; border:1px solid rgba(212,175,55,0.4); box-shadow:0 20px 50px rgba(0,0,0,0.8);">
       <button type="button" onclick="closeLicenseModal()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; font-size:22px; color:var(--text-muted); cursor:pointer;">&times;</button>
       <div style="display:inline-block; background:var(--gold); color:#000; font-weight:800; font-size:11px; padding:3px 8px; border-radius:4px; letter-spacing:0.5px; width:fit-content;">PRO FOUNDING ACCESS</div>
@@ -800,8 +804,8 @@
       <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
         <label for="license-input" style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:6px;">Already purchased? Enter your receipt email or license key:</label>
         <div style="display:flex; gap:8px;">
-          <input type="text" id="license-input" class="modal-input" placeholder="e.g. zoth-mosh-pro or your@email.com" style="flex:1;">
-          <button class="action-btn-primary" style="width:auto; padding:8px 16px; font-size:0.8rem;" onclick="activateLicense()">Activate</button>
+          <input type="text" id="license-input" class="modal-input" placeholder="DATAMOSH-PRO-2026 or receipt email" style="flex:1;">
+          <button id="btnActivateKey" class="action-btn-primary" style="width:auto; padding:8px 16px; font-size:0.8rem;" onclick="activateLicense()">Activate</button>
         </div>
       </div>
     </div>
@@ -1106,7 +1110,8 @@
 
     // License & Pro Verification
     function isProLicensed() {
-      return localStorage.getItem('zoth_datamosh_licensed') === 'true';
+      return localStorage.getItem('zoth_datamosh_licensed') === 'true' ||
+             localStorage.getItem('datamosh_pro_licensed') === 'true';
     }
 
     function openDePayCheckout(e) {
@@ -1144,17 +1149,21 @@
 
     function checkLicense() {
       const urlParams = new URLSearchParams(window.location.search);
-      const isParamLicensed = urlParams.get('licensed') === 'true';
-      const isSavedLicensed = localStorage.getItem('zoth_datamosh_licensed') === 'true';
+      const isParamLicensed = urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true';
+      const isSavedLicensed = isProLicensed();
 
       if (isParamLicensed || isSavedLicensed) {
         unlockPro();
+        if (isParamLicensed && window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
       }
     }
 
     function unlockPro() {
       localStorage.setItem('zoth_datamosh_licensed', 'true');
-      const badge = document.getElementById('pro-badge');
+      localStorage.setItem('datamosh_pro_licensed', 'true');
+      const badge = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
       if (badge) {
         badge.innerText = '⭐ PRO ACTIVE';
         badge.style.color = 'var(--gold)';
@@ -1182,23 +1191,32 @@
       if (label && feature) {
         label.textContent = feature;
       }
-      document.getElementById('license-modal').style.display = 'flex';
+      const modal = document.getElementById('licenseModal') || document.getElementById('license-modal');
+      if (modal) modal.style.display = 'flex';
     }
 
     function closeLicenseModal() {
-      document.getElementById('license-modal').style.display = 'none';
+      const modal = document.getElementById('licenseModal') || document.getElementById('license-modal');
+      if (modal) modal.style.display = 'none';
     }
 
-    function activateLicense() {
-      const val = document.getElementById('license-input').value.trim();
+    function activateLicense(providedKey) {
+      const inputEl = document.getElementById('license-input');
+      const val = (providedKey || (inputEl ? inputEl.value : '')).trim();
       if (val.length >= 3) {
+        localStorage.setItem('datamosh_pro_key', val);
         unlockPro();
         closeLicenseModal();
-        alert('🎉 Pro License Activated! Lifetime access unlocked.');
+        if (!providedKey) {
+          alert('🎉 Pro License Activated! Lifetime access unlocked.');
+        }
+        return true;
       } else {
         alert('Please enter a valid license key or order email.');
+        return false;
       }
     }
+    window.activateLicenseKey = activateLicense;
 
     // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
