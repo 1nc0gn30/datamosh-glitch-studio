@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/hero-banner.svg" alt="Datamosh Glitch Studio — Sovereign Architecture Banner" width="100%" />
+</div>
+
+<br />
+
 # 📼 Datamosh Glitch Studio
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/datamosh-glitch-studio/deploy-status)](https://datamosh-glitch-studio.netlify.app/)
