@@ -40,7 +40,7 @@
         "description": "Browser-based video datamoshing, I-frame drop corruption, delta-frame duplication, and glitch art synthesizer.",
         "offers": {
           "@type": "Offer",
-          "price": "19.00",
+          "price": "0",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock"
         },
@@ -71,10 +71,10 @@
           },
           {
             "@type": "Question",
-            "name": "What payment methods are supported for Pro activation?",
+            "name": "How can I support Datamosh Glitch Studio?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We accept credit cards, Apple Pay, and Google Pay via Stripe, as well as native cryptocurrency checkout on Solana via DePay."
+              "text": "Datamosh Glitch Studio is 100% free and open-access by default with zero paywalls. You can support the project via Buy Us a Coffee (Stripe) or tip via Solana (GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK)."
             }
           }
         ]
@@ -88,8 +88,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://integrate.depay.com/widgets/v13.js" defer></script>
-
   <style>
     :root {
       --bg: #09090D;
@@ -498,23 +496,13 @@
     }
 
     .paywall-blur {
-      filter: blur(6px);
-      user-select: none;
+      filter: none !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
     }
 
     .paywall-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      background: rgba(9, 9, 13, 0.75);
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      backdrop-filter: blur(4px);
+      display: none !important;
     }
 
     .paywall-overlay h3 {
@@ -529,8 +517,8 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -591,26 +579,47 @@
       text-decoration: underline;
     }
   </style>
+
+  <!-- Zoth 100% Open-Access & Buy Us a Coffee Invariant -->
+  <script id="zoth-open-access-init">
+    (function() {
+      try {
+        var keys = ['agent_audiocipher_pro', 'agent_cyber_turtle_pro', 'agent_datamosh_pro', 'agent_nexus3d_pro', 'agent_policy_pro', 'audiocipher_license', 'audiocipher_pro_licensed', 'badge3d_pro_licensed', 'certpath_pro_key', 'certpath_pro_licensed', 'cron_rhythm_pro_key', 'cron_rhythm_pro_licensed', 'cwv-speed-engine_pro_licensed', 'cwv_pro_licensed', 'cyber_turtle_pro_licensed', 'datamosh_pro_licensed', 'deepsearch-research-agent_pro_licensed', 'deepsearch_pro_licensed', 'entropy_studio_licensed', 'envguard-secrets-vault_pro_licensed', 'envguard_pro_license', 'etsy_connector_pro', 'jwt_guard_licensed', 'mdg_pro_licensed', 'neuro_pro_licensed', 'nexus3d_pro_licensed', 'omnipost_pro_key', 'omnipost_pro_licensed', 'osint_pro_licensed', 'payload-entropy-studio_pro_licensed', 'polyglot_pro_licensed', 'pro_licensed', 'promptmaster_pro_licensed', 'promptmaster_pro_active', 'robots-txt-auditor_pro_licensed', 'robots_pro_licensed', 'schema_illustrator_pro_licensed', 'sovereign_pro_licensed', 'subsweep-lead-scanner_pro_licensed', 'subsweep_licensed', 'turtle_pro_licensed', 'ufo_sacred_licensed', 'vector-search-engine_pro_licensed', 'vector_studio_pro_licensed', 'web-security-guard_pro_licensed', 'web_security_guard_licensed', 'yourdigitalspace_pro', 'zela_guide_pro_licensed', 'zoth_ascii_magic_pro', 'zoth_audiocipher_licensed', 'zoth_badge3d_licensed', 'zoth_cyber_turtle_licensed', 'zoth_datamosh_licensed', 'zoth_etsy_licensed', 'zoth_nexus3d_licensed', 'zoth_osint_licensed', 'zoth_policy_licensed', 'zoth_sacred_licensed', 'zoth_ufo_licensed'];
+        for (var i = 0; i < keys.length; i++) {
+          localStorage.setItem(keys[i], 'true');
+        }
+        localStorage.setItem('pm_license_v2', JSON.stringify({ method: 'open_access', ref: 'free_forever', at: '2026-01-01T00:00:00Z' }));
+        window.isPro = true;
+        window.isProLicensed = true;
+      } catch (e) {}
+    })();
+  </script>
+  <style id="zoth-open-access-override">
+    .paywall-overlay, .output-paywall-overlay, #outputPaywallOverlay, #schemaPaywallOverlay,
+    #transformerPaywallOverlay, #proPaywallModal, #licenseModal, #salesBanner, #founding-offer-banner,
+    #funnelHeroBanner, [data-alias="paywallOverlay"], [data-alias="founding-offer-banner"] {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    .paywall-wrap #outputPreview, .paywall-wrap #reportContentArea, .paywall-content,
+    .paywall-content.locked, .paywall-wrap.is-locked #outputPreview, .paywall-wrap.locked #outputPreview {
+      filter: none !important;
+      -webkit-filter: none !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
+    }
+  </style>
+
 </head>
 <body>
 
-  <!-- Founding Member Sales Banner -->
-  <aside class="sales-banner" id="salesBanner" aria-label="Special Offer">
-    <div class="banner-text">
-      <span class="banner-badge">Founding Lifetime Offer</span>
-      <span>Datamosh Studio Pro: <strong>$19</strong> lifetime <strike style="color:var(--text-muted);">$79</strike></span>
-      <span style="color:var(--text-muted); font-size:0.75rem;">• 100% In-Browser AST & Buffer Synthesis • Zero Cloud Telemetry</span>
-    </div>
-    <div class="banner-actions">
-      <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener noreferrer" class="btn-buy-stripe" aria-label="Pay with Card">
-        <span>Pay with Stripe / Card</span>
-      </a>
-      <a href="https://depay.com/pay/428790dd-7ad1-407c-8ecf-c048c77a4cb8" target="_blank" rel="noopener noreferrer" class="btn-buy-solana" onclick="openDePayCheckout(event)" aria-label="Pay with Solana">
-        <span>⚡ Solana DePay</span>
-      </a>
-      <button class="btn-unlock-link" onclick="openLicenseModal()" aria-label="Enter License Key">Enter Key</button>
-    </div>
-  </aside>
+<div id="zoth-coffee-support-bar" style="background: linear-gradient(90deg, rgba(16,185,129,0.12), rgba(212,175,55,0.14)); border-bottom: 1px solid rgba(212,175,55,0.35); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; z-index: 9999;">
+  <span style="color: #10B981; font-weight: 800;">✦ 100% FREE &amp; OPEN ACCESS · ZERO PAYWALLS</span>
+  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" style="background: #D4AF37; color: #08080B; padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">☕ Buy Us a Coffee (Stripe)</a>
+  <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" onclick="if(navigator.clipboard){navigator.clipboard.writeText('GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK');this.textContent='✓ Copied GG2eQb...dXoK!';}" style="background: rgba(20,241,149,0.15); color: #14F195; border: 1px solid rgba(20,241,149,0.45); padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">◎ Solana Tip (GG2e...dXoK)</a>
+</div>
+
 
   <!-- Header -->
   <header>
@@ -625,8 +634,7 @@
       </div>
     </div>
     <div class="header-pills">
-      <span class="status-pill" id="licenseBadge" data-role="license-badge">⚡ FREE TIER</span>
-      <button class="mini-btn" onclick="openLicenseModal()" aria-label="Manage Pro License">🔑 Unlock Pro</button>
+      <span class="status-pill" id="licenseBadge" data-role="license-badge" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#10B981;">✦ 100% FREE & UNLOCKED</span>
     </div>
   </header>
 
@@ -730,84 +738,22 @@
         </div>
       </div>
 
-      <!-- Pro Paywall Export Section -->
+      <!-- Export Section (100% Free & Open Access) -->
       <div class="export-card">
-        <div id="paywall-target" class="paywall-blur">
-          <h3 style="font-family:var(--font-display); font-size:1rem; margin-bottom:8px;">4K Cinema Loop Sequence & Lossless RAW Batch Export</h3>
+        <div id="paywall-target">
+          <h3 style="font-family:var(--font-display); font-size:1rem; margin-bottom:8px;">Cinema Loop Sequence & Lossless RAW Batch Export</h3>
           <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">
-            Export seamless 60fps ProRes/H.265 video loops, automated frame sequence ZIPs (300 DPI master TIFFs), and DaVinci Resolve glitch LUT profiles.
+            Export seamless ProRes/H.265 video loops, automated frame sequence PNGs, and creative glitch presets running 100% in-browser with zero telemetry.
           </p>
-          <div style="display:flex; gap:10px;">
-            <button id="btn-export-loop" class="action-btn-primary" style="opacity:0.5;" onclick="exportProVideoLoop()">Export 4K Pro Video Loop</button>
-            <button id="btn-export-zip" class="action-btn-secondary" style="opacity:0.5;" onclick="exportRawZip()">Export 60-Frame RAW ZIP</button>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="btn-export-loop" class="action-btn-primary" onclick="exportProVideoLoop()">Export Pro Video Loop</button>
+            <button id="btn-export-zip" class="action-btn-secondary" onclick="exportRawZip()">Export RAW Frame</button>
           </div>
-        </div>
-
-        <!-- Paywall Overlay -->
-        <div class="paywall-overlay" id="paywall-lock-overlay">
-          <div style="font-size:1.8rem;">🔒</div>
-          <h3>Unlock Pro Batch Sequence & 4K Video Exports</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); max-width:380px;">
-            Join founding members for lifetime access to 4K glitch rendering, alpha transparency channels, and physical pen-plotter G-code exports.
-          </p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-            <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener noreferrer" class="btn-buy-stripe">
-              Unlock with Stripe ($19)
-            </a>
-            <a href="https://depay.com/pay/428790dd-7ad1-407c-8ecf-c048c77a4cb8" target="_blank" rel="noopener noreferrer" class="btn-buy-solana" onclick="openDePayCheckout(event)">
-              ⚡ Solana DePay ($19)
-            </a>
-          </div>
-          <button id="btn-paywall-key" class="btn-unlock-link" style="margin-top:6px;" onclick="openLicenseModal()">I already have a license key</button>
         </div>
       </div>
 
     </div>
 
-  </div>
-
-  <!-- Pro Paywall & License Activation Modal -->
-  <div class="modal-overlay pro-paywall-modal" id="licenseModal" data-alias="paywall-modal">
-    <div class="modal-card" style="max-width:540px; position:relative; border:1px solid rgba(212,175,55,0.4); box-shadow:0 20px 50px rgba(0,0,0,0.8);">
-      <button type="button" onclick="closeLicenseModal()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; font-size:22px; color:var(--text-muted); cursor:pointer;">&times;</button>
-      <div style="display:inline-block; background:var(--gold); color:#000; font-weight:800; font-size:11px; padding:3px 8px; border-radius:4px; letter-spacing:0.5px; width:fit-content;">PRO FOUNDING ACCESS</div>
-      <h2 style="font-family:var(--font-display); font-size:1.35rem; color:#FFF; margin:0;">Unlock Datamosh Glitch Studio Pro</h2>
-      <p style="font-size:0.82rem; color:var(--text-muted); margin:0;">
-        Feature triggered: <strong id="paywall-feature-label" style="color:var(--gold);">4K Cinema Loop Sequence & Lossless RAW Batch Export</strong>
-      </p>
-      
-      <ul style="list-style:none; padding:0; margin:4px 0; font-size:0.83rem; color:#F4F4F8; display:flex; flex-direction:column; gap:8px;">
-        <li>✅ <strong>4K Cinema Loop Sequence Render</strong> &amp; Lossless Master TIFF/PNG Frame Sequence ZIPs</li>
-        <li>✅ <strong>All 6 Parametric Glitch Engines</strong> (H.264 I-Frame, Cyberpunk VCR, RGB Overdrive, Tape Decay, Quantum Matrix, Bitplane)</li>
-        <li>✅ <strong>Live Camera Video Stream Mosh</strong> &amp; Custom High-Resolution Image Buffer Processing</li>
-        <li>✅ <strong>DaVinci Resolve &amp; Premiere Pro</strong> Glitch LUT &amp; Alpha Transparency Profile Integration</li>
-        <li>✅ <strong>100% In-Browser AST &amp; Canvas Synthesis</strong> &bull; Zero Cloud Egress &bull; Complete Privacy</li>
-        <li>✅ <strong>Permanent Lifetime Access</strong> with Dual Payment Rails (Stripe + Solana)</li>
-      </ul>
-
-      <div style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.3); border-radius:10px; padding:14px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-        <div>
-          <div style="font-size:0.7rem; color:var(--gold); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Lifetime Founding License</div>
-          <div style="font-size:1.4rem; font-weight:800; color:#FFF;">$19 <span style="font-size:0.82rem; font-weight:400; text-decoration:line-through; color:var(--text-muted);">$79</span></div>
-        </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener noreferrer" class="btn-buy-stripe" style="padding:8px 14px; font-size:0.8rem;">
-            <span>💳 Stripe / Card</span>
-          </a>
-          <a href="https://depay.com/pay/428790dd-7ad1-407c-8ecf-c048c77a4cb8" target="_blank" rel="noopener noreferrer" class="btn-buy-solana" onclick="openDePayCheckout(event)" style="padding:8px 14px; font-size:0.8rem;">
-            <span>⚡ Solana DePay</span>
-          </a>
-        </div>
-      </div>
-
-      <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
-        <label for="license-input" style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:6px;">Already purchased? Enter your receipt email or license key:</label>
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="license-input" data-alias="license-key-input" class="modal-input" placeholder="DATAMOSH-PRO-2026 or receipt email" style="flex:1;">
-          <button id="btnActivateKey" data-alias="activate-key-btn" class="action-btn-primary" style="width:auto; padding:8px 16px; font-size:0.8rem;" onclick="activateLicense()">Activate</button>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Footer -->
@@ -1143,118 +1089,28 @@
           integration: '428790dd-7ad1-407c-8ecf-c048c77a4cb8'
         });
       } else {
-        window.open('https://depay.com/pay/428790dd-7ad1-407c-8ecf-c048c77a4cb8', '_blank', 'noopener,noreferrer');
+        window.open('solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK', '_blank', 'noopener,noreferrer');
       }
     }
 
     function exportProVideoLoop() {
-      if (!isProLicensed()) {
-        openLicenseModal('4K Pro Video Loop Export');
-        return;
-      }
       const link = document.createElement('a');
       link.download = 'datamosh-pro-loop-' + Date.now() + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
-      showToast('✓ 4K Pro Video Loop exported!', 'success');
+      showToast('✓ Pro Video Loop exported!', 'success');
     }
 
     function exportRawZip() {
-      if (!isProLicensed()) {
-        openLicenseModal('60-Frame RAW ZIP Export');
-        return;
-      }
       const link = document.createElement('a');
       link.download = 'datamosh-raw-frame-' + Date.now() + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
-      showToast('✓ 60-Frame RAW ZIP exported!', 'success');
+      showToast('✓ RAW Frame exported!', 'success');
     }
-
-    function checkLicense() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const isParamLicensed = urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true' || urlParams.get('session_id');
-      const isSavedLicensed = isProLicensed();
-
-      if (isParamLicensed || isSavedLicensed) {
-        unlockPro();
-        if (isParamLicensed && window.history && window.history.replaceState) {
-          window.history.replaceState({}, document.title, window.location.pathname);
-        }
-      } else {
-        const badge = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
-        if (badge) {
-          badge.innerText = '⚡ FREE TIER';
-          badge.style.border = '1px solid rgba(255,255,255,0.2)';
-          badge.style.background = 'rgba(255,255,255,0.06)';
-          badge.style.color = '#a1a1aa';
-          badge.style.boxShadow = 'none';
-        }
-      }
-    }
-
-    function unlockPro() {
-      localStorage.setItem('zoth_datamosh_licensed', 'true');
-      localStorage.setItem('datamosh_pro_licensed', 'true');
-      localStorage.setItem('agent_datamosh_pro', 'true');
-      localStorage.setItem('pro_licensed', 'true');
-      const badge = document.getElementById('licenseBadge') || document.getElementById('pro-badge');
-      if (badge) {
-        badge.innerText = '⭐ PRO ACTIVE';
-        badge.style.background = '#10B981';
-        badge.style.color = '#08080B';
-        badge.style.border = '1px solid #10B981';
-        badge.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.4)';
-      }
-
-      const banner = document.getElementById('salesBanner') || document.querySelector('.sales-banner');
-      if (banner) {
-        banner.style.display = 'none';
-      }
-
-      const overlay = document.getElementById('paywall-lock-overlay');
-      if (overlay) overlay.style.display = 'none';
-
-      const target = document.getElementById('paywall-target');
-      if (target) {
-        target.classList.remove('paywall-blur');
-        target.querySelectorAll('button').forEach(b => b.style.opacity = '1');
-      }
-    }
-
-    function openLicenseModal(feature) {
-      const label = document.getElementById('paywall-feature-label');
-      if (label && feature) {
-        label.textContent = feature;
-      }
-      const modal = document.getElementById('licenseModal') || document.getElementById('license-modal');
-      if (modal) modal.style.display = 'flex';
-    }
-
-    function closeLicenseModal() {
-      const modal = document.getElementById('licenseModal') || document.getElementById('license-modal');
-      if (modal) modal.style.display = 'none';
-    }
-
-    function activateLicense(providedKey) {
-      const inputEl = document.getElementById('license-input') || document.getElementById('licenseKeyInput');
-      const val = (providedKey || (inputEl ? inputEl.value : '')).trim();
-      if (val.length >= 3) {
-        localStorage.setItem('datamosh_pro_key', val);
-        unlockPro();
-        closeLicenseModal();
-        showToast('⭐ Pro License Activated! Lifetime access unlocked.', 'success');
-        return true;
-      } else {
-        showToast('Please enter a valid license key or order email.', 'warning');
-        return false;
-      }
-    }
-    window.activateLicenseKey = activateLicense;
 
     // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
-      checkLicense();
       renderFrame();
     });
   </script>

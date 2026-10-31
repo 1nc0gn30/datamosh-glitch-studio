@@ -168,7 +168,7 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
 
-        if path == "/api/health":
+        if path in ("/api/health", "/health"):
             self._send_json({
                 "status": "ok",
                 "service": "datamosh-glitch-studio",
@@ -209,15 +209,24 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
             })
             return
 
-        # Serve UI
+        # Serve static assets from public/ directory
         public_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "public"))
-        index_file = os.path.join(public_dir, "index.html")
+        rel_path = path.lstrip("/")
+        if not rel_path or rel_path == "index.html":
+            target_path = os.path.join(public_dir, "index.html")
+        else:
+            target_path = os.path.abspath(os.path.join(public_dir, rel_path))
 
-        if os.path.isfile(index_file) and path in ("/", "/index.html"):
-            with open(index_file, "rb") as f:
+        if target_path.startswith(public_dir) and os.path.isfile(target_path):
+            ctype, _ = mimetypes.guess_type(target_path)
+            if not ctype:
+                ctype = "application/octet-stream"
+            if ctype.startswith("text/") or ctype in ("application/javascript", "application/json"):
+                ctype += "; charset=utf-8"
+            with open(target_path, "rb") as f:
                 content = f.read()
             self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Type", ctype)
             self.send_header("Content-Length", str(len(content)))
             self._set_cors_headers()
             self.end_headers()
