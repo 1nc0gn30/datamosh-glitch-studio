@@ -10,11 +10,12 @@ from datamosh_glitch_studio.ui_server import run_ui_server
 
 @pytest.fixture(scope="module")
 def live_server():
-    server = run_ui_server(host="127.0.0.1", port=8199)
+    server = run_ui_server(host="127.0.0.1", port=0)
+    actual_port = server.server_address[1]
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     time.sleep(0.1)
-    yield "http://127.0.0.1:8199"
+    yield f"http://127.0.0.1:{actual_port}"
     server.shutdown()
     server.server_close()
 

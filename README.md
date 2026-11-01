@@ -214,7 +214,7 @@ pytest -v
 
 ## 📜 Attribution & License
 
-Engineered by **Neal Frazier Tech** ([@1nc0gn30](https://github.com/1nc0gn30)) • [NullAI Platform](https://nullai.tech)  
+Engineered by **1nc0gn30 • NullAI** ([@1nc0gn30](https://github.com/1nc0gn30)) • [NullAI Platform](https://nullai.tech)  
 Repository: [github.com/1nc0gn30/datamosh-glitch-studio](https://github.com/1nc0gn30/datamosh-glitch-studio)  
 Licensed under the [MIT License](LICENSE).
 

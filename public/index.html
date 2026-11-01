@@ -6,7 +6,7 @@
   <title>Datamosh Glitch Studio | Visual Artifact & I-Frame Glitch Synthesizer</title>
   <meta name="description" content="Parametric video datamoshing, I-frame drop corruption, delta-frame duplication, and glitch art synthesizer running 100% in-browser with zero cloud telemetry.">
   <meta name="keywords" content="datamosh, glitch art, iframe drop, compression artifacts, chromatic aberration, video synthesizer, zoth studio">
-  <meta name="author" content="Neal Frazier Tech">
+  <meta name="author" content="1nc0gn30 • NullAI">
   
   <!-- OpenGraph -->
   <meta property="og:title" content="Datamosh Glitch Studio | Visual Artifact & I-Frame Glitch Synthesizer">
@@ -46,8 +46,8 @@
         },
         "creator": {
           "@type": "Person",
-          "name": "Neal Frazier",
-          "url": "https://nealfrazier.tech"
+          "name": "1nc0gn30",
+          "url": "https://nullai.tech"
         }
       },
       {
@@ -759,7 +759,7 @@
   <!-- Footer -->
   <footer>
     <div>
-      Engineered by Neal Frazier Tech (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener noreferrer">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener noreferrer">NullAI Platform</a>
+      Engineered by 1nc0gn30 • NullAI (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener noreferrer">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener noreferrer">NullAI Platform</a>
     </div>
     <div style="margin-top:4px; font-size:0.75rem; color:var(--text-muted);">
       Sovereign Local-First Architecture • Zero Cloud Telemetry • 100% In-Browser Execution
@@ -1074,25 +1074,6 @@
       }, 3500);
     }
 
-    // License & Pro Verification
-    function isProLicensed() {
-      return localStorage.getItem('zoth_datamosh_licensed') === 'true' ||
-             localStorage.getItem('datamosh_pro_licensed') === 'true' ||
-             localStorage.getItem('agent_datamosh_pro') === 'true' ||
-             localStorage.getItem('pro_licensed') === 'true';
-    }
-
-    function openDePayCheckout(e) {
-      if (e && e.preventDefault) e.preventDefault();
-      if (window.DePayButtons) {
-        DePayButtons.init({
-          integration: '428790dd-7ad1-407c-8ecf-c048c77a4cb8'
-        });
-      } else {
-        window.open('solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK', '_blank', 'noopener,noreferrer');
-      }
-    }
-
     function exportProVideoLoop() {
       const link = document.createElement('a');
       link.download = 'datamosh-pro-loop-' + Date.now() + '.png';
@@ -1109,11 +1090,12 @@
       showToast('✓ RAW Frame exported!', 'success');
     }
 
-    // Initialize on load
+    // Initialize on load (Datamosh Studio / Datamosh Glitch Studio)
     window.addEventListener('DOMContentLoaded', () => {
       renderFrame();
     });
   </script>
 
+  <script src="/assets/sovereign-upgrade.js" defer></script>
 </body>
 </html>

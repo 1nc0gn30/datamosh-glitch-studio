@@ -477,7 +477,11 @@ class DatamoshHTTPHandler(BaseHTTPRequestHandler):
         pass
 
 
+class ReusableThreadingHTTPServer(ThreadingHTTPServer):
+    allow_reuse_address = True
+
+
 def run_ui_server(host: str = "127.0.0.1", port: int = 8081) -> ThreadingHTTPServer:
     """Launch UI HTTP Server."""
-    server = ThreadingHTTPServer((host, port), DatamoshHTTPHandler)
+    server = ReusableThreadingHTTPServer((host, port), DatamoshHTTPHandler)
     return server
