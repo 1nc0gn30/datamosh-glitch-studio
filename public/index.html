@@ -1096,6 +1096,22 @@
     });
   </script>
 
-  <script src="/assets/sovereign-upgrade.js" defer></script>
+  
+
+  <script src="/sovereign_tutorial.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.createSovereignTutorial) {
+        window.createSovereignTutorial({
+          toolId: "datamosh-glitch-studio",
+          toolName: "Datamosh Glitch Studio",
+          tagline: "Create mind-bending retro VHS glitch effects and I-frame video corruption!",
+          accentColor: "#A855F7",
+          steps: [{"icon": "\ud83d\udcfc", "title": "What is Datamoshing?", "desc": "Datamoshing is an avant-garde digital art style created by breaking the keyframes of a video, causing motion from one clip to melt into another!"}, {"icon": "\ud83d\udca5", "title": "Analog CRT & Glitch Shaders", "desc": "Apply live phosphor bloom, scanlines, RGB split, and magnetic tape warping to any video or photo."}, {"icon": "\ud83c\udfac", "title": "Zero-Upload Client Processing", "desc": "Everything renders 100% inside your browser with WebGPU hardware acceleration."}]
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
