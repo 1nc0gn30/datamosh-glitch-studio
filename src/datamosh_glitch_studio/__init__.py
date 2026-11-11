@@ -27,7 +27,7 @@ from datamosh_glitch_studio.presets import (
     modulate_preset_with_audio,
 )
 
-__version__ = "0.1.0"
+__version__ = "2.5.0"
 __author__ = "1nc0gn30"
 __all__ = [
     "ImageFrame",

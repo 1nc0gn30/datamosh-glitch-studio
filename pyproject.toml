@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datamosh-glitch-studio"
-version = "0.1.0"
+version = "2.5.0"
 description = "Parametric Datamosh, I-Frame Drop & Visual Glitch Synthesis Studio with Material 3 UI & FastMCP Server"
 readme = "README.md"
 requires-python = ">=3.9"

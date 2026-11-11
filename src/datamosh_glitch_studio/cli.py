@@ -48,7 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="datamosh-studio",
         description="Parametric Datamosh, I-Frame Drop & Visual Glitch Synthesis Studio",
     )
-    parser.add_argument("-v", "--version", action="version", version="datamosh-glitch-studio 0.1.0")
+    parser.add_argument("-v", "--version", action="version", version="datamosh-glitch-studio 2.5.0")
     parser.add_argument("--status", action="store_true", help="Print studio operational status and exit")
     parser.add_argument("--json", action="store_true", help="Output status/catalog in JSON format")
 
@@ -148,7 +148,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         status_data = {
             "service": "datamosh-glitch-studio",
             "status": "healthy",
-            "version": "0.1.0",
+            "version": "2.5.0",
             "presets_count": len(PRESETS),
             "platform": sys.platform,
             "port": 8081
@@ -170,7 +170,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         status_data = {
             "service": "datamosh-glitch-studio",
             "status": "healthy",
-            "version": "0.1.0",
+            "version": "2.5.0",
             "presets_count": len(PRESETS),
             "platform": sys.platform,
             "port": 8081

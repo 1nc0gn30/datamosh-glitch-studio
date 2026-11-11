@@ -29,7 +29,7 @@ from datamosh_glitch_studio.motion_vector_engine import (
 from datamosh_glitch_studio.presets import PRESETS, GlitchPreset, get_preset, list_presets
 
 SERVER_NAME = "datamosh-glitch-studio"
-SERVER_VERSION = "0.1.0"
+SERVER_VERSION = "2.5.0"
 PROTOCOL_VERSION = "2024-11-05"
 
 
