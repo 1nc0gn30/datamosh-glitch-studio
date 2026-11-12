@@ -698,8 +698,8 @@
             Export seamless ProRes/H.265 video loops, automated frame sequence PNGs, and creative glitch presets running 100% in-browser with zero telemetry.
           </p>
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button id="btn-export-loop" class="action-btn-primary" onclick="exportProVideoLoop()">Export Pro Video Loop</button>
-            <button id="btn-export-zip" class="action-btn-secondary" onclick="exportRawZip()">Export RAW Frame</button>
+            <button id="btn-export-loop" class="action-btn-primary" onclick="exportProVideoLoop(4.0)">⏺ Record WebM Loop (4s)</button>
+            <button id="btn-export-zip" class="action-btn-secondary" onclick="exportRawZip()">🖼 Export PNG Frame</button>
           </div>
         </div>
       </div>
@@ -1026,12 +1026,54 @@
       }, 3500);
     }
 
-    function exportProVideoLoop() {
-      const link = document.createElement('a');
-      link.download = 'datamosh-pro-loop-' + Date.now() + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      showToast('✓ Pro Video Loop exported!', 'success');
+    let isRecordingVideo = false;
+    async function exportProVideoLoop(durationSec = 4.0) {
+      if (isRecordingVideo) return;
+      if (!canvas.captureStream) {
+        downloadImage();
+        return;
+      }
+      try {
+        isRecordingVideo = true;
+        const btn = document.getElementById('btn-export-loop');
+        if (btn) btn.innerText = '⏺ Recording WebM...';
+        showToast(`⏺ Recording real-time ${durationSec}s WebM video loop...`, 'info');
+
+        const stream = canvas.captureStream(30);
+        const recordedChunks = [];
+        const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+          ? 'video/webm;codecs=vp9'
+          : MediaRecorder.isTypeSupported('video/webm')
+          ? 'video/webm'
+          : '';
+
+        const recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+        };
+        recorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: recorder.mimeType || 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `datamosh-glitch-loop-${Date.now()}.webm`;
+          a.click();
+          URL.revokeObjectURL(url);
+          isRecordingVideo = false;
+          if (btn) btn.innerText = 'Export Real WebM Loop';
+          showToast('✓ Real 30fps WebM Video Loop exported & saved!', 'success');
+        };
+
+        recorder.start();
+        setTimeout(() => {
+          recorder.stop();
+        }, durationSec * 1000);
+      } catch (err) {
+        isRecordingVideo = false;
+        const btn = document.getElementById('btn-export-loop');
+        if (btn) btn.innerText = 'Export Real WebM Loop';
+        downloadImage();
+      }
     }
 
     function exportRawZip() {

@@ -26,8 +26,9 @@ Datamosh Glitch Studio implements deterministic pixel-buffer and bitstream manip
 ```text
 datamosh-glitch-studio/
 ├── assets/hero-banner.svg                  # Studio vector banner
+├── server.py                               # Sovereign server launcher (127.0.0.1:8081)
 ├── bin/datamosh.js                         # Unified CLI, web, and Electron launcher
-├── public/index.html                       # Standalone client-side Canvas workstation
+├── public/index.html                       # Standalone client-side Canvas workstation & WebM recorder
 ├── src/datamosh_glitch_studio/
 │   ├── glitch_core.py                      # DatamoshEngine & header-safe byte stream corrupter
 │   ├── motion_vector_engine.py             # Macroblock optical flow & liquid-melt sequence generator
