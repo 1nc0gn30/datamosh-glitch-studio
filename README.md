@@ -156,8 +156,10 @@ gitleaks detect --source . --no-banner --redact
 
 ## Support
 
-Datamosh Glitch Studio is 100% free and open-source with zero paywalls. Optional community support: [Buy Us a Coffee via Stripe](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X).
+Datamosh Glitch Studio is 100% free and open-access software with zero paywalls or feature gates. Optional community support:
+- [Buy Us a Coffee (Stripe)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X)
+- Solana Tip: `GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`
 
 ## License
 
-Released under the [MIT License](LICENSE). Copyright (c) 2026 1nc0gn30 & NullAI ([https://nullai.tech](https://nullai.tech)).
+Released under the [MIT License](LICENSE). Engineered by Neal Frazier Tech ([`@1nc0gn30`](https://github.com/1nc0gn30)) • [NullAI Platform](https://nullai.tech).
