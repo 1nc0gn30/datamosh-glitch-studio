@@ -29,7 +29,7 @@ from datamosh_glitch_studio.motion_vector_engine import (
 from datamosh_glitch_studio.presets import PRESETS, GlitchPreset, get_preset, list_presets
 
 SERVER_NAME = "datamosh-glitch-studio"
-SERVER_VERSION = "2.5.0"
+SERVER_VERSION = "2.6.0"
 PROTOCOL_VERSION = "2024-11-05"
 
 
@@ -312,7 +312,7 @@ class MCPServer:
             (0, 0, 255),      # Blue
             (20, 20, 20),     # Dark
         ]
-        bar_w = width // len(colors)
+        bar_w = max(1, width // len(colors))
         for y in range(height):
             for x in range(width):
                 c_idx = min(len(colors) - 1, x // bar_w)

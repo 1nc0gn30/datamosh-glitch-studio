@@ -71,7 +71,14 @@ class CodedVideoFrame:
 class MotionVectorEngine:
     """Estimates block motion vectors, structures I/P-frames, and synthesizes vector glitches."""
 
+    MIN_BLOCK_SIZE = 4
+    MAX_BLOCK_SIZE = 128
+
     def __init__(self, block_size: int = 16, search_range: int = 6) -> None:
+        if isinstance(block_size, bool) or not isinstance(block_size, int) or not (self.MIN_BLOCK_SIZE <= block_size <= self.MAX_BLOCK_SIZE):
+            raise ValueError(f"block_size must be an integer between {self.MIN_BLOCK_SIZE} and {self.MAX_BLOCK_SIZE}, got {block_size!r}")
+        if isinstance(search_range, bool) or not isinstance(search_range, int) or not (1 <= search_range <= 64):
+            raise ValueError(f"search_range must be an integer between 1 and 64, got {search_range!r}")
         self.block_size = block_size
         self.search_range = search_range
 
@@ -86,8 +93,12 @@ class MotionVectorEngine:
         Estimate motion vectors from reference frame to target frame using Block Matching Algorithm.
         Finds the (dx, dy) within search_range that minimizes Sum of Absolute Differences (SAD).
         """
-        bs = block_size or self.block_size
-        sr = search_range or self.search_range
+        bs = self.block_size if block_size is None else block_size
+        sr = self.search_range if search_range is None else search_range
+        if isinstance(bs, bool) or not isinstance(bs, int) or not (self.MIN_BLOCK_SIZE <= bs <= self.MAX_BLOCK_SIZE):
+            raise ValueError(f"block_size must be an integer between {self.MIN_BLOCK_SIZE} and {self.MAX_BLOCK_SIZE}, got {bs!r}")
+        if isinstance(sr, bool) or not isinstance(sr, int) or not (1 <= sr <= 64):
+            raise ValueError(f"search_range must be an integer between 1 and 64, got {sr!r}")
         w, h = target.width, target.height
 
         ref_data = reference.data
@@ -256,6 +267,8 @@ class MotionVectorEngine:
         """
         Synthesizes a continuous liquid melt by recursively compounding a directional motion vector field.
         """
+        if isinstance(steps, bool) or not isinstance(steps, int) or not (1 <= steps <= 60):
+            raise ValueError(f"steps must be an integer between 1 and 60, got {steps!r}")
         w, h = frame.width, frame.height
         bs = self.block_size
         frames: List[ImageFrame] = [frame.copy()]

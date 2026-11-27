@@ -2,19 +2,24 @@
 Version=1.0
 Type=Application
 Name=Datamosh Glitch Studio
-GenericName=Visual Artifact & I-Frame Glitch Synthesizer
-Comment=H.264 I-Frame Drop, Bitplane Glitch, Motion Vector Engine & MCP Video Workstation
-Exec=/usr/local/bin/datamosh desktop
+GenericName=Pixel Sort, Byte-Bend & Datamosh Synthesizer
+Comment=Zero-egress datamosh synthesizer for pixel sorting, header-safe JPEG byte-bending, 8-bitplane slicing, Sierpinski XOR fractals, and optical-flow motion vectors.
+Exec=/usr/local/bin/datamosh-glitch-studio desktop
+TryExec=/usr/local/bin/datamosh-glitch-studio
 Icon=datamosh-glitch-studio
 Terminal=false
-Categories=Development;Graphics;AudioVideo;Video;
+Categories=Graphics;AudioVideo;Video;Development;X-Zoth-Media;
 StartupNotify=true
-Actions=CLI;Web;
+Actions=CLI;TUI;Web;
 
 [Desktop Action CLI]
 Name=Open Datamosh CLI
-Exec=x-terminal-emulator -e "/usr/local/bin/datamosh --help"
+Exec=konsole -- /usr/local/bin/datamosh-glitch-studio --help
+
+[Desktop Action TUI]
+Name=Open Braille Telemetry TUI
+Exec=konsole -- /usr/local/bin/datamosh-glitch-studio-tui
 
 [Desktop Action Web]
-Name=Open Web UI (Port 8081)
-Exec=/usr/local/bin/datamosh web
+Name=Launch Loopback Web Workstation (:8081)
+Exec=/usr/local/bin/datamosh-glitch-studio web

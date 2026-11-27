@@ -1,0 +1,197 @@
+#!/usr/bin/env python3
+"""Unified ZothOS & Repository CLI Launcher for Datamosh Glitch Studio v2.6.0."""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import sys
+import urllib.request
+from pathlib import Path
+
+TOOL_ID = "datamosh-glitch-studio"
+TOOL_REPO = "datamosh-glitch-studio"
+TOOL_NAME = "Datamosh Glitch Studio"
+TOOL_DESC = (
+    "Zero-egress pixel sorting, header-safe JPEG byte-bending, 8-bitplane slicing, "
+    "Sierpinski XOR fractals, optical-flow motion vectors, and loopback :8081 REST/MCP studio."
+)
+TOOL_VERSION = "2.6.0"
+TOOL_CATEGORY = "Media & 3D"
+TOOL_PORT = 8081
+STUDIO_URL = f"http://127.0.0.1:3000/tools/{TOOL_ID}"
+LOCAL_PORT_URL = f"http://127.0.0.1:{TOOL_PORT}"
+
+
+def _resolve_runtime_root() -> Path:
+    """Resolve runtime directory dynamically without hardcoded user home paths."""
+    env_home = os.environ.get("DATAMOSH_HOME")
+    candidates = []
+    if env_home:
+        candidates.append(Path(env_home))
+    script_root = Path(__file__).resolve().parent.parent
+    candidates.append(script_root)
+    candidates.append(Path("/opt/datamosh-glitch-studio"))
+    candidates.append(Path.home() / "NullAITech" / "datamosh-glitch-studio")
+
+    for cand in candidates:
+        if (cand / "src" / "datamosh_glitch_studio").is_dir():
+            return cand
+    return Path("/opt/datamosh-glitch-studio")
+
+
+def _portable_path(p: Path) -> str:
+    """Redact user home prefix into '~' so CLI output never leaks literal /home/<user>."""
+    try:
+        rel = p.resolve().relative_to(Path.home().resolve())
+        return "~/" + rel.as_posix()
+    except Exception:
+        return p.as_posix()
+
+
+def _probe_daemon(port: int = TOOL_PORT) -> dict:
+    try:
+        req = urllib.request.Request(f"http://127.0.0.1:{port}/health")
+        with urllib.request.urlopen(req, timeout=0.6) as resp:
+            if resp.status == 200:
+                return {"online": True, "payload": json.loads(resp.read().decode("utf-8"))}
+    except Exception:
+        pass
+    return {"online": False, "payload": None}
+
+
+def _find_tui_binary(root: Path) -> str:
+    for cand in (
+        root / "bin" / f"{TOOL_ID}-tui",
+        Path("/usr/local/bin") / f"{TOOL_ID}-tui",
+        Path(shutil.which(f"{TOOL_ID}-tui") or ""),
+    ):
+        if cand.is_file():
+            return str(cand)
+    return f"/usr/local/bin/{TOOL_ID}-tui"
+
+
+def main() -> int:
+    args = sys.argv[1:]
+    root = _resolve_runtime_root()
+    src_dir = root / "src"
+
+    if "--electron" in args or (args and args[0] in ("desktop", "electron")):
+        rem = [a for a in args if a not in ("--electron", "desktop", "electron")]
+        elec = shutil.which("electron") or "/usr/local/bin/electron"
+        entry = root / "electron" / "main.cjs"
+        if Path(elec).exists() and entry.is_file():
+            return subprocess.run([elec, str(entry)] + rem, cwd=str(root)).returncode
+        # Fallback to loopback web server when Electron desktop wrapper is absent (e.g. /opt staging)
+        server_py = root / "server.py"
+        if server_py.is_file():
+            return subprocess.run([sys.executable, str(server_py), "--host", "127.0.0.1", "--port", str(TOOL_PORT)] + rem, cwd=str(root)).returncode
+        return 1
+
+    if "--tui" in args or (args and args[0] == "tui"):
+        rem = [a for a in args if a not in ("--tui", "tui")]
+        tui_bin = _find_tui_binary(root)
+        return subprocess.run([sys.executable, tui_bin] + rem).returncode
+
+    if args and args[0] == "web":
+        rem = args[1:]
+        server_py = root / "server.py"
+        return subprocess.run([sys.executable, str(server_py), "--host", "127.0.0.1", "--port", str(TOOL_PORT)] + rem, cwd=str(root)).returncode
+
+    # Handle diagnostics --json cleanly with portable paths
+    if args and args[0] in ("diagnostics", "doctor", "platform") and "--json" in args:
+        probe = _probe_daemon()
+        diag = {
+            "id": TOOL_ID,
+            "name": TOOL_NAME,
+            "version": TOOL_VERSION,
+            "runtime_root": _portable_path(root),
+            "installed": (src_dir / "datamosh_glitch_studio").is_dir(),
+            "platform": sys.platform,
+            "python": sys.version.split()[0],
+            "port": TOOL_PORT,
+            "daemon_online": probe["online"],
+            "zero_dependencies": True,
+            "status": "HEALTHY",
+        }
+        print(json.dumps(diag, indent=2))
+        return 0
+
+    # Forward native python CLI subcommands directly
+    native_cmds = {
+        "mosh", "presets", "corrupt", "motion", "vectors", "melt",
+        "serve", "mcp", "doctor", "diagnostics", "platform",
+        "bitplane", "slice", "xor", "sierpinski", "test",
+    }
+    if args and args[0] in native_cmds and (src_dir / "datamosh_glitch_studio").is_dir():
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(src_dir) + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+        return subprocess.run([sys.executable, "-m", "datamosh_glitch_studio.cli"] + args, cwd=str(root), env=env).returncode
+
+    parser = argparse.ArgumentParser(
+        prog=TOOL_ID,
+        description=f"{TOOL_NAME} (v{TOOL_VERSION}) — {TOOL_DESC}",
+    )
+    parser.add_argument("-v", "--version", action="version", version=f"{TOOL_ID} v{TOOL_VERSION}")
+    parser.add_argument("--status", action="store_true", help="Check local installation and :8081 daemon status")
+    parser.add_argument("--json", action="store_true", help="Output deterministic JSON telemetry")
+    parser.add_argument("--ui", action="store_true", help="Print local workbench URL")
+    parser.add_argument("--tui", action="store_true", help="Launch Unicode Braille telemetry TUI")
+    parser.add_argument("--electron", action="store_true", help="Launch desktop wrapper")
+    parser.add_argument("command", nargs="*", help="Subcommand (mosh, presets, bitplane, xor, motion, melt, corrupt, serve, mcp, doctor, test, tui)")
+    parsed, _ = parser.parse_known_args(args)
+
+    if parsed.ui:
+        print(LOCAL_PORT_URL)
+        return 0
+
+    probe = _probe_daemon()
+    info = {
+        "id": TOOL_ID,
+        "repo": TOOL_REPO,
+        "name": TOOL_NAME,
+        "version": TOOL_VERSION,
+        "category": TOOL_CATEGORY,
+        "installed": (src_dir / "datamosh_glitch_studio").is_dir(),
+        "runtime_root": _portable_path(root),
+        "studio_workbench_url": STUDIO_URL,
+        "local_endpoint": LOCAL_PORT_URL,
+        "port": TOOL_PORT,
+        "daemon_online": probe["online"],
+        "mcp_tools": [
+            "datamosh_apply",
+            "datamosh_generate_sequence",
+            "datamosh_presets",
+            "datamosh_corrupt_bytes",
+            "datamosh_motion_estimate",
+            "datamosh_liquid_melt",
+            "datamosh_bitplane_slice",
+            "datamosh_sierpinski_xor",
+            "datamosh_bitplane_mosaic",
+            "datamosh_diagnostics",
+        ],
+        "license": "100% Free & Open Access (Zero Paywalls)",
+        "support": {
+            "stripe_buy_coffee": "https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X",
+            "solana_wallet": "GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK",
+        },
+        "status": "READY",
+    }
+
+    if parsed.json:
+        print(json.dumps(info, indent=2))
+        return 0
+
+    print(f"✦ {TOOL_NAME} (v{TOOL_VERSION}) — [{TOOL_CATEGORY}]")
+    print(f"  Runtime    : {_portable_path(root)}")
+    print(f"  Workbench  : {STUDIO_URL}")
+    print(f"  Local Port : {LOCAL_PORT_URL} ({'ONLINE' if probe['online'] else 'IDLE'})")
+    print("  Commands   : mosh | presets | bitplane | xor | motion | melt | corrupt | serve | mcp | tui | test")
+    print("  Access     : 100% Free & Open Access (https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

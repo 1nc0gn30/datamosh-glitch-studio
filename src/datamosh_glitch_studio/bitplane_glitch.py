@@ -9,10 +9,23 @@ dithering, and fractal Sierpiński spatial XOR synthesis.
 
 from __future__ import annotations
 
+import html
 import math
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from datamosh_glitch_studio.frame_io import ImageFrame
+
+ALLOWED_CHANNELS = frozenset({"all", "r", "g", "b", "luminance"})
+
+
+def _validate_channel(channel: str) -> str:
+    """Validate and normalize color channel against strict allowlist."""
+    if not isinstance(channel, str):
+        raise ValueError("Channel must be a string")
+    ch = channel.strip().lower()
+    if ch not in ALLOWED_CHANNELS:
+        raise ValueError(f"Invalid channel {channel!r}; allowed: {sorted(ALLOWED_CHANNELS)}")
+    return ch
 
 
 # 4x4 Bayer dithering matrix (normalized values 0..15 scaled to 0..255)
@@ -48,7 +61,7 @@ class BitplaneExtractor:
 
         mask = 1 << bit
         out = ImageFrame.create(frame.width, frame.height)
-        ch = channel.lower()
+        ch = _validate_channel(channel)
 
         for y in range(frame.height):
             for x in range(frame.width):
@@ -105,7 +118,7 @@ class BitplaneGlitchEngine:
             if 0 <= b <= 7:
                 mask |= (1 << b)
 
-        ch = channel.lower()
+        ch = _validate_channel(channel)
         out = frame.copy()
 
         for y in range(frame.height):
@@ -136,7 +149,7 @@ class BitplaneGlitchEngine:
             if 0 <= b <= 7:
                 mask |= (1 << b)
 
-        ch = channel.lower()
+        ch = _validate_channel(channel)
         out = frame.copy()
 
         for y in range(frame.height):
@@ -159,7 +172,7 @@ class BitplaneGlitchEngine:
 
         Example: {7: 0, 0: 7} swaps the MSB and LSB.
         """
-        ch = channel.lower()
+        ch = _validate_channel(channel)
         out = frame.copy()
 
         def _permute_byte(val: int) -> int:
@@ -301,18 +314,20 @@ class BitplaneGlitchEngine:
         channel: str = "luminance",
     ) -> str:
         """Generate a standalone SVG showing a 4x2 matrix of all 8 bitplanes with statistics."""
-        bitplanes = BitplaneExtractor.extract_all_bitplanes(frame, channel=channel)
+        ch = _validate_channel(channel)
+        bitplanes = BitplaneExtractor.extract_all_bitplanes(frame, channel=ch)
         thumb_w = 120
-        thumb_h = int(thumb_w * (frame.height / frame.width))
+        thumb_h = max(1, int(thumb_w * (frame.height / max(1, frame.width))))
         padding = 16
         cell_w = thumb_w + padding
         cell_h = thumb_h + 40
         svg_w = cell_w * 4 + padding
         svg_h = cell_h * 2 + 60
+        safe_ch = html.escape(ch.upper(), quote=True)
 
         svg_parts = [
             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_w} {svg_h}" width="{svg_w}" height="{svg_h}" style="background: #0d1117; font-family: -apple-system, monospace;">',
-            f'<text x="{padding}" y="30" fill="#00ffcc" font-size="16" font-weight="bold">Bitplane Glitch Decomposition Matrix (Channel: {channel.upper()})</text>',
+            f'<text x="{padding}" y="30" fill="#00ffcc" font-size="16" font-weight="bold">Bitplane Glitch Decomposition Matrix (Channel: {safe_ch})</text>',
         ]
 
         for bit in range(8):
@@ -322,7 +337,6 @@ class BitplaneGlitchEngine:
             y_pos = 50 + row * cell_h
 
             bp_frame = bitplanes[bit]
-            # Calculate active pixel ratio
             active_cnt = 0
             total_px = frame.width * frame.height
             for py in range(frame.height):
@@ -331,11 +345,13 @@ class BitplaneGlitchEngine:
                         active_cnt += 1
             ratio = (active_cnt / total_px) * 100.0 if total_px > 0 else 0.0
 
-            # Generate SVG image data URI using base64 BMP
-            b64_bmp = bp_frame.to_data_uri("bmp")
+            b64_bmp = html.escape(bp_frame.to_data_uri("bmp"), quote=True)
 
-            label = f"Bit {bit} ({'MSB' if bit == 7 else ('LSB' if bit == 0 else f'2^{bit}')})"
-            stat_text = f"{ratio:.1f}% Active"
+            label = html.escape(
+                f"Bit {bit} ({'MSB' if bit == 7 else ('LSB' if bit == 0 else f'2^{bit}')})",
+                quote=True,
+            )
+            stat_text = html.escape(f"{ratio:.1f}% Active", quote=True)
 
             svg_parts.append(f'<g transform="translate({x_pos}, {y_pos})">')
             svg_parts.append(f'<rect width="{thumb_w}" height="{thumb_h}" fill="#000" stroke="#30363d" rx="4"/>')

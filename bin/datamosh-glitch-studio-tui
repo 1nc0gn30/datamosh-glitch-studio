@@ -1,60 +1,210 @@
 #!/usr/bin/env python3
-"""⚡ Datamosh Glitch Studio — Sovereign Unicode U+2800 Braille TUI & Benchmark Harness
-Engineered by 1nc0gn30 (@1nc0gn30) • NullAI Platform
-Paired Uncommon-Web Library: Canvas UI (canvasui-html-effects)
 """
-import argparse, json, math, os, sys, time
+Datamosh Glitch Studio v2.6.0 — Unicode U+2800 2x4 Braille Optical-Flow & Bitplane Telemetry TUI.
+Imports real datamosh_glitch_studio engine modules and probes live 127.0.0.1:8081/health.
+Zero third-party dependencies.
+"""
+from __future__ import annotations
 
-BRAILLE_BASE = 0x2800
-METRICS = ["AST/Engine Latency (ms)", "Throughput (ops/s)", "Memory Footprint (MB)", "Zero-Trust Audit Status"]
-SUMMARY = "Sovereign Datamosh Glitch Studio engine with deterministic local execution and real-time telemetry."
-UW_SLUG = "canvasui-html-effects"
-UW_INSTALL = "npx shadcn@latest add https://canvasui.dev/r/liquid-react.json https://canvasui.dev/r/shatter-react.json https://canvasui.dev/r/peel-react.json https://canvasui.dev/r/ripple-react.json https://canvasui.dev/r/cloth-react.json https://canvasui.dev/r/vhs-react.json"
+import argparse
+import json
+import os
+import sys
+import time
+import urllib.request
+from pathlib import Path
+from typing import Any, Dict, Tuple
 
-def braille_sparkline(vals):
-    out = []
-    for i in range(0, len(vals) - 1, 2):
-        v1 = max(0, min(3, int(vals[i] * 3.99)))
-        v2 = max(0, min(3, int(vals[i+1] * 3.99)))
-        dots1 = (0x40, 0x04, 0x02, 0x01)[v1]
-        dots2 = (0x80, 0x20, 0x10, 0x08)[v2]
-        out.append(chr(BRAILLE_BASE | dots1 | dots2))
-    return "".join(out)
 
-def main():
-    ap = argparse.ArgumentParser(description="Datamosh Glitch Studio Sovereign TUI & Benchmark")
-    ap.add_argument("--json", action="store_true", help="Output JSON telemetry and exit")
-    ap.add_argument("--benchmark", action="store_true", help="Run deterministic latency benchmark")
-    ap.add_argument("--frames", type=int, default=18, help="TUI frames to render")
-    args = ap.parse_args()
+def _resolve_src_dir() -> Path:
+    env_home = os.environ.get("DATAMOSH_HOME")
+    candidates = []
+    if env_home:
+        candidates.append(Path(env_home) / "src")
+    candidates.append(Path(__file__).resolve().parent.parent / "src")
+    candidates.append(Path("/opt/datamosh-glitch-studio/src"))
+    candidates.append(Path.home() / "NullAITech" / "datamosh-glitch-studio" / "src")
+    for cand in candidates:
+        if (cand / "datamosh_glitch_studio").is_dir():
+            return cand
+    return Path("/opt/datamosh-glitch-studio/src")
 
+
+SRC_DIR = _resolve_src_dir()
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from datamosh_glitch_studio import __version__ as ENGINE_VERSION
+from datamosh_glitch_studio.bitplane_glitch import BitplaneExtractor
+from datamosh_glitch_studio.frame_io import ImageFrame
+from datamosh_glitch_studio.glitch_core import DatamoshEngine
+from datamosh_glitch_studio.motion_vector_engine import (
+    MotionVectorEngine,
+    render_motion_vectors_ascii,
+)
+from datamosh_glitch_studio.presets import PRESETS, get_preset
+
+BRAILLE_BITS = (
+    (0, 0, 0x01),
+    (0, 1, 0x02),
+    (0, 2, 0x04),
+    (0, 3, 0x40),
+    (1, 0, 0x08),
+    (1, 1, 0x10),
+    (1, 2, 0x20),
+    (1, 3, 0x80),
+)
+
+
+def _make_smpte(w: int, h: int) -> ImageFrame:
+    palette = [
+        (255, 255, 255),
+        (255, 255, 0),
+        (0, 255, 255),
+        (0, 255, 0),
+        (255, 0, 255),
+        (255, 0, 0),
+        (0, 0, 255),
+    ]
+    frame = ImageFrame.create(w, h)
+    bw = max(1, w // len(palette))
+    last = len(palette) - 1
+    for y in range(h):
+        for x in range(w):
+            frame.set_pixel(x, y, palette[min(last, x // bw)])
+    return frame
+
+
+def frame_to_braille(frame: ImageFrame, cols: int = 36, rows: int = 8) -> str:
+    """Render a real ImageFrame into 2x4 sub-pixel Unicode U+2800 Braille characters."""
+    px_w = cols * 2
+    px_h = rows * 4
+    lines = []
+    for cy in range(rows):
+        row_chars = []
+        for cx in range(cols):
+            mask = 0
+            for dx, dy, bit in BRAILLE_BITS:
+                sx = min(frame.width - 1, int(((cx * 2 + dx) / max(1, px_w)) * frame.width))
+                sy = min(frame.height - 1, int(((cy * 4 + dy) / max(1, px_h)) * frame.height))
+                r, g, b = frame.get_pixel(sx, sy)
+                lum = 0.299 * r + 0.587 * g + 0.114 * b
+                if lum >= 118.0:
+                    mask |= bit
+            row_chars.append(chr(0x2800 | mask))
+        lines.append("".join(row_chars))
+    return "\n".join(lines)
+
+
+def probe_health(port: int = 8081) -> Tuple[bool, Dict[str, Any]]:
+    try:
+        req = urllib.request.Request(f"http://127.0.0.1:{port}/health")
+        with urllib.request.urlopen(req, timeout=0.6) as resp:
+            if resp.status == 200:
+                return True, json.loads(resp.read().decode("utf-8"))
+    except Exception:
+        pass
+    return False, {}
+
+
+def collect_snapshot(preset_id: str = "h264_iframe_drop", seed: int = 42, port: int = 8081) -> Dict[str, Any]:
     t0 = time.perf_counter()
-    samples = [0.5 + 0.45 * math.sin(i * 0.35) for i in range(48)]
-    elapsed_ms = round((time.perf_counter() - t0) * 1000.0 + 0.42, 3)
+    w, h = 64, 48
+    ref = _make_smpte(w, h)
+    preset = get_preset(preset_id)
+    engine = DatamoshEngine(preset)
+    glitched = engine.process_frame(ref, preset=preset, seed=seed)
 
+    # True Bitplane 7 (MSB) extraction & active ratio
+    msb = BitplaneExtractor.extract_bitplane(glitched, bit=7, channel="luminance")
+    active = sum(1 for y in range(h) for x in range(w) if msb.get_pixel(x, y)[0] > 0)
+    msb_active_pct = round((active / (w * h)) * 100.0, 2)
+
+    # Real Macroblock Optical-Flow Motion Vector estimation
+    mv_engine = MotionVectorEngine(block_size=16, search_range=4)
+    mv_field = mv_engine.estimate_motion(ref, glitched)
+    braille_canvas = frame_to_braille(msb, cols=36, rows=8)
+    ascii_flow = render_motion_vectors_ascii(mv_field, max_cols=16)
+
+    online, health_data = probe_health(port=port)
+    elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+
+    return {
+        "service": "datamosh-glitch-studio-tui",
+        "engine_version": ENGINE_VERSION,
+        "preset": preset.id,
+        "presets_loaded": len(PRESETS),
+        "frame_size": f"{w}x{h}",
+        "msb_bit7_active_pct": msb_active_pct,
+        "motion_blocks": len(mv_field.vectors),
+        "motion_avg_magnitude": round(mv_field.average_magnitude, 3),
+        "compute_ms": elapsed_ms,
+        "daemon_port": port,
+        "daemon_online": online,
+        "daemon_version": health_data.get("version") if online else None,
+        "braille_frame": braille_canvas,
+        "optical_flow_grid": ascii_flow,
+        "status": "READY",
+    }
+
+
+def render_tui_text(snap: Dict[str, Any]) -> str:
+    daemon_str = (
+        f"ONLINE (v{snap['daemon_version']})" if snap["daemon_online"] else "IDLE (on-demand :8081)"
+    )
+    lines = [
+        "========================================================================",
+        f"  DATAMOSH GLITCH STUDIO v{snap['engine_version']} // UNICODE U+2800 BRAILLE TUI",
+        "========================================================================",
+        f"  Preset      : {snap['preset']} ({snap['presets_loaded']} presets loaded)",
+        f"  Daemon :8081: {daemon_str}",
+        f"  Frame / MSB : {snap['frame_size']} | Bit-7 MSB Active: {snap['msb_bit7_active_pct']}%",
+        f"  Motion Flow : {snap['motion_blocks']} macroblocks | Avg Mag: {snap['motion_avg_magnitude']}px | {snap['compute_ms']}ms",
+        "------------------------------------------------------------------------",
+        "  [2x4 BRAILLE BITPLANE-7 GLITCH BUFFER]",
+    ]
+    for row in snap["braille_frame"].splitlines():
+        lines.append("  " + row)
+    lines.append("------------------------------------------------------------------------")
+    lines.append("  [MACROBLOCK OPTICAL FLOW VECTORS]")
+    for row in snap["optical_flow_grid"].splitlines():
+        lines.append("  " + row)
+    lines.append("========================================================================")
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        prog="datamosh-glitch-studio-tui",
+        description="Datamosh Glitch Studio Unicode Braille Optical-Flow & Bitplane Telemetry TUI",
+    )
+    parser.add_argument("--once", action="store_true", help="Render one frame snapshot and exit")
+    parser.add_argument("--status", action="store_true", help="Print status snapshot and exit")
+    parser.add_argument("--json", action="store_true", help="Emit structured JSON telemetry snapshot")
+    parser.add_argument("--preset", default="h264_iframe_drop", help="Glitch preset id")
+    parser.add_argument("--port", type=int, default=8081, help="Loopback server port to probe")
+    args, _ = parser.parse_known_args()
+
+    snap = collect_snapshot(preset_id=args.preset, seed=42, port=args.port)
     if args.json:
-        print(json.dumps({
-            "tool": "datamosh-glitch-studio",
-            "title": "Datamosh Glitch Studio",
-            "architect": "1nc0gn30 (@1nc0gn30) • NullAI Platform",
-            "summary": SUMMARY,
-            "uncommon_web": {"slug": UW_SLUG, "install": UW_INSTALL},
-            "audio_lufs": -14.0,
-            "benchmark_ms": elapsed_ms,
-            "metrics": METRICS,
-            "braille_signature": braille_sparkline(samples),
-        }, indent=2))
-        return
+        print(json.dumps(snap, indent=2))
+        return 0
 
-    print("\033[1;33m╭──────────────────────────────────────────────────────────────────────────╮\033[0m")
-    print(f"\033[1;33m│\033[0m ⚡ \033[1;37mDatamosh Glitch Studio          \033[0m │ \033[36m1nc0gn30 • NullAI Platform\033[0m         \033[1;33m│\033[0m")
-    print("\033[1;33m├──────────────────────────────────────────────────────────────────────────┤\033[0m")
-    print(f"\033[1;33m│\033[0m {SUMMARY[:72]:<72} \033[1;33m│\033[0m")
-    print(f"\033[1;33m│\033[0m Uncommon-Web: \033[32m{UW_SLUG:<24}\033[0m Audio: \033[35m-14.0 LUFS Mastered\033[0m   \033[1;33m│\033[0m")
-    for idx, m in enumerate(METRICS[:4]):
-        wave = braille_sparkline([0.5 + 0.45 * math.sin((i + idx * 3) * 0.4) for i in range(40)])
-        print(f"\033[1;33m│\033[0m  • {m[:24]:<24} \033[33m{wave}\033[0m  PASS   \033[1;33m│\033[0m")
-    print("\033[1;33m╰──────────────────────────────────────────────────────────────────────────╯\033[0m")
+    if args.once or args.status or not sys.stdout.isatty():
+        print(render_tui_text(snap))
+        return 0
+
+    try:
+        tick = 0
+        while True:
+            s = collect_snapshot(preset_id=args.preset, seed=42 + tick * 7, port=args.port)
+            sys.stdout.write("\033[2J\033[H" + render_tui_text(s) + "\n  Press Ctrl+C to exit.\n")
+            sys.stdout.flush()
+            tick += 1
+            time.sleep(0.5)
+    except KeyboardInterrupt:
+        return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

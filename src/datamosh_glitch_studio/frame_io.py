@@ -6,6 +6,7 @@ Zero third-party runtime dependencies.
 
 from __future__ import annotations
 
+import html
 import io
 import struct
 from dataclasses import dataclass
@@ -13,6 +14,21 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from datamosh_glitch_studio.compat import atomic_write_bytes, atomic_write_text, normalize_path
+
+MAX_WIDTH = 2048
+MAX_HEIGHT = 2048
+MAX_PIXELS = MAX_WIDTH * MAX_HEIGHT
+
+
+def validate_dimensions(width: int, height: int, min_dim: int = 1) -> Tuple[int, int]:
+    """Validate image width and height against safe memory bounds."""
+    if isinstance(width, bool) or isinstance(height, bool) or not isinstance(width, int) or not isinstance(height, int):
+        raise ValueError("Image dimensions must be integers")
+    if width < min_dim or height < min_dim:
+        raise ValueError(f"Image dimensions must be >= {min_dim}x{min_dim}, got {width}x{height}")
+    if width > MAX_WIDTH or height > MAX_HEIGHT or (width * height) > MAX_PIXELS:
+        raise ValueError(f"Image dimensions exceed safe limit ({MAX_WIDTH}x{MAX_HEIGHT}, max {MAX_PIXELS} px): got {width}x{height}")
+    return width, height
 
 
 @dataclass
@@ -25,6 +41,7 @@ class ImageFrame:
     @classmethod
     def create(cls, width: int, height: int, color: Tuple[int, int, int] = (0, 0, 0)) -> ImageFrame:
         """Create a blank frame of specified dimensions and color."""
+        width, height = validate_dimensions(width, height, min_dim=1)
         r, g, b = color
         row = bytes([r, g, b]) * width
         data = bytearray(row * height)
@@ -33,6 +50,7 @@ class ImageFrame:
     @classmethod
     def from_bytes(cls, width: int, height: int, rgb_bytes: bytes) -> ImageFrame:
         """Construct from existing RGB byte sequence."""
+        width, height = validate_dimensions(width, height, min_dim=1)
         expected_len = width * height * 3
         if len(rgb_bytes) < expected_len:
             # Pad if shorter
@@ -124,6 +142,10 @@ class ImageFrame:
 
         is_top_down = height < 0
         height = abs(height)
+        validate_dimensions(width, height, min_dim=1)
+
+        if offset < 54 or offset >= len(bmp_bytes):
+            raise ValueError("Invalid BMP pixel data offset")
 
         if bpp not in (24, 32):
             raise ValueError(f"Unsupported BMP bit depth: {bpp} (only 24/32-bit supported)")
@@ -172,10 +194,16 @@ class ImageFrame:
         if len(dims) == 2:
             w, h = int(dims[0]), int(dims[1])
             max_val = int(bio.readline().strip())
-        else:
+        elif len(dims) >= 3:
             w = int(dims[0])
             h = int(dims[1])
             max_val = int(dims[2])
+        else:
+            raise ValueError("Invalid PPM header dimensions")
+
+        if max_val <= 0 or max_val > 65535:
+            raise ValueError(f"Invalid PPM maxval: {max_val}")
+        validate_dimensions(w, h, min_dim=1)
 
         pixel_data = bio.read(w * h * 3)
         return cls.from_bytes(w, h, pixel_data)
@@ -207,12 +235,13 @@ def export_frame_sequence_html(
         bmp_data_uris.append(f"data:image/bmp;base64,{bmp_b64}")
 
     uris_json = "[" + ",".join(f'"{uri}"' for uri in bmp_data_uris) + "]"
+    safe_title = html.escape(str(title), quote=True)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{title}</title>
+  <title>{safe_title}</title>
   <style>
     body {{
       background: #0f172a;
@@ -259,7 +288,7 @@ def export_frame_sequence_html(
 </head>
 <body>
   <div class="player">
-    <h2>{title}</h2>
+    <h2>{safe_title}</h2>
     <img id="viewer" src="{bmp_data_uris[0] if bmp_data_uris else ''}" alt="Frame">
     <div class="controls">
       <button onclick="togglePlay()">Play / Pause</button>

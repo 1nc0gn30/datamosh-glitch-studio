@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Datamosh Glitch Studio | Visual Artifact & I-Frame Glitch Synthesizer</title>
-  <meta name="description" content="Parametric video datamoshing, I-frame drop corruption, delta-frame duplication, and glitch art synthesizer running 100% in-browser with zero cloud telemetry.">
-  <meta name="keywords" content="datamosh, glitch art, iframe drop, compression artifacts, chromatic aberration, video synthesizer, zoth studio">
-  <meta name="author" content="1nc0gn30 • NullAI">
-  
+  <title>Datamosh Glitch Studio v2.6.0 | Pixel Sort, Byte-Bend &amp; 8-Bitplane Synthesizer</title>
+  <meta name="description" content="Zero-egress in-browser and loopback Python workstation for datamosh slice displacement, luminance pixel sorting, header-safe JPEG byte-bending, true 8-bitplane slicing, Sierpinski XOR fractals, and optical-flow motion vectors.">
+  <meta name="keywords" content="datamosh, glitch art, pixel sorting, jpeg byte bend, bitplane slicer, sierpinski xor, motion vectors, html5 canvas, mcp">
+  <meta name="author" content="Neal Frazier Tech (@1nc0gn30)">
+
   <!-- OpenGraph -->
-  <meta property="og:title" content="Datamosh Glitch Studio | Visual Artifact & I-Frame Glitch Synthesizer">
-  <meta property="og:description" content="Parametric digital artifact & video datamosh synthesis engine. Synthesize H.264 I-frame drops, chromatic aberration, and VCR tracking errors directly in your browser.">
+  <meta property="og:title" content="Datamosh Glitch Studio v2.6.0 | Pixel Sort, Byte-Bend &amp; 8-Bitplane Synthesizer">
+  <meta property="og:description" content="100% open-access local datamosh studio: pixel sorting, header-safe JPEG byte-bending, 8-bitplane slicing, Sierpinski XOR, optical flow, and PNG/WebP/WebM/JSON export.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://datamosh-glitch-studio.netlify.app/">
   <meta property="og:image" content="https://datamosh-glitch-studio.netlify.app/assets/banner.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Datamosh Glitch Studio Banner - Parametric Video Artifacts">
+  <meta property="og:image:alt" content="Datamosh Glitch Studio v2.6.0 — Pixel Sort, JPEG Byte-Bend, 8-Bitplane Slicer and Motion Vector Workstation">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@1nc0gn30">
   <meta name="twitter:creator" content="@1nc0gn30">
-  <meta name="twitter:title" content="Datamosh Glitch Studio | Visual Artifact & I-Frame Glitch Synthesizer">
-  <meta name="twitter:description" content="Parametric digital artifact & video datamosh synthesis engine running 100% client-side.">
+  <meta name="twitter:title" content="Datamosh Glitch Studio v2.6.0 | Pixel Sort, Byte-Bend &amp; 8-Bitplane Synthesizer">
+  <meta name="twitter:description" content="Zero-egress HTML5 2D Canvas and pure-Python loopback workstation for datamoshing, pixel sorting, JPEG byte-bending, and 8-bitplane slicing.">
   <meta name="twitter:image" content="https://datamosh-glitch-studio.netlify.app/assets/banner.png">
 
   <!-- Schema.org JSON-LD Graph -->
@@ -34,21 +34,27 @@
       {
         "@type": ["WebApplication", "SoftwareApplication"],
         "name": "Datamosh Glitch Studio",
+        "softwareVersion": "2.6.0",
         "url": "https://datamosh-glitch-studio.netlify.app/",
         "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "All modern browsers (Chrome, Edge, Firefox, Safari)",
-        "description": "Browser-based video datamoshing, I-frame drop corruption, delta-frame duplication, and glitch art synthesizer.",
+        "operatingSystem": "Linux, macOS, Windows, Modern Browsers",
+        "description": "Zero-egress datamosh synthesizer with luminance pixel sorting, header-safe JPEG byte-bending, 8-bitplane slicing, Sierpinski XOR fractals, macroblock optical flow, and optional 127.0.0.1:8081 Python API.",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
-          "url": "https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X"
+          "url": "https://datamosh-glitch-studio.netlify.app/"
         },
         "creator": {
+          "@type": "Organization",
+          "name": "Neal Frazier Tech",
+          "url": "https://nullai.tech"
+        },
+        "author": {
           "@type": "Person",
           "name": "Neal Frazier (@1nc0gn30)",
-          "url": "https://nullai.tech"
+          "url": "https://github.com/1nc0gn30"
         }
       },
       {
@@ -56,26 +62,26 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Does Datamosh Glitch Studio upload my videos or photos to a cloud server?",
+            "name": "Does Datamosh Glitch Studio upload images, webcam frames, or presets to external servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. Datamosh Glitch Studio processes 100% of pixel buffers, test patterns, and camera streams locally in your browser memory using HTML5 Canvas and WebAssembly. Zero bytes leave your machine."
+              "text": "No. All pixel sorting, slice displacement, JPEG byte-bending, 8-bitplane slicing, and Sierpinski XOR rendering run locally in browser memory via HTML5 2D Canvas (plus an optional 127.0.0.1:8081 Python stdlib loopback server) with zero external network egress."
             }
           },
           {
             "@type": "Question",
-            "name": "What export formats are supported?",
+            "name": "Which export formats are supported?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "You can export individual glitched frames as high-fidelity PNG or BMP files, or render full 12-to-30 frame animation loops for video post-production."
+              "text": "You can export frames as PNG or WebP, record 30fps WebM video loops via MediaRecorder, and export or import validated JSON preset configurations."
             }
           },
           {
             "@type": "Question",
-            "name": "How can I support Datamosh Glitch Studio?",
+            "name": "Is Datamosh Glitch Studio free and how can I support development?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Datamosh Glitch Studio is 100% free and open-access with zero paywalls. Optional community support is available via Buy Us a Coffee on Stripe (https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) or Solana Tip (GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK)."
+              "text": "Datamosh Glitch Studio is 100% free and open-access with zero paywalls. Optional community tips are accepted via Buy Us a Coffee on Stripe (https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) or Solana (GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK)."
             }
           }
         ]
@@ -86,276 +92,249 @@
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/assets/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
+    :root,
+    [data-theme="dark"] {
       --bg: #09090D;
-      --bg-surface: #101017;
-      --bg-card: #151520;
-      --border: rgba(212, 175, 55, 0.25);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --text: #F4F4F8;
-      --text-muted: #9CA3AF;
-      --gold: #D4AF37;
-      --gold-glow: rgba(212, 175, 55, 0.35);
-      --cyan: #38BDF8;
-      --green: #10B981;
-      --red: #EF4444;
-      --font-display: 'Syne', sans-serif;
-      --font-body: 'Space Grotesk', sans-serif;
-      --font-mono: 'Roboto Mono', monospace;
+      --bg-surface: #11131B;
+      --bg-card: #161925;
+      --bg-input: #0B0D14;
+      --border: rgba(212, 175, 55, 0.30);
+      --border-subtle: rgba(245, 241, 230, 0.14);
+      --text: #F5F1E6;
+      --text-muted: #A3AAB8;
+      --accent: #E2BE4A;
+      --accent-soft: rgba(212, 175, 55, 0.14);
+      --accent-alt: #34D399;
+      --accent-alt-soft: rgba(52, 211, 153, 0.14);
+      --danger: #FB7185;
+      --danger-soft: rgba(251, 113, 133, 0.14);
+      --btn-primary-bg: #D4AF37;
+      --btn-primary-fg: #08080B;
+      --btn-secondary-bg: #1E2333;
+      --btn-secondary-fg: #F5F1E6;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      --mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    [data-theme="light"] {
+      --bg: #FAF8F3;
+      --bg-surface: #F2EEE4;
+      --bg-card: #FFFFFF;
+      --bg-input: #F8F6F0;
+      --border: rgba(122, 88, 8, 0.28);
+      --border-subtle: rgba(15, 23, 42, 0.16);
+      --text: #0F172A;
+      --text-muted: #475569;
+      --accent: #7A5808;
+      --accent-soft: rgba(122, 88, 8, 0.10);
+      --accent-alt: #047857;
+      --accent-alt-soft: #ECFDF5;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --btn-primary-bg: #0F172A;
+      --btn-primary-fg: #FFFFFF;
+      --btn-secondary-bg: #F2EEE4;
+      --btn-secondary-fg: #0F172A;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    body {
+      font-family: var(--sans);
       background-color: var(--bg);
       color: var(--text);
-      font-family: var(--font-body);
-      overflow-x: hidden !important;
-      max-width: 100vw !important;
-      width: 100% !important;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Main Navigation Bar */
-    header {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 12px 20px;
+    /* Embed mode hides redundant outer footer/support bar when framed inside Zoth Studio */
+    body.embed-mode .embed-hide {
+      display: none !important;
+    }
+
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      width: 100%;
-      flex-wrap: wrap;
+      justify-content: space-between;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 8px 10px;
+      min-width: 0;
     }
 
     .brand-icon {
-      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
     }
 
-    .brand h1 {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
+    .brand-title {
+      font-family: var(--mono);
+      font-size: 1rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #FFF 0%, var(--gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      white-space: nowrap;
     }
 
-    .version-tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      background: rgba(255,255,255,0.06);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: var(--text-muted);
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--accent-soft);
+      color: var(--accent);
+      white-space: nowrap;
     }
 
-    .header-pills {
+    .badge-ok {
+      border-color: var(--accent-alt);
+      background: var(--accent-alt-soft);
+      color: var(--accent-alt);
+    }
+
+    .topbar-actions {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .status-pill {
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--green);
-      font-family: var(--font-mono);
-      font-weight: 600;
+    button, .btn-link {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      min-height: 44px;
+      min-width: 44px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-fg);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    /* Workspace Layout */
-    .app-container {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      flex: 1;
+    button:hover, .btn-link:hover {
+      border-color: var(--accent);
+    }
+
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-fg);
+      border-color: var(--btn-primary-bg);
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .btn-active {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-fg);
+      border-color: var(--btn-primary-bg);
+    }
+
+    .workspace {
       width: 100%;
-      max-width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      flex: 1;
     }
 
-    @media (max-width: 900px) {
-      .app-container {
-        grid-template-columns: 1fr;
+    @media (min-width: 1024px) {
+      .workspace {
+        grid-template-columns: minmax(0, 1.3fr) minmax(360px, 430px);
+        align-items: start;
       }
     }
 
-    /* Left Control Sidebar */
-    .sidebar {
-      background: var(--bg-surface);
-      border-right: 1px solid var(--border-subtle);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow);
     }
 
-    .control-group {
+    .card + .card {
+      margin-top: 14px;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
       gap: 8px;
     }
 
-    .control-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--gold);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .preset-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-
-    .preset-btn {
-      background: var(--bg-card);
+    /* Monitor Canvas Stage (FIRST in DOM -> above the fold on Mobile & Tablet) */
+    .canvas-stage {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: #060609;
+      border-radius: 10px;
       border: 1px solid var(--border-subtle);
-      color: var(--text);
-      padding: 8px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-family: var(--font-body);
-      font-weight: 600;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s ease;
-    }
-
-    .preset-btn:hover {
-      border-color: var(--gold);
-      background: rgba(212,175,55,0.08);
-    }
-
-    .preset-btn.active {
-      border-color: var(--gold);
-      background: rgba(212,175,55,0.2);
-      color: #FFF;
-      box-shadow: 0 0 12px var(--gold-glow);
-    }
-
-    .slider-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-
-    .slider-row span:last-child {
-      font-family: var(--font-mono);
-      color: var(--cyan);
-      font-weight: 600;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--gold);
-      cursor: pointer;
-    }
-
-    .action-btn-primary {
-      background: linear-gradient(135deg, var(--gold) 0%, #B8860B 100%);
-      color: #000;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: transform 0.1s, box-shadow 0.2s;
-      width: 100%;
+      overflow: hidden;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
     }
 
-    .action-btn-primary:hover {
-      box-shadow: 0 4px 16px var(--gold-glow);
-      transform: translateY(-1px);
-    }
-
-    .action-btn-secondary {
-      background: var(--bg-card);
-      color: var(--text);
-      border: 1px solid var(--border-subtle);
-      padding: 10px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.82rem;
-      cursor: pointer;
-      width: 100%;
-      transition: border-color 0.2s;
-    }
-
-    .action-btn-secondary:hover {
-      border-color: var(--gold);
-    }
-
-    /* Right Viewport Workspace */
-    .workspace {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      justify-content: flex-start;
-      background: radial-gradient(circle at top center, rgba(212,175,55,0.03) 0%, transparent 70%);
-      width: 100%;
-    }
-
-    .canvas-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
-      max-width: 680px;
-      position: relative;
-    }
-
-    .canvas-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 480px;
-      aspect-ratio: 3/2;
-      background: #000;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    canvas {
+    #glitch-canvas {
       width: 100%;
       height: 100%;
       display: block;
@@ -364,670 +343,1326 @@
 
     .telemetry-bar {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      width: 100%;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      border-top: 1px solid var(--border-subtle);
+      gap: 8px;
+      margin-top: 10px;
       padding-top: 10px;
-      flex-wrap: wrap;
-      gap: 8px;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
     }
 
-    .playback-controls {
+    .toolbar-row {
       display: flex;
-      gap: 8px;
-      align-items: center;
       flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .mini-btn {
-      background: var(--bg-surface);
+    .toolbar-row > button,
+    .toolbar-row > label.file-btn {
+      flex: 1 1 auto;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .preset-grid button {
+      justify-content: flex-start;
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 0.73rem;
+      line-height: 1.25;
+    }
+
+    .source-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .source-row-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .file-btn {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      min-height: 44px;
+      padding: 8px 12px;
+      border-radius: 10px;
       border: 1px solid var(--border-subtle);
-      color: var(--text);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-fg);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .mini-btn:hover {
-      border-color: var(--gold);
-    }
-
-    /* Export Output Card */
-    .export-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      width: 100%;
-      max-width: 680px;
-      position: relative;
-    }
-
-    /* Modal for Activation */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      z-index: 9999;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .modal-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
+    .file-btn input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .slider-header label {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .slider-val {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    input[type="range"] {
       width: 100%;
-      max-width: 480px;
+      min-height: 44px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      background: transparent;
+    }
+
+    select {
+      width: 100%;
+      min-height: 44px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-input);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 44px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 8px;
+    }
+
+    .toggle-row label {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .toggle-row input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .bit-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .bit-grid button {
+      min-height: 44px;
+      padding: 6px 4px;
+      font-size: 0.74rem;
+    }
+
+    .api-preview {
+      margin-top: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px;
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--text);
+      overflow-x: auto;
+    }
+
+    .api-preview img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      margin-top: 8px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .api-preview pre {
+      white-space: pre;
+      overflow-x: auto;
+      font-size: 0.72rem;
+      line-height: 1.25;
+      color: var(--text);
+      margin-top: 6px;
+    }
+
+    .export-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .support-bar {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text);
+    }
+
+    .support-bar a.coffee-cta {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-fg);
+      padding: 10px 16px;
+      border-radius: 999px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .support-bar a.sol-cta {
+      color: var(--accent);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      padding: 10px 14px;
+      border-radius: 999px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer.site-footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      padding: 14px 16px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      color: var(--text-muted);
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      gap: 6px;
     }
 
-    .modal-card h2 {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      color: var(--gold);
-    }
-
-    .modal-input {
-      background: #000;
-      border: 1px solid var(--border-subtle);
-      color: #FFF;
-      padding: 10px 12px;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      width: 100%;
-    }
-
-    .modal-input:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
-
-    footer {
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-subtle);
-      padding: 16px 20px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      width: 100%;
-    }
-
-    footer a {
-      color: var(--gold);
-      text-decoration: none;
-    }
-
-    footer a:hover {
+    footer.site-footer a {
+      color: var(--accent);
       text-decoration: underline;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 8px;
+    }
+
+    .toast-region {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: calc(100vw - 32px);
+    }
+
+    .toast {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      box-shadow: var(--shadow);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
   </style>
-
 </head>
 <body>
-
-<div id="zoth-coffee-support-bar" style="background: linear-gradient(90deg, rgba(16,185,129,0.12), rgba(212,175,55,0.14)); border-bottom: 1px solid rgba(212,175,55,0.35); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; z-index: 9999;">
-  <span style="color: #10B981; font-weight: 800;">100% FREE &amp; OPEN-SOURCE</span>
-  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" style="background: #D4AF37; color: #08080B; padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">☕ Buy Us a Coffee (Stripe)</a>
-  <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" style="background: #047857; color: #FFFFFF; padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">◎ Solana Tip</a>
-</div>
-
-
-  <!-- Header -->
-  <header>
+  <header class="topbar">
     <div class="brand">
-      <img src="/assets/icon.png" alt="Datamosh Glitch Studio Logo" style="width:36px; height:36px; border-radius:8px; border:1px solid var(--border); box-shadow:0 0 12px var(--gold-glow); object-fit:contain;">
+      <img src="/assets/icon.png" alt="Datamosh Glitch Studio VHS scanline emblem" class="brand-icon" width="36" height="36">
       <div>
-        <h1>Datamosh Glitch Studio</h1>
-        <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-          <span class="version-tag">v2.5 SOVEREIGN</span>
-          <span style="font-size:0.72rem; color:var(--text-muted);">Parametric Video Artifacts</span>
-        </div>
+        <div class="brand-title">DATAMOSH GLITCH STUDIO</div>
       </div>
+      <span class="badge">v2.6.0</span>
+      <span id="daemon-badge" class="badge badge-ok">LOCAL ENGINE</span>
     </div>
-    <div class="header-pills">
-      <span class="status-pill" id="openAccessBadge" data-role="open-access-badge" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#10B981;">✦ 100% FREE &amp; OPEN ACCESS</span>
+    <div class="topbar-actions">
+      <button type="button" id="theme-toggle-btn" aria-label="Toggle light and dark theme">Theme: Dark</button>
+      <button type="button" id="help-btn" aria-label="Open quickstart guide">Quickstart</button>
     </div>
   </header>
 
-  <!-- Main Application Body -->
-  <div class="app-container">
-    
-    <!-- Control Sidebar -->
-    <div class="sidebar">
-      <div class="control-group">
-        <div class="control-label">
-          <span>Glitch Presets</span>
-          <span id="active-preset-label">H.264 I-Frame</span>
+  <main class="workspace">
+    <!-- PRIMARY PANE (FIRST IN DOM -> ABOVE FOLD ON MOBILE & TABLET) -->
+    <section class="monitor-column" aria-label="Interactive glitch monitor and exports">
+      <div class="card">
+        <div class="section-label">
+          <span>LIVE MONITOR // 2D CANVAS &amp; OPTICAL FLOW</span>
+          <span id="preset-readout">H.264 I-FRAME DROP</span>
         </div>
-        <div class="preset-grid">
-          <button class="preset-btn active" onclick="setPreset('iframe')">H.264 I-Frame Drop</button>
-          <button class="preset-btn" onclick="setPreset('vcr')">Cyberpunk VCR</button>
-          <button class="preset-btn" onclick="setPreset('rgb')">RGB Overdrive</button>
-          <button class="preset-btn" onclick="setPreset('tape')">Analog Tape Decay</button>
-          <button class="preset-btn" onclick="setPreset('matrix')">Quantum Matrix</button>
-          <button class="preset-btn" onclick="setPreset('bitplane')">Bitplane Slicer</button>
+
+        <div class="canvas-stage">
+          <canvas id="glitch-canvas" width="480" height="320" aria-label="Datamosh glitch synthesis output canvas"></canvas>
         </div>
-      </div>
 
-      <div class="control-group">
-        <div class="control-label">Source Test Pattern</div>
-        <div class="preset-grid">
-          <button class="preset-btn active" id="src-bars" onclick="setSource('bars')">SMPTE Bars</button>
-          <button class="preset-btn" id="src-grid" onclick="setSource('grid')">Cyber Grid</button>
-          <button class="preset-btn" id="src-grad" onclick="setSource('grad')">Neon Sunrise</button>
-          <button class="preset-btn" id="src-cam" onclick="toggleWebcam()">Webcam Live</button>
-        </div>
-        <label for="file-upload" class="action-btn-secondary" style="text-align:center; cursor:pointer; margin-top:4px;">
-          📁 Upload Image (PNG/JPG)
-        </label>
-        <input type="file" id="file-upload" accept="image/*" style="display:none;" onchange="handleFileUpload(event)">
-      </div>
-
-      <div class="control-group">
-        <div class="control-label">Compression & Displacements</div>
-        
-        <div class="slider-row">
-          <span>Horizontal Slice Height</span>
-          <span id="val-slice">16px</span>
-        </div>
-        <input type="range" id="param-slice" min="4" max="48" value="16" oninput="updateParam('slice', this.value)">
-
-        <div class="slider-row" style="margin-top:10px;">
-          <span>Shift Magnitude</span>
-          <span id="val-shift">28px</span>
-        </div>
-        <input type="range" id="param-shift" min="0" max="80" value="28" oninput="updateParam('shift', this.value)">
-
-        <div class="slider-row" style="margin-top:10px;">
-          <span>RGB Chromatic Split</span>
-          <span id="val-rgb">8px</span>
-        </div>
-        <input type="range" id="param-rgb" min="0" max="32" value="8" oninput="updateParam('rgb', this.value)">
-
-        <div class="slider-row" style="margin-top:10px;">
-          <span>Scanline CRT Intensity</span>
-          <span id="val-scan">25%</span>
-        </div>
-        <input type="range" id="param-scan" min="0" max="100" value="25" oninput="updateParam('scan', this.value)">
-
-        <div class="slider-row" style="margin-top:10px;">
-          <span>Loop Speed (FPS)</span>
-          <span id="val-fps">12 FPS</span>
-        </div>
-        <input type="range" id="param-fps" min="4" max="30" value="12" oninput="updateFps(this.value)">
-      </div>
-
-      <button class="action-btn-primary" onclick="renderFrame()">
-        <span>⚡ Synthesize Frame</span>
-      </button>
-      <button class="action-btn-secondary" onclick="downloadImage()">
-        <span>💾 Download Current Frame (PNG)</span>
-      </button>
-    </div>
-
-    <!-- Workspace Deck -->
-    <div class="workspace">
-      
-      <!-- Interactive Real-Time Canvas -->
-      <div class="canvas-card">
-        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-          <strong style="font-size:0.9rem; letter-spacing:0.5px;">MONITOR 01 // LIVE MOSH BUFFER</strong>
-          <div class="playback-controls">
-            <button class="mini-btn" id="btn-play" onclick="togglePlay()">▶ Play Loop</button>
-            <button class="mini-btn" onclick="randomizeSeed()">🎲 Random Seed</button>
+        <div class="control-group" style="margin-top: 12px;">
+          <div class="slider-header">
+            <label for="split-scrubber">Before / After Split Scrubber</label>
+            <span class="slider-val" id="val-split">100% Glitched</span>
           </div>
+          <input type="range" id="split-scrubber" aria-label="Before and after split comparison scrubber" min="0" max="100" value="100">
         </div>
 
-        <div class="canvas-wrapper">
-          <canvas id="moshCanvas" width="480" height="320"></canvas>
+        <div class="toolbar-row">
+          <button type="button" id="btn-play" class="btn-primary">Play Loop</button>
+          <button type="button" id="btn-step">Step Frame</button>
+          <button type="button" id="btn-randomize">Randomize</button>
+          <button type="button" id="btn-mv-overlay">Motion Vectors: OFF</button>
         </div>
 
         <div class="telemetry-bar">
-          <span id="tele-res">480 x 320 px (24-bit RGB)</span>
-          <span id="tele-preset">PRESET: H.264 I-FRAME</span>
-          <span id="tele-fps">12 FPS ANIMATING</span>
+          <span id="meta-dims">BUFFER: 480×320 RGB</span>
+          <span id="meta-mode">MODE: SLICE + RGB</span>
+          <span id="meta-mv">MV FLOW: READY</span>
         </div>
       </div>
 
-      <!-- Export Section -->
-      <div class="export-card">
-        <div id="export-target">
-          <h3 style="font-family:var(--font-display); font-size:1rem; margin-bottom:8px;">Cinema Loop Sequence & Lossless RAW Batch Export</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">
-            Export seamless ProRes/H.265 video loops, automated frame sequence PNGs, and creative glitch presets running 100% in-browser with zero telemetry.
-          </p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button id="btn-export-loop" class="action-btn-primary" onclick="exportProVideoLoop(4.0)">⏺ Record WebM Loop (4s)</button>
-            <button id="btn-export-zip" class="action-btn-secondary" onclick="exportRawZip()">🖼 Export PNG Frame</button>
+      <!-- Exports & Preset JSON -->
+      <div class="card">
+        <div class="section-label">
+          <span>EXPORTS // PNG, WEBP, 30FPS WEBM &amp; JSON PRESET</span>
+          <span>100% UNLOCKED</span>
+        </div>
+        <div class="export-grid">
+          <button type="button" id="btn-export-png" class="btn-primary">Export PNG</button>
+          <button type="button" id="btn-export-webp">Export WebP</button>
+          <button type="button" id="btn-record-webm" class="btn-danger">Record WebM (4s)</button>
+          <button type="button" id="btn-export-json">Export Preset JSON</button>
+        </div>
+        <div class="toolbar-row">
+          <label class="file-btn" for="import-json-input">
+            Import Preset JSON
+            <input type="file" id="import-json-input" accept="application/json,.json" aria-label="Import JSON preset configuration file">
+          </label>
+        </div>
+      </div>
+
+      <!-- Loopback :8081 Python API Bridge -->
+      <div class="card">
+        <div class="section-label">
+          <span>LOOPBACK :8081 PYTHON STDLIB API BRIDGE</span>
+          <span id="api-status-label">CHECKING :8081…</span>
+        </div>
+        <div class="export-grid">
+          <button type="button" id="btn-api-motion">Motion Estimate (:8081)</button>
+          <button type="button" id="btn-api-melt">Liquid Melt (:8081)</button>
+          <button type="button" id="btn-api-mosaic">8-Bitplane Mosaic</button>
+          <button type="button" id="btn-api-corrupt">Byte Corrupt (:8081)</button>
+        </div>
+        <div id="api-output" class="api-preview" aria-live="polite">
+          Ready. Trigger any backend probe above to execute live against 127.0.0.1:8081 (with local fallback when hosted statically).
+        </div>
+      </div>
+    </section>
+
+    <!-- SECONDARY PANE: SOURCES, PRESETS & PARAMETRIC CONTROLS -->
+    <aside class="controls-column" aria-label="Glitch controls and synthesis parameters">
+      <div class="card">
+        <div class="section-label"><span>SIGNAL SOURCE</span></div>
+        <div class="source-row">
+          <button type="button" data-source="bars" class="btn-active">SMPTE Bars</button>
+          <button type="button" data-source="grid">Cyber Grid</button>
+          <button type="button" data-source="grad">Neon Horizon</button>
+        </div>
+        <div class="source-row-2">
+          <label class="file-btn" for="upload-image-input">
+            Upload Image
+            <input type="file" id="upload-image-input" accept="image/*" aria-label="Upload custom image file">
+          </label>
+          <button type="button" id="btn-webcam">Webcam Live</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-label"><span>GLITCH PRESETS</span></div>
+        <div class="preset-grid" id="preset-grid"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-label"><span>CORE MOSH &amp; CRT PARAMETERS</span></div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-slice">Slice Height (px)</label>
+            <span class="slider-val" id="val-slice">18px</span>
           </div>
+          <input type="range" id="param-slice" aria-label="Macroblock slice height in pixels" min="4" max="64" value="18">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-shift">Horizontal Shift Max (px)</label>
+            <span class="slider-val" id="val-shift">36px</span>
+          </div>
+          <input type="range" id="param-shift" aria-label="Horizontal displacement shift maximum in pixels" min="0" max="96" value="36">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-rgb">RGB Chromatic Split (px)</label>
+            <span class="slider-val" id="val-rgb">6px</span>
+          </div>
+          <input type="range" id="param-rgb" aria-label="RGB chromatic split offset in pixels" min="0" max="32" value="6">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-scan">CRT Scanlines (%)</label>
+            <span class="slider-val" id="val-scan">15%</span>
+          </div>
+          <input type="range" id="param-scan" aria-label="CRT scanline darkening percentage" min="0" max="100" value="15">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-fps">Animation Loop Rate (FPS)</label>
+            <span class="slider-val" id="val-fps">12 FPS</span>
+          </div>
+          <input type="range" id="param-fps" aria-label="Animation loop frame rate in frames per second" min="4" max="30" value="12">
         </div>
       </div>
 
-    </div>
+      <div class="card">
+        <div class="section-label"><span>PIXEL SORTING &amp; JPEG BYTE-BEND</span></div>
+        <div class="toggle-row">
+          <label for="toggle-pixelsort">Luminance Pixel Sorting</label>
+          <input type="checkbox" id="toggle-pixelsort" aria-label="Enable luminance pixel sorting">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-sort-low">Sort Threshold Low</label>
+            <span class="slider-val" id="val-sort-low">50</span>
+          </div>
+          <input type="range" id="param-sort-low" aria-label="Pixel sort minimum luminance threshold" min="0" max="200" value="50">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-sort-high">Sort Threshold High</label>
+            <span class="slider-val" id="val-sort-high">220</span>
+          </div>
+          <input type="range" id="param-sort-high" aria-label="Pixel sort maximum luminance threshold" min="55" max="255" value="220">
+        </div>
+        <div class="control-group">
+          <label for="select-sort-dir" style="display:block;font-family:var(--mono);font-size:0.75rem;margin-bottom:4px;">Sort Axis</label>
+          <select id="select-sort-dir" aria-label="Pixel sorting axis direction">
+            <option value="row">Horizontal Rows</option>
+            <option value="column">Vertical Columns</option>
+          </select>
+        </div>
 
+        <div class="toggle-row" style="margin-top: 12px;">
+          <label for="toggle-jpeg-bend">Header-Safe JPEG Byte-Bend (SOS 0xFFDA)</label>
+          <input type="checkbox" id="toggle-jpeg-bend" aria-label="Enable header-safe JPEG scan-data byte-bending">
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-jpeg-int">JPEG Scan Mutation Intensity</label>
+            <span class="slider-val" id="val-jpeg-int">18%</span>
+          </div>
+          <input type="range" id="param-jpeg-int" aria-label="JPEG byte-bend mutation intensity percentage" min="1" max="100" value="18">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-label"><span>TRUE 8-BITPLANE SLICER &amp; SIERPINSKI XOR</span></div>
+        <div class="toggle-row">
+          <label for="toggle-bitplane">Enable 8-Bitplane Masking (Bits 7–0)</label>
+          <input type="checkbox" id="toggle-bitplane" aria-label="Enable true 8-bitplane masking">
+        </div>
+        <div class="bit-grid" id="bitplane-grid" role="group" aria-label="Active bitplane bits 7 to 0"></div>
+        <div class="toggle-row">
+          <label for="toggle-invert-msb">Invert Bit 7 (MSB Solarize)</label>
+          <input type="checkbox" id="toggle-invert-msb" aria-label="Invert most significant bit 7 for solarization">
+        </div>
+        <div class="control-group">
+          <label for="select-bp-channel" style="display:block;font-family:var(--mono);font-size:0.75rem;margin-bottom:4px;">Bitplane Channel</label>
+          <select id="select-bp-channel" aria-label="Bitplane color channel">
+            <option value="all">All RGB Channels</option>
+            <option value="luminance">Luminance</option>
+            <option value="r">Red Channel</option>
+            <option value="g">Green Channel</option>
+            <option value="b">Blue Channel</option>
+          </select>
+        </div>
+
+        <div class="toggle-row" style="margin-top: 12px;">
+          <label for="toggle-sierpinski">Enable Sierpinski Spatial XOR</label>
+          <input type="checkbox" id="toggle-sierpinski" aria-label="Enable Sierpinski spatial boolean XOR texture">
+        </div>
+        <div class="control-group">
+          <label for="select-xor-formula" style="display:block;font-family:var(--mono);font-size:0.75rem;margin-bottom:4px;">Boolean Formula</label>
+          <select id="select-xor-formula" aria-label="Sierpinski spatial boolean formula">
+            <option value="xor">x XOR y</option>
+            <option value="and">x AND y</option>
+            <option value="or">x OR y</option>
+            <option value="xor_and">(x XOR y) AND (x + y)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <div class="slider-header">
+            <label for="param-xor-blend">XOR Blend Ratio</label>
+            <span class="slider-val" id="val-xor-blend">50%</span>
+          </div>
+          <input type="range" id="param-xor-blend" aria-label="Sierpinski XOR blend ratio percentage" min="0" max="100" value="50">
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Single Clean Support Bar (Hidden in ?embed=1 Studio iframe so Studio doesn't duplicate it) -->
+  <div class="support-bar embed-hide" role="region" aria-label="Community support">
+    <span>100% Free &amp; Open Access · Zero Paywalls</span>
+    <a class="coffee-cta" href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer">☕ Buy Us a Coffee</a>
+    <a class="sol-cta" href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" title="Solana Tip Address">◎ SOL: GG2eQbVh...xdXoK</a>
   </div>
 
-  <!-- Footer -->
-  <footer>
+  <footer class="site-footer embed-hide">
+    <div>Engineered by Neal Frazier Tech (@1nc0gn30) • NullAI Platform</div>
     <div>
-      Engineered by Neal Frazier Tech • NullAI (<a href="https://github.com/1nc0gn30/datamosh-glitch-studio" target="_blank" rel="noopener noreferrer">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener noreferrer">NullAI Platform</a> • <a href="https://github.com/1nc0gn30/datamosh-glitch-studio" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </div>
-    <div style="margin-top:6px; font-size:0.78rem; color:var(--text-muted); display:flex; flex-wrap:wrap; justify-content:center; gap:10px; align-items:center;">
-      <span>100% Free &amp; Open Access</span>
-      <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" style="color:#D4AF37; text-decoration:none; font-weight:700;">☕ Buy Us a Coffee</a>
-      <span>Solana Tip: <code>GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK</code></span>
-    </div>
-    <div style="margin-top:4px; font-size:0.75rem; color:var(--text-muted);">
-      Sovereign Local-First Architecture • Zero Cloud Telemetry • 100% In-Browser Execution
+      <a href="https://github.com/1nc0gn30/datamosh-glitch-studio" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+      ·
+      <a href="https://nullai.tech" target="_blank" rel="noopener noreferrer">NullAI Platform</a>
     </div>
   </footer>
 
-  <!-- Pure Client-Side JavaScript Datamosh Synthesis Engine -->
-  <script>
-    const canvas = document.getElementById('moshCanvas');
-    const ctx = canvas.getContext('2d');
-    const WIDTH = 480;
-    const HEIGHT = 320;
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <video id="webcam-video" autoplay playsinline muted style="display:none;" aria-hidden="true"></video>
 
-    let currentPreset = 'iframe';
-    let currentSource = 'bars';
-    let sliceHeight = 16;
-    let shiftMax = 28;
-    let rgbSplit = 8;
-    let scanIntensity = 0.25;
-    let fps = 12;
-    let isPlaying = false;
-    let loopTimer = null;
-    let customImage = null;
-    let videoStream = null;
-    let videoEl = document.createElement('video');
-    videoEl.autoplay = true;
-    videoEl.muted = true;
-    videoEl.playsInline = true;
-
-    // Presets configuration
-    const PRESETS = {
-      iframe: { slice: 18, shift: 36, rgb: 6, scan: 0.15 },
-      vcr: { slice: 6, shift: 48, rgb: 14, scan: 0.65 },
-      rgb: { slice: 12, shift: 16, rgb: 24, scan: 0.20 },
-      tape: { slice: 10, shift: 24, rgb: 8, scan: 0.45 },
-      matrix: { slice: 24, shift: 55, rgb: 16, scan: 0.30 },
-      bitplane: { slice: 14, shift: 28, rgb: 12, scan: 0.35 }
-    };
-
-    function setPreset(name) {
-      currentPreset = name;
-      const p = PRESETS[name];
-      if (p) {
-        sliceHeight = p.slice;
-        shiftMax = p.shift;
-        rgbSplit = p.rgb;
-        scanIntensity = p.scan;
-
-        document.getElementById('param-slice').value = sliceHeight;
-        document.getElementById('val-slice').innerText = sliceHeight + 'px';
-        document.getElementById('param-shift').value = shiftMax;
-        document.getElementById('val-shift').innerText = shiftMax + 'px';
-        document.getElementById('param-rgb').value = rgbSplit;
-        document.getElementById('val-rgb').innerText = rgbSplit + 'px';
-        document.getElementById('param-scan').value = Math.round(scanIntensity * 100);
-        document.getElementById('val-scan').innerText = Math.round(scanIntensity * 100) + '%';
-        document.getElementById('tele-preset').innerText = 'PRESET: ' + name.toUpperCase();
-      }
-
-      document.querySelectorAll('.preset-btn').forEach(b => {
-        if (b.getAttribute('onclick')?.includes(name)) {
-          b.classList.add('active');
-        } else if (b.getAttribute('onclick')?.includes('setPreset')) {
-          b.classList.remove('active');
-        }
-      });
-
-      renderFrame();
-    }
-
-    function setSource(src) {
-      currentSource = src;
-      ['bars', 'grid', 'grad', 'cam'].forEach(s => {
-        const el = document.getElementById('src-' + s);
-        if (el) el.classList.toggle('active', s === src);
-      });
-      if (src !== 'cam' && videoStream) {
-        videoStream.getTracks().forEach(t => t.stop());
-        videoStream = null;
-      }
-      renderFrame();
-    }
-
-    async function toggleWebcam() {
-      if (videoStream) {
-        videoStream.getTracks().forEach(t => t.stop());
-        videoStream = null;
-        setSource('bars');
-        return;
-      }
-      try {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 320 } });
-        videoEl.srcObject = videoStream;
-        await videoEl.play();
-        setSource('cam');
-      } catch (e) {
-        showToast('Webcam access failed: ' + e.message, 'warning');
-      }
-    }
-
-    function handleFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const img = new Image();
-        img.onload = function() {
-          customImage = img;
-          currentSource = 'custom';
-          ['bars', 'grid', 'grad', 'cam'].forEach(s => {
-            const el = document.getElementById('src-' + s);
-            if (el) el.classList.remove('active');
-          });
-          renderFrame();
-        };
-        img.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function updateParam(name, val) {
-      if (name === 'slice') sliceHeight = parseInt(val);
-      if (name === 'shift') shiftMax = parseInt(val);
-      if (name === 'rgb') rgbSplit = parseInt(val);
-      if (name === 'scan') scanIntensity = parseInt(val) / 100;
-      document.getElementById('val-' + name).innerText = (name === 'scan') ? val + '%' : val + 'px';
-      renderFrame();
-    }
-
-    function updateFps(val) {
-      fps = parseInt(val);
-      document.getElementById('val-fps').innerText = val + ' FPS';
-      document.getElementById('tele-fps').innerText = val + ' FPS ANIMATING';
-      if (isPlaying) {
-        clearInterval(loopTimer);
-        loopTimer = setInterval(renderFrame, 1000 / fps);
-      }
-    }
-
-    function drawBasePattern() {
-      if (currentSource === 'cam' && videoStream && videoEl.readyState >= 2) {
-        ctx.drawImage(videoEl, 0, 0, WIDTH, HEIGHT);
-        return;
-      }
-      if (currentSource === 'custom' && customImage) {
-        ctx.drawImage(customImage, 0, 0, WIDTH, HEIGHT);
-        return;
-      }
-      if (currentSource === 'grid') {
-        ctx.fillStyle = '#05050A';
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
-        ctx.strokeStyle = '#00FFCC';
-        ctx.lineWidth = 1;
-        for (let x = 0; x < WIDTH; x += 20) {
-          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, HEIGHT); ctx.stroke();
-        }
-        for (let y = 0; y < HEIGHT; y += 20) {
-          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(WIDTH, y); ctx.stroke();
-        }
-        ctx.fillStyle = '#D4AF37';
-        ctx.font = 'bold 24px Space Grotesk';
-        ctx.fillText('NULLAI // CYBER GRID', 30, 60);
-        return;
-      }
-      if (currentSource === 'grad') {
-        const grad = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-        grad.addColorStop(0, '#FF007F');
-        grad.addColorStop(0.5, '#7928CA');
-        grad.addColorStop(1, '#00DFD8');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 28px Syne';
-        ctx.fillText('NEON HORIZON', 40, 160);
-        return;
-      }
-
-      // Default: SMPTE Color Bars
-      const colors = ['#C0C0C0', '#C0C000', '#00C0C0', '#00C000', '#C000C0', '#C00000', '#0000C0'];
-      const barW = WIDTH / colors.length;
-      colors.forEach((col, i) => {
-        ctx.fillStyle = col;
-        ctx.fillRect(i * barW, 0, barW, HEIGHT * 0.75);
-      });
-      // Bottom test signals
-      ctx.fillStyle = '#0000C0'; ctx.fillRect(0, HEIGHT * 0.75, WIDTH * 0.2, HEIGHT * 0.25);
-      ctx.fillStyle = '#FFFFFF'; ctx.fillRect(WIDTH * 0.2, HEIGHT * 0.75, WIDTH * 0.2, HEIGHT * 0.25);
-      ctx.fillStyle = '#C000C0'; ctx.fillRect(WIDTH * 0.4, HEIGHT * 0.75, WIDTH * 0.2, HEIGHT * 0.25);
-      ctx.fillStyle = '#101010'; ctx.fillRect(WIDTH * 0.6, HEIGHT * 0.75, WIDTH * 0.4, HEIGHT * 0.25);
-    }
-
-    function renderFrame() {
-      drawBasePattern();
-      const imgData = ctx.getImageData(0, 0, WIDTH, HEIGHT);
-      const data = imgData.data;
-      const copy = new Uint8ClampedArray(data);
-
-      // 1. Horizontal Slice Displacement (I-Frame Drop / Tracking Error)
-      if (shiftMax > 0 && sliceHeight > 0) {
-        for (let y = 0; y < HEIGHT; y += sliceHeight) {
-          if (Math.random() < 0.7) {
-            const shift = Math.floor((Math.random() * 2 - 1) * shiftMax);
-            const sliceEnd = Math.min(HEIGHT, y + sliceHeight);
-            for (let sy = y; sy < sliceEnd; sy++) {
-              for (let sx = 0; sx < WIDTH; sx++) {
-                const targetX = (sx + shift + WIDTH) % WIDTH;
-                const srcIdx = (sy * WIDTH + sx) * 4;
-                const dstIdx = (sy * WIDTH + targetX) * 4;
-                data[dstIdx] = copy[srcIdx];
-                data[dstIdx + 1] = copy[srcIdx + 1];
-                data[dstIdx + 2] = copy[srcIdx + 2];
-              }
-            }
-          }
-        }
-      }
-
-      // 2. RGB Chromatic Aberration Split
-      if (rgbSplit > 0) {
-        const currentData = new Uint8ClampedArray(data);
-        for (let y = 0; y < HEIGHT; y++) {
-          for (let x = 0; x < WIDTH; x++) {
-            const rx = (x + rgbSplit + WIDTH) % WIDTH;
-            const bx = (x - rgbSplit + WIDTH) % WIDTH;
-            const idx = (y * WIDTH + x) * 4;
-            const rIdx = (y * WIDTH + rx) * 4;
-            const bIdx = (y * WIDTH + bx) * 4;
-
-            data[idx] = currentData[rIdx]; // Red shifted right
-            data[idx + 2] = currentData[bIdx + 2]; // Blue shifted left
-          }
-        }
-      }
-
-      // 3. Scanlines CRT Interlacing
-      if (scanIntensity > 0) {
-        const factor = 1 - scanIntensity;
-        for (let y = 0; y < HEIGHT; y += 3) {
-          const rowStart = y * WIDTH * 4;
-          const rowEnd = rowStart + WIDTH * 4;
-          for (let i = rowStart; i < rowEnd; i += 4) {
-            data[i] = data[i] * factor;
-            data[i + 1] = data[i + 1] * factor;
-            data[i + 2] = data[i + 2] * factor;
-          }
-        }
-      }
-
-      // 4. Bitplane & Solarization Glitch (if active)
-      if (currentPreset === 'bitplane') {
-        for (let i = 0; i < data.length; i += 4) {
-          if (Math.random() < 0.05) {
-            data[i] = data[i] ^ 0xAA;
-            data[i + 1] = data[i + 1] ^ 0x55;
-          }
-        }
-      }
-
-      ctx.putImageData(imgData, 0, 0);
-    }
-
-    function togglePlay() {
-      isPlaying = !isPlaying;
-      const btn = document.getElementById('btn-play');
-      if (isPlaying) {
-        btn.innerText = '⏸ Pause Loop';
-        loopTimer = setInterval(renderFrame, 1000 / fps);
-      } else {
-        btn.innerText = '▶ Play Loop';
-        clearInterval(loopTimer);
-      }
-    }
-
-    function randomizeSeed() {
-      shiftMax = Math.floor(Math.random() * 60) + 10;
-      rgbSplit = Math.floor(Math.random() * 20);
-      sliceHeight = Math.floor(Math.random() * 32) + 4;
-      document.getElementById('param-shift').value = shiftMax;
-      document.getElementById('val-shift').innerText = shiftMax + 'px';
-      document.getElementById('param-rgb').value = rgbSplit;
-      document.getElementById('val-rgb').innerText = rgbSplit + 'px';
-      document.getElementById('param-slice').value = sliceHeight;
-      document.getElementById('val-slice').innerText = sliceHeight + 'px';
-      renderFrame();
-    }
-
-    function downloadImage() {
-      const link = document.createElement('a');
-      link.download = 'datamosh-frame-' + Date.now() + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-
-    // Zero-alert non-blocking toast engine
-    function showToast(message, type = 'info') {
-      let toastContainer = document.getElementById('toastContainer');
-      if (!toastContainer) {
-        toastContainer = document.createElement('div');
-        toastContainer.id = 'toastContainer';
-        toastContainer.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;display:flex;flex-direction:column;gap:10px;pointer-events:none;';
-        document.body.appendChild(toastContainer);
-      }
-      const toast = document.createElement('div');
-      toast.style.cssText = `pointer-events:auto;min-width:260px;max-width:400px;padding:12px 18px;border-radius:10px;font-family:var(--font-mono, monospace);font-size:13px;color:#fff;backdrop-filter:blur(10px);box-shadow:0 8px 32px rgba(0,0,0,0.5);display:flex;align-items:center;gap:10px;animation:slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;background:${type === 'success' ? 'rgba(16, 185, 129, 0.95)' : type === 'warning' ? 'rgba(245, 158, 11, 0.95)' : 'rgba(30, 41, 59, 0.95)'};border:1px solid ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : 'rgba(255,255,255,0.15)'};`;
-      toast.innerHTML = `<span>${message}</span>`;
-      toastContainer.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(10px)';
-        toast.style.transition = 'all 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, 3500);
-    }
-
-    let isRecordingVideo = false;
-    async function exportProVideoLoop(durationSec = 4.0) {
-      if (isRecordingVideo) return;
-      if (!canvas.captureStream) {
-        downloadImage();
-        return;
-      }
-      try {
-        isRecordingVideo = true;
-        const btn = document.getElementById('btn-export-loop');
-        if (btn) btn.innerText = '⏺ Recording WebM...';
-        showToast(`⏺ Recording real-time ${durationSec}s WebM video loop...`, 'info');
-
-        const stream = canvas.captureStream(30);
-        const recordedChunks = [];
-        const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
-          ? 'video/webm;codecs=vp9'
-          : MediaRecorder.isTypeSupported('video/webm')
-          ? 'video/webm'
-          : '';
-
-        const recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
-        recorder.ondataavailable = (e) => {
-          if (e.data && e.data.size > 0) recordedChunks.push(e.data);
-        };
-        recorder.onstop = () => {
-          const blob = new Blob(recordedChunks, { type: recorder.mimeType || 'video/webm' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `datamosh-glitch-loop-${Date.now()}.webm`;
-          a.click();
-          URL.revokeObjectURL(url);
-          isRecordingVideo = false;
-          if (btn) btn.innerText = 'Export Real WebM Loop';
-          showToast('✓ Real 30fps WebM Video Loop exported & saved!', 'success');
-        };
-
-        recorder.start();
-        setTimeout(() => {
-          recorder.stop();
-        }, durationSec * 1000);
-      } catch (err) {
-        isRecordingVideo = false;
-        const btn = document.getElementById('btn-export-loop');
-        if (btn) btn.innerText = 'Export Real WebM Loop';
-        downloadImage();
-      }
-    }
-
-    function exportRawZip() {
-      const link = document.createElement('a');
-      link.download = 'datamosh-raw-frame-' + Date.now() + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      showToast('✓ RAW Frame exported!', 'success');
-    }
-
-    // Initialize on load (Datamosh Studio / Datamosh Glitch Studio)
-    window.addEventListener('DOMContentLoaded', () => {
-      renderFrame();
-    });
-  </script>
-
-  
-
+  <script src="/datamosh-engine.js"></script>
   <script src="/sovereign_tutorial.js"></script>
   <script>
-    window.addEventListener("DOMContentLoaded", function() {
-      if (window.createSovereignTutorial) {
-        window.createSovereignTutorial({
-          toolId: "datamosh-glitch-studio",
-          toolName: "Datamosh Glitch Studio",
-          tagline: "Create mind-bending retro VHS glitch effects and I-frame video corruption!",
-          accentColor: "#A855F7",
-          steps: [{"icon": "\ud83d\udcfc", "title": "What is Datamoshing?", "desc": "Datamoshing is an avant-garde digital art style created by breaking the keyframes of a video, causing motion from one clip to melt into another!"}, {"icon": "\ud83d\udca5", "title": "Analog CRT & Glitch Shaders", "desc": "Apply live phosphor bloom, scanlines, RGB split, and magnetic tape warping to any video or photo."}, {"icon": "\ud83c\udfac", "title": "Zero-Upload Client Processing", "desc": "Everything renders 100% inside your browser with WebGPU hardware acceleration."}]
+    (function () {
+      'use strict';
+
+      const Engine = window.DatamoshClientEngine;
+      const canvas = document.getElementById('glitch-canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const baseCanvas = document.createElement('canvas');
+      baseCanvas.width = canvas.width;
+      baseCanvas.height = canvas.height;
+      const baseCtx = baseCanvas.getContext('2d', { willReadFrequently: true });
+
+      const paramsUrl = new URLSearchParams(window.location.search);
+      const isEmbed = paramsUrl.get('embed') === '1';
+      if (isEmbed) document.body.classList.add('embed-mode');
+
+      // Dual-Theme Management (URL -> localStorage -> prefers-color-scheme + Studio postMessage)
+      const themeBtn = document.getElementById('theme-toggle-btn');
+      function applyTheme(mode, persist) {
+        const next = mode === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        themeBtn.textContent = next === 'light' ? 'Theme: Light' : 'Theme: Dark';
+        if (persist) {
+          try { localStorage.setItem('datamosh_theme', next); } catch (_) {}
+        }
+      }
+
+      const urlTheme = paramsUrl.get('theme');
+      const storedTheme = (() => { try { return localStorage.getItem('datamosh_theme'); } catch (_) { return null; } })();
+      const mediaLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(urlTheme === 'light' || urlTheme === 'dark' ? urlTheme : (storedTheme || (mediaLight ? 'light' : 'dark')), false);
+
+      themeBtn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme');
+        applyTheme(cur === 'light' ? 'dark' : 'light', true);
+      });
+
+      window.addEventListener('message', (event) => {
+        if (!event.origin || (!event.origin.startsWith('http://127.0.0.1') && !event.origin.startsWith('http://localhost'))) return;
+        const d = event.data;
+        if (d && (d.theme === 'light' || d.theme === 'dark')) {
+          applyTheme(d.theme, false);
+        }
+      });
+
+      // Safe Toast (zero innerHTML)
+      function showToast(msg) {
+        const region = document.getElementById('toast-region');
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.textContent = String(msg);
+        region.appendChild(t);
+        setTimeout(() => { t.remove(); }, 3200);
+      }
+
+      // Application State
+      const state = {
+        presetId: Engine.GLITCH_PRESETS[0].id,
+        name: Engine.GLITCH_PRESETS[0].name,
+        source: 'bars',
+        customImage: null,
+        webcamStream: null,
+        sliceHeight: 18,
+        shiftMax: 36,
+        rgbSplit: 6,
+        scanIntensity: 15,
+        fps: 12,
+        pixelSort: false,
+        pixelSortLow: 50,
+        pixelSortHigh: 220,
+        pixelSortDir: 'row',
+        jpegBend: false,
+        jpegIntensity: 18,
+        bitplaneEnabled: false,
+        keepBits: [7, 6, 5, 4, 3, 2, 1, 0],
+        invertBits: [],
+        bitplaneChannel: 'all',
+        sierpinskiEnabled: false,
+        sierpinskiFormula: 'xor',
+        sierpinskiScale: 1.5,
+        sierpinskiBlend: 0.5,
+        splitPct: 100,
+        showMotionVectors: false,
+        isPlaying: false,
+        frameTick: 1,
+        daemonOnline: false,
+        recording: false,
+        prevFrameRgba: null,
+      };
+
+      // Build Presets Grid
+      const presetGrid = document.getElementById('preset-grid');
+      Engine.GLITCH_PRESETS.forEach((p) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.preset = p.id;
+        btn.textContent = p.name;
+        btn.addEventListener('click', () => applyPreset(p));
+        presetGrid.appendChild(btn);
+      });
+
+      // Build 8-Bitplane Bit Toggles (Bits 7..0)
+      const bitGrid = document.getElementById('bitplane-grid');
+      for (let b = 7; b >= 0; b--) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.bit = String(b);
+        btn.textContent = b === 7 ? 'B7 MSB' : b === 0 ? 'B0 LSB' : 'Bit ' + b;
+        btn.addEventListener('click', () => {
+          const idx = state.keepBits.indexOf(b);
+          if (idx >= 0) state.keepBits.splice(idx, 1);
+          else state.keepBits.push(b);
+          state.bitplaneEnabled = true;
+          syncControlsFromState();
+          renderFrame();
+        });
+        bitGrid.appendChild(btn);
+      }
+
+      function syncControlsFromState() {
+        document.getElementById('param-slice').value = state.sliceHeight;
+        document.getElementById('val-slice').textContent = state.sliceHeight + 'px';
+        document.getElementById('param-shift').value = state.shiftMax;
+        document.getElementById('val-shift').textContent = state.shiftMax + 'px';
+        document.getElementById('param-rgb').value = state.rgbSplit;
+        document.getElementById('val-rgb').textContent = state.rgbSplit + 'px';
+        document.getElementById('param-scan').value = state.scanIntensity;
+        document.getElementById('val-scan').textContent = state.scanIntensity + '%';
+        document.getElementById('param-fps').value = state.fps;
+        document.getElementById('val-fps').textContent = state.fps + ' FPS';
+
+        document.getElementById('toggle-pixelsort').checked = state.pixelSort;
+        document.getElementById('param-sort-low').value = state.pixelSortLow;
+        document.getElementById('val-sort-low').textContent = String(state.pixelSortLow);
+        document.getElementById('param-sort-high').value = state.pixelSortHigh;
+        document.getElementById('val-sort-high').textContent = String(state.pixelSortHigh);
+        document.getElementById('select-sort-dir').value = state.pixelSortDir;
+
+        document.getElementById('toggle-jpeg-bend').checked = state.jpegBend;
+        document.getElementById('param-jpeg-int').value = state.jpegIntensity;
+        document.getElementById('val-jpeg-int').textContent = state.jpegIntensity + '%';
+
+        document.getElementById('toggle-bitplane').checked = state.bitplaneEnabled;
+        document.getElementById('toggle-invert-msb').checked = state.invertBits.includes(7);
+        document.getElementById('select-bp-channel').value = state.bitplaneChannel;
+
+        document.getElementById('toggle-sierpinski').checked = state.sierpinskiEnabled;
+        document.getElementById('select-xor-formula').value = state.sierpinskiFormula;
+        document.getElementById('param-xor-blend').value = Math.round(state.sierpinskiBlend * 100);
+        document.getElementById('val-xor-blend').textContent = Math.round(state.sierpinskiBlend * 100) + '%';
+
+        document.getElementById('split-scrubber').value = state.splitPct;
+        document.getElementById('val-split').textContent = state.splitPct + '% Glitched';
+        document.getElementById('preset-readout').textContent = state.name.toUpperCase();
+
+        presetGrid.querySelectorAll('button').forEach((b) => {
+          b.classList.toggle('btn-active', b.dataset.preset === state.presetId);
+        });
+        bitGrid.querySelectorAll('button').forEach((b) => {
+          const bit = Number(b.dataset.bit);
+          const active = state.keepBits.includes(bit);
+          b.classList.toggle('btn-active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        document.querySelectorAll('[data-source]').forEach((b) => {
+          b.classList.toggle('btn-active', b.dataset.source === state.source);
         });
       }
-    });
-  </script>
 
+      function applyPreset(p) {
+        state.presetId = p.id;
+        state.name = p.name;
+        state.sliceHeight = p.sliceHeight;
+        state.shiftMax = p.shiftMax;
+        state.rgbSplit = p.rgbSplit;
+        state.scanIntensity = p.scanIntensity;
+        state.pixelSort = Boolean(p.pixelSort);
+        state.pixelSortLow = p.pixelSortLow;
+        state.pixelSortHigh = p.pixelSortHigh;
+        state.pixelSortDir = p.pixelSortDir || 'row';
+        state.jpegBend = Boolean(p.jpegBend);
+        state.jpegIntensity = p.jpegIntensity || 18;
+        state.bitplaneEnabled = Boolean(p.bitplaneEnabled);
+        state.keepBits = [...(p.keepBits || [7, 6, 5])];
+        state.invertBits = [...(p.invertBits || [])];
+        state.bitplaneChannel = p.bitplaneChannel || 'all';
+        state.sierpinskiEnabled = Boolean(p.sierpinskiEnabled);
+        state.sierpinskiFormula = p.sierpinskiFormula || 'xor';
+        state.sierpinskiScale = p.sierpinskiScale || 1.0;
+        state.sierpinskiBlend = p.sierpinskiBlend || 0.5;
+        syncControlsFromState();
+        renderFrame();
+      }
+
+      function drawSourceToBase() {
+        const w = baseCanvas.width;
+        const h = baseCanvas.height;
+        const video = document.getElementById('webcam-video');
+
+        if (state.source === 'webcam' && state.webcamStream && video.readyState >= 2) {
+          baseCtx.drawImage(video, 0, 0, w, h);
+          return;
+        }
+        if (state.source === 'upload' && state.customImage) {
+          baseCtx.fillStyle = '#09090D';
+          baseCtx.fillRect(0, 0, w, h);
+          const scale = Math.min(w / state.customImage.width, h / state.customImage.height);
+          const dw = state.customImage.width * scale;
+          const dh = state.customImage.height * scale;
+          baseCtx.drawImage(state.customImage, (w - dw) / 2, (h - dh) / 2, dw, dh);
+          return;
+        }
+        if (state.source === 'grid') {
+          baseCtx.fillStyle = '#060812';
+          baseCtx.fillRect(0, 0, w, h);
+          baseCtx.strokeStyle = '#00E5C4';
+          baseCtx.lineWidth = 1;
+          for (let x = 0; x < w; x += 24) {
+            baseCtx.beginPath(); baseCtx.moveTo(x, 0); baseCtx.lineTo(x, h); baseCtx.stroke();
+          }
+          for (let y = 0; y < h; y += 24) {
+            baseCtx.beginPath(); baseCtx.moveTo(0, y); baseCtx.lineTo(w, y); baseCtx.stroke();
+          }
+          baseCtx.fillStyle = '#E2BE4A';
+          baseCtx.font = 'bold 22px monospace';
+          baseCtx.fillText('DATAMOSH // CYBER GRID', 26, 56);
+          baseCtx.fillStyle = '#38BDF8';
+          baseCtx.fillRect(40 + ((state.frameTick * 11) % 340), 110, 72, 72);
+          return;
+        }
+        if (state.source === 'grad') {
+          const g = baseCtx.createLinearGradient(0, 0, w, h);
+          g.addColorStop(0, '#E11D48');
+          g.addColorStop(0.5, '#7C3AED');
+          g.addColorStop(1, '#0891B2');
+          baseCtx.fillStyle = g;
+          baseCtx.fillRect(0, 0, w, h);
+          baseCtx.fillStyle = '#FFFFFF';
+          baseCtx.font = 'bold 26px sans-serif';
+          baseCtx.fillText('NEON HORIZON', 32, 130);
+          baseCtx.fillStyle = '#FACC15';
+          baseCtx.beginPath();
+          baseCtx.arc(340, 140, 56, 0, Math.PI * 2);
+          baseCtx.fill();
+          return;
+        }
+        // SMPTE Bars
+        const cols = ['#D4D4D4', '#EAB308', '#06B6D4', '#22C55E', '#D946EF', '#EF4444', '#2563EB'];
+        const bw = w / cols.length;
+        cols.forEach((c, i) => {
+          baseCtx.fillStyle = c;
+          baseCtx.fillRect(i * bw, 0, bw + 1, h * 0.74);
+        });
+        baseCtx.fillStyle = '#1E3A8A'; baseCtx.fillRect(0, h * 0.74, w * 0.22, h * 0.26);
+        baseCtx.fillStyle = '#F8FAFC'; baseCtx.fillRect(w * 0.22, h * 0.74, w * 0.22, h * 0.26);
+        baseCtx.fillStyle = '#7E22CE'; baseCtx.fillRect(w * 0.44, h * 0.74, w * 0.22, h * 0.26);
+        baseCtx.fillStyle = '#111827'; baseCtx.fillRect(w * 0.66, h * 0.74, w * 0.34, h * 0.26);
+      }
+
+      let jpegRenderSeq = 0;
+
+      function composeFinalCanvas(origData, glitchedData) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const splitX = Math.round((state.splitPct / 100) * w);
+
+        const outImg = ctx.createImageData(w, h);
+        const dst = outImg.data;
+        for (let y = 0; y < h; y++) {
+          const row = y * w * 4;
+          for (let x = 0; x < w; x++) {
+            const i = row + x * 4;
+            const src = x < splitX ? glitchedData : origData;
+            dst[i] = src[i];
+            dst[i + 1] = src[i + 1];
+            dst[i + 2] = src[i + 2];
+            dst[i + 3] = 255;
+          }
+        }
+        ctx.putImageData(outImg, 0, 0);
+
+        if (state.showMotionVectors) {
+          const ref = state.prevFrameRgba || origData;
+          const mv = Engine.estimateMotionVectors(ref, glitchedData, w, h, { blockSize: 28, searchRange: 6 });
+          document.getElementById('meta-mv').textContent = `MV FLOW: ${mv.totalBlocks} BLKS · AVG ${mv.averageMagnitude}px`;
+          ctx.save();
+          ctx.strokeStyle = '#00FFCC';
+          ctx.fillStyle = '#00FFCC';
+          ctx.lineWidth = 1.5;
+          for (const v of mv.vectors) {
+            if (v.dx === 0 && v.dy === 0) continue;
+            const cx = v.mbX + mv.blockSize / 2;
+            const cy = v.mbY + mv.blockSize / 2;
+            const tx = cx + v.dx * 2.5;
+            const ty = cy + v.dy * 2.5;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(tx, ty);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(tx, ty, 2.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        } else {
+          document.getElementById('meta-mv').textContent = 'MV FLOW: READY';
+        }
+
+        // Split divider line if comparing
+        if (state.splitPct > 0 && state.splitPct < 100) {
+          ctx.save();
+          ctx.strokeStyle = '#D4AF37';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(splitX, 0);
+          ctx.lineTo(splitX, h);
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(8,8,12,0.82)';
+          ctx.fillRect(8, 8, 86, 22);
+          ctx.fillRect(w - 94, 8, 86, 22);
+          ctx.fillStyle = '#F5F1E6';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText('GLITCHED', 16, 23);
+          ctx.fillText('ORIGINAL', w - 86, 23);
+          ctx.restore();
+        }
+
+        state.prevFrameRgba = new Uint8ClampedArray(glitchedData);
+
+        const activeModes = [];
+        if (state.shiftMax > 0) activeModes.push('SLICE');
+        if (state.rgbSplit > 0) activeModes.push('RGB');
+        if (state.pixelSort) activeModes.push('SORT');
+        if (state.jpegBend) activeModes.push('JPEG-BEND');
+        if (state.bitplaneEnabled) activeModes.push('BITPLANE');
+        if (state.sierpinskiEnabled) activeModes.push('XOR');
+        if (state.scanIntensity > 0) activeModes.push('CRT');
+        document.getElementById('meta-mode').textContent = 'MODE: ' + (activeModes.join('+') || 'CLEAN');
+      }
+
+      function renderFrame() {
+        drawSourceToBase();
+        const w = canvas.width;
+        const h = canvas.height;
+        const origImg = baseCtx.getImageData(0, 0, w, h);
+        const glitched = Engine.applyPipeline(origImg.data, w, h, {
+          sliceHeight: state.sliceHeight,
+          shiftMax: state.shiftMax,
+          rgbSplit: state.rgbSplit,
+          scanIntensity: state.scanIntensity,
+          pixelSort: state.pixelSort,
+          pixelSortLow: state.pixelSortLow,
+          pixelSortHigh: state.pixelSortHigh,
+          pixelSortDir: state.pixelSortDir,
+          bitplaneEnabled: state.bitplaneEnabled,
+          keepBits: state.keepBits,
+          invertBits: state.invertBits,
+          bitplaneChannel: state.bitplaneChannel,
+          sierpinskiEnabled: state.sierpinskiEnabled,
+          sierpinskiFormula: state.sierpinskiFormula,
+          sierpinskiScale: state.sierpinskiScale,
+          sierpinskiBlend: state.sierpinskiBlend,
+          seed: 42 + state.frameTick * 17,
+        });
+
+        composeFinalCanvas(origImg.data, glitched);
+
+        // Optional Header-Safe JPEG Byte-Bend pass (mutates entropy scan data after 0xFF 0xDA)
+        if (state.jpegBend) {
+          const seqId = ++jpegRenderSeq;
+          const tmp = document.createElement('canvas');
+          tmp.width = w;
+          tmp.height = h;
+          const tctx = tmp.getContext('2d');
+          const imgD = tctx.createImageData(w, h);
+          imgD.data.set(glitched);
+          tctx.putImageData(imgD, 0, 0);
+          const dataUrl = tmp.toDataURL('image/jpeg', 0.86);
+          const b64 = dataUrl.split(',')[1];
+          const bin = atob(b64);
+          const bytes = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          const bent = Engine.corruptJpegBytes(bytes, { intensity: state.jpegIntensity, seed: 101 + state.frameTick });
+          const blob = new Blob([bent.bytes], { type: 'image/jpeg' });
+          const objUrl = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = () => {
+            if (seqId === jpegRenderSeq) {
+              tctx.drawImage(img, 0, 0, w, h);
+              const bentData = tctx.getImageData(0, 0, w, h).data;
+              composeFinalCanvas(origImg.data, bentData);
+            }
+            URL.revokeObjectURL(objUrl);
+          };
+          img.onerror = () => URL.revokeObjectURL(objUrl);
+          img.src = objUrl;
+        }
+      }
+
+      // Wire Controls
+      function bindRange(id, valId, key, fmt, transform) {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          const raw = Number(el.value);
+          state[key] = transform ? transform(raw) : raw;
+          document.getElementById(valId).textContent = fmt(raw);
+          renderFrame();
+        });
+      }
+
+      bindRange('param-slice', 'val-slice', 'sliceHeight', (v) => v + 'px');
+      bindRange('param-shift', 'val-shift', 'shiftMax', (v) => v + 'px');
+      bindRange('param-rgb', 'val-rgb', 'rgbSplit', (v) => v + 'px');
+      bindRange('param-scan', 'val-scan', 'scanIntensity', (v) => v + '%');
+      bindRange('param-fps', 'val-fps', 'fps', (v) => v + ' FPS');
+      bindRange('param-sort-low', 'val-sort-low', 'pixelSortLow', (v) => String(v));
+      bindRange('param-sort-high', 'val-sort-high', 'pixelSortHigh', (v) => String(v));
+      bindRange('param-jpeg-int', 'val-jpeg-int', 'jpegIntensity', (v) => v + '%');
+      bindRange('param-xor-blend', 'val-xor-blend', 'sierpinskiBlend', (v) => v + '%', (v) => v / 100);
+      bindRange('split-scrubber', 'val-split', 'splitPct', (v) => v + '% Glitched');
+
+      document.getElementById('toggle-pixelsort').addEventListener('change', (e) => { state.pixelSort = e.target.checked; renderFrame(); });
+      document.getElementById('select-sort-dir').addEventListener('change', (e) => { state.pixelSortDir = e.target.value; renderFrame(); });
+      document.getElementById('toggle-jpeg-bend').addEventListener('change', (e) => { state.jpegBend = e.target.checked; renderFrame(); });
+      document.getElementById('toggle-bitplane').addEventListener('change', (e) => { state.bitplaneEnabled = e.target.checked; renderFrame(); });
+      document.getElementById('toggle-invert-msb').addEventListener('change', (e) => {
+        state.invertBits = e.target.checked ? [7] : [];
+        if (e.target.checked) state.bitplaneEnabled = true;
+        syncControlsFromState();
+        renderFrame();
+      });
+      document.getElementById('select-bp-channel').addEventListener('change', (e) => { state.bitplaneChannel = e.target.value; renderFrame(); });
+      document.getElementById('toggle-sierpinski').addEventListener('change', (e) => { state.sierpinskiEnabled = e.target.checked; renderFrame(); });
+      document.getElementById('select-xor-formula').addEventListener('change', (e) => { state.sierpinskiFormula = e.target.value; renderFrame(); });
+
+      // Source Buttons
+      document.querySelectorAll('[data-source]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.source = btn.dataset.source;
+          syncControlsFromState();
+          renderFrame();
+        });
+      });
+
+      document.getElementById('upload-image-input').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          state.customImage = img;
+          state.source = 'upload';
+          syncControlsFromState();
+          renderFrame();
+          URL.revokeObjectURL(url);
+          showToast('Loaded custom image: ' + file.name);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          showToast('Could not decode image file');
+        };
+        img.src = url;
+      });
+
+      document.getElementById('btn-webcam').addEventListener('click', async () => {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          showToast('Webcam API unavailable in this browser context');
+          return;
+        }
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 320 } });
+          const video = document.getElementById('webcam-video');
+          video.srcObject = stream;
+          await video.play();
+          state.webcamStream = stream;
+          state.source = 'webcam';
+          if (!state.isPlaying) togglePlay();
+          showToast('Webcam live mosh stream active');
+        } catch (err) {
+          showToast('Webcam permission denied or no camera detected');
+        }
+      });
+
+      // Playback & Step
+      let loopTimer = null;
+      function togglePlay() {
+        state.isPlaying = !state.isPlaying;
+        const btn = document.getElementById('btn-play');
+        btn.textContent = state.isPlaying ? 'Pause Loop' : 'Play Loop';
+        if (loopTimer) clearInterval(loopTimer);
+        if (state.isPlaying) {
+          loopTimer = setInterval(() => {
+            state.frameTick++;
+            renderFrame();
+          }, Math.round(1000 / Math.max(4, state.fps)));
+        }
+      }
+
+      document.getElementById('btn-play').addEventListener('click', togglePlay);
+      document.getElementById('btn-step').addEventListener('click', () => { state.frameTick++; renderFrame(); });
+      document.getElementById('btn-randomize').addEventListener('click', () => {
+        state.sliceHeight = Math.floor(Math.random() * 28) + 4;
+        state.shiftMax = Math.floor(Math.random() * 64) + 8;
+        state.rgbSplit = Math.floor(Math.random() * 24);
+        state.scanIntensity = Math.floor(Math.random() * 60);
+        state.frameTick++;
+        syncControlsFromState();
+        renderFrame();
+      });
+      document.getElementById('btn-mv-overlay').addEventListener('click', () => {
+        state.showMotionVectors = !state.showMotionVectors;
+        document.getElementById('btn-mv-overlay').textContent = state.showMotionVectors ? 'Motion Vectors: ON' : 'Motion Vectors: OFF';
+        renderFrame();
+      });
+
+      // Real Exports: PNG, WebP, 30fps WebM, JSON Preset Export & Import
+      function triggerDownload(href, filename) {
+        const a = document.createElement('a');
+        a.href = href;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+
+      document.getElementById('btn-export-png').addEventListener('click', () => {
+        triggerDownload(canvas.toDataURL('image/png'), `datamosh_${state.presetId}_${Date.now()}.png`);
+        showToast('Exported PNG frame');
+      });
+
+      document.getElementById('btn-export-webp').addEventListener('click', () => {
+        triggerDownload(canvas.toDataURL('image/webp', 0.92), `datamosh_${state.presetId}_${Date.now()}.webp`);
+        showToast('Exported WebP frame');
+      });
+
+      document.getElementById('btn-record-webm').addEventListener('click', () => {
+        if (state.recording || !canvas.captureStream || typeof MediaRecorder === 'undefined') {
+          showToast('MediaRecorder unavailable; exported PNG instead');
+          triggerDownload(canvas.toDataURL('image/png'), `datamosh_${state.presetId}.png`);
+          return;
+        }
+        state.recording = true;
+        const btn = document.getElementById('btn-record-webm');
+        btn.textContent = 'Recording (4s)…';
+        const wasPlaying = state.isPlaying;
+        if (!wasPlaying) togglePlay();
+        try {
+          const stream = canvas.captureStream(30);
+          const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+          const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+          const chunks = [];
+          rec.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+          rec.onstop = () => {
+            const blob = new Blob(chunks, { type: rec.mimeType || 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            triggerDownload(url, `datamosh_loop_${Date.now()}.webm`);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
+            state.recording = false;
+            btn.textContent = 'Record WebM (4s)';
+            if (!wasPlaying && state.isPlaying) togglePlay();
+            showToast('Exported 30fps WebM video loop');
+          };
+          rec.start();
+          setTimeout(() => { if (rec.state !== 'inactive') rec.stop(); }, 4000);
+        } catch (err) {
+          state.recording = false;
+          btn.textContent = 'Record WebM (4s)';
+          showToast('WebM recording failed in this browser');
+        }
+      });
+
+      document.getElementById('btn-export-json').addEventListener('click', () => {
+        const jsonStr = Engine.serializePreset(state);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        triggerDownload(url, `datamosh_preset_${state.presetId}.json`);
+        setTimeout(() => URL.revokeObjectURL(url), 3000);
+        showToast('Exported validated JSON preset');
+      });
+
+      document.getElementById('import-json-input').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const loaded = Engine.parsePresetJson(String(reader.result));
+            Object.assign(state, loaded);
+            syncControlsFromState();
+            renderFrame();
+            showToast('Imported preset: ' + loaded.name);
+          } catch (err) {
+            showToast('Preset import rejected: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+      });
+
+      // Live :8081 Python API Bridge (with local fallback when served statically)
+      const apiOutput = document.getElementById('api-output');
+      let lastBlobUrl = null;
+      function setApiOutput(title, text, imgSrc, imgAlt) {
+        apiOutput.textContent = '';
+        const h = document.createElement('div');
+        h.style.fontWeight = '800';
+        h.style.color = 'var(--accent)';
+        h.textContent = title;
+        apiOutput.appendChild(h);
+        if (text) {
+          const pre = document.createElement('pre');
+          pre.textContent = text;
+          apiOutput.appendChild(pre);
+        }
+        if (imgSrc) {
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          img.alt = imgAlt || title;
+          apiOutput.appendChild(img);
+        }
+      }
+
+      async function checkBackendHealth() {
+        const badge = document.getElementById('daemon-badge');
+        const label = document.getElementById('api-status-label');
+        try {
+          const res = await fetch('/api/health', { cache: 'no-store' });
+          if (res.ok) {
+            const data = await res.json();
+            state.daemonOnline = true;
+            badge.textContent = 'API :8081 ONLINE';
+            label.textContent = `ONLINE (v${data.version || '2.6.0'})`;
+            return;
+          }
+        } catch (_) {}
+        state.daemonOnline = false;
+        badge.textContent = 'CLIENT-ONLY';
+        label.textContent = 'STATIC FALLBACK ACTIVE';
+      }
+
+      document.getElementById('btn-api-motion').addEventListener('click', async () => {
+        try {
+          const res = await fetch('/api/motion-estimate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ width: 128, height: 96, block_size: 16, shift_dx: 4, shift_dy: 2 }),
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          setApiOutput(
+            `POST /api/motion-estimate — ${data.total_blocks} blocks · avg ${data.average_magnitude}px`,
+            data.ascii_flow_grid
+          );
+          showToast('Motion estimate computed via :8081');
+        } catch (_) {
+          const orig = baseCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+          const cur = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+          const mv = Engine.estimateMotionVectors(orig, cur, canvas.width, canvas.height, { blockSize: 32, searchRange: 6 });
+          setApiOutput(
+            `Local Motion Estimate Fallback — ${mv.totalBlocks} blocks · avg ${mv.averageMagnitude}px`,
+            JSON.stringify({ totalBlocks: mv.totalBlocks, averageMagnitude: mv.averageMagnitude, blockSize: mv.blockSize }, null, 2)
+          );
+        }
+      });
+
+      document.getElementById('btn-api-melt').addEventListener('click', async () => {
+        try {
+          const res = await fetch('/api/liquid-melt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ width: 160, height: 112, steps: 5, acceleration: 1.25 }),
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          const lastFrame = data.frames && data.frames[data.frames.length - 1];
+          setApiOutput(
+            `POST /api/liquid-melt — ${data.frames_count} compounded P-frames`,
+            null,
+            lastFrame ? 'data:image/bmp;base64,' + lastFrame : null,
+            'Liquid melt final compounded datamosh frame'
+          );
+          showToast('Liquid melt rendered via :8081');
+        } catch (_) {
+          state.pixelSort = true;
+          state.shiftMax = Math.max(36, state.shiftMax);
+          syncControlsFromState();
+          renderFrame();
+          setApiOutput('Local Liquid Melt Fallback', 'Applied local luminance pixel-sort + macroblock shift melt.');
+        }
+      });
+
+      document.getElementById('btn-api-mosaic').addEventListener('click', async () => {
+        try {
+          const ch = encodeURIComponent(state.bitplaneChannel || 'luminance');
+          const res = await fetch(`/api/bitplane-mosaic?channel=${ch}&width=128&height=96`);
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+          const blob = new Blob([data.svg_mosaic], { type: 'image/svg+xml' });
+          lastBlobUrl = URL.createObjectURL(blob);
+          setApiOutput(
+            `GET /api/bitplane-mosaic (channel: ${data.channel})`,
+            null,
+            lastBlobUrl,
+            '8-bitplane decomposition matrix SVG'
+          );
+          showToast('8-Bitplane mosaic rendered via :8081');
+        } catch (_) {
+          state.bitplaneEnabled = true;
+          syncControlsFromState();
+          renderFrame();
+          setApiOutput('Local Bitplane Slicer Fallback', `Active bits: [${state.keepBits.join(', ')}] on channel ${state.bitplaneChannel}.`);
+        }
+      });
+
+      document.getElementById('btn-api-corrupt').addEventListener('click', async () => {
+        const sample = btoa('DATAMOSH_HEADER_PROTECTED_64_BYTES_0123456789ABCDEF_PAYLOAD_STREAM_DATA_9876543210');
+        try {
+          const res = await fetch('/api/corrupt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data_base64: sample, rate: 0.15, header_skip: 32 }),
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          setApiOutput(
+            `POST /api/corrupt — ${data.corrupted_length} bytes (header protected)`,
+            `corrupted_base64: ${data.corrupted_base64.slice(0, 72)}…`
+          );
+          showToast('Byte-stream corruption executed via :8081');
+        } catch (_) {
+          state.jpegBend = true;
+          syncControlsFromState();
+          renderFrame();
+          setApiOutput('Local JPEG Byte-Bend Fallback', 'Enabled header-safe JPEG SOS scan-data mutation in browser.');
+        }
+      });
+
+      // Quickstart Tutorial Modal (Zero innerHTML)
+      let tutorial = null;
+      if (window.createSovereignTutorial) {
+        tutorial = window.createSovereignTutorial({
+          toolId: 'datamosh-glitch-studio',
+          toolName: 'Datamosh Glitch Studio v2.6.0',
+          tagline: 'Zero-Egress Pixel Sort, JPEG Byte-Bend & 8-Bitplane Lab',
+          steps: [
+            { icon: '🎨', title: 'Pick a Signal or Upload Media', desc: 'Start with SMPTE Bars, Cyber Grid, Neon Horizon, custom image upload, or live webcam capture.' },
+            { icon: '⚡', title: 'Dial Glitch & Bitplane Modules', desc: 'Combine slice displacement, luminance pixel sorting, header-safe JPEG byte-bending, true 8-bitplane masking, and Sierpinski XOR.' },
+            { icon: '💾', title: 'Compare & Export Locally', desc: 'Drag the Before/After scrubber, inspect optical-flow vectors, and export PNG, WebP, 30fps WebM loops, or JSON presets.' },
+          ],
+        });
+      }
+      document.getElementById('help-btn').addEventListener('click', () => {
+        if (tutorial) tutorial.open();
+      });
+
+      syncControlsFromState();
+      renderFrame();
+      checkBackendHealth();
+    })();
+  </script>
 </body>
 </html>

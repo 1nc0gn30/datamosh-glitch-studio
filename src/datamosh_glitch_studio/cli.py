@@ -48,7 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="datamosh-studio",
         description="Parametric Datamosh, I-Frame Drop & Visual Glitch Synthesis Studio",
     )
-    parser.add_argument("-v", "--version", action="version", version="datamosh-glitch-studio 2.5.0")
+    parser.add_argument("-v", "--version", action="version", version="datamosh-glitch-studio 2.6.0")
     parser.add_argument("--status", action="store_true", help="Print studio operational status and exit")
     parser.add_argument("--json", action="store_true", help="Output status/catalog in JSON format")
 
@@ -148,7 +148,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         status_data = {
             "service": "datamosh-glitch-studio",
             "status": "healthy",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "presets_count": len(PRESETS),
             "platform": sys.platform,
             "port": 8081
@@ -170,7 +170,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         status_data = {
             "service": "datamosh-glitch-studio",
             "status": "healthy",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "presets_count": len(PRESETS),
             "platform": sys.platform,
             "port": 8081
@@ -195,7 +195,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             # Generate color bars
             frame = ImageFrame.create(args.width, args.height)
             colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
-            bw = args.width // len(colors)
+            bw = max(1, args.width // len(colors))
             for y in range(args.height):
                 for x in range(args.width):
                     frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
@@ -233,7 +233,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         bs = args.block_size
         ref = ImageFrame.create(w, h)
         colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
-        bw = w // len(colors)
+        bw = max(1, w // len(colors))
         for y in range(h):
             for x in range(w):
                 ref.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
@@ -269,7 +269,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         w, h = 320, 240
         ref = ImageFrame.create(w, h)
         colors = [(255, 0, 128), (0, 255, 255), (255, 255, 0), (0, 255, 0)]
-        bw = w // len(colors)
+        bw = max(1, w // len(colors))
         for y in range(h):
             for x in range(w):
                 ref.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
@@ -289,7 +289,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             w, h = args.width, args.height
             frame = ImageFrame.create(w, h)
             colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
-            bw = w // len(colors)
+            bw = max(1, w // len(colors))
             for y in range(h):
                 for x in range(w):
                     frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
@@ -318,7 +318,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             w, h = args.width, args.height
             frame = ImageFrame.create(w, h)
             colors = [(255, 255, 255), (255, 255, 0), (0, 255, 255), (0, 255, 0), (255, 0, 255), (255, 0, 0), (0, 0, 255)]
-            bw = w // len(colors)
+            bw = max(1, w // len(colors))
             for y in range(h):
                 for x in range(w):
                     frame.set_pixel(x, y, colors[min(len(colors)-1, x // bw)])
